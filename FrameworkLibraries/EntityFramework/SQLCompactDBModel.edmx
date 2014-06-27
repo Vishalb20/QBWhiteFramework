@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SQLCompactDBModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SQLCompactDBModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="SQLCompactDBModelStoreContainer">
           <EntitySet Name="BankFeedsTestData" EntityType="SQLCompactDBModel.Store.BankFeedsTestData" store:Type="Tables" />
           <EntitySet Name="Invoice_TestData" EntityType="SQLCompactDBModel.Store.Invoice_TestData" store:Type="Tables" />
@@ -38,6 +38,8 @@
           <Property Name="Item" Type="nvarchar" MaxLength="100" />
           <Property Name="Description" Type="nvarchar" MaxLength="100" />
           <Property Name="Test_Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Class" Type="nvarchar" MaxLength="100" />
+          <Property Name="Account" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Siebel_TestData">
           <Key>
@@ -75,8 +77,7 @@
           <Property Name="Run_Name" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="Id" Type="bigint" Nullable="false" />
         </EntityType>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SQLCompactDBModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -113,6 +114,8 @@
           <Property Name="Item" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Description" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <Property Name="Test_Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Class" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Account" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Siebel_TestData">
           <Key>
@@ -172,6 +175,8 @@
           <EntitySetMapping Name="Invoice_TestData">
             <EntityTypeMapping TypeName="SQLCompactDBModel.Invoice_TestData">
               <MappingFragment StoreEntitySet="Invoice_TestData">
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
                 <ScalarProperty Name="Customer_Job" ColumnName="Customer_Job" />
                 <ScalarProperty Name="Template" ColumnName="Template" />
                 <ScalarProperty Name="Ship_To" ColumnName="Ship_To" />

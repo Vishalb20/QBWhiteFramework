@@ -25,5 +25,7 @@ namespace FrameworkLibraries.EntityFramework
         public string Item { get; set; }
         public string Description { get; set; }
         public string Test_Name { get; set; }
+        public string Class { get; set; }
+        public string Account { get; set; }
     }
 }

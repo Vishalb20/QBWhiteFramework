@@ -11,6 +11,7 @@ using System.Threading;
 using FrameworkLibraries.ActionLibs.QBDT.WhiteAPI;
 using SilkTest.Ntf;
 using System.Collections.Generic;
+using FrameworkLibraries.EntityFramework;
 
 
 namespace Invoice.Tests
@@ -49,11 +50,25 @@ namespace Invoice.Tests
         {
             try
             {
-                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.CreateInvoice(qbApp, qbWindow, "ABC", "100HT", "Accounts Receivable", "Intuit Product Invoice", invoiceNumber,
-                    poNumber, "Net 15", "DHL", "FOB", "10", "Charter:Pilot exp Mik", "Test Automation", false);
-                //Actions.SelectMenu(qbApp, qbWindow, "Customers", "Create Invoices");
-                //List<TestObject> c = FrameworkLibraries.ActionLibs.QBDT.Silk4NetAPI.Actions.GetAllChildElements("//Window[@caption='Create Invoices - Accounts Receivable']");
-                //FrameworkLibraries.ActionLibs.QBDT.Silk4NetAPI.Actions.ClickControl("//Control[@windowClassName='QuickBooksSubForm']//Control[3]");    
+                using (SQLCompactDBEntities entity = new SQLCompactDBEntities())
+                {
+                    var TestData = entity.Invoice_TestData.Find("Invoice_POC");
+                    var Customer = TestData.Customer_Job;
+                    var Class = TestData.Class;
+                    var Account = TestData.Account;
+                    var Template = TestData.Template;
+                    var REP = TestData.REP;
+                    var FOB = TestData.FOB;
+                    var VIA = TestData.VIA;
+                    var Item = TestData.Item;
+                    var Quantity = TestData.Qunatity;
+                    var ItemDescription = TestData.Description;
+
+                    FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.CreateInvoice(qbApp, qbWindow, Customer, Class, Account, Template, invoiceNumber,
+                        poNumber, REP, VIA, FOB, Quantity, Item, ItemDescription, false);
+
+                    FrameworkLibraries.ActionLibs.QBDT.Silk4NetAPI.Actions.CloseAllOpenQBWindows();
+                }    
             }
             catch (Exception e)
             {

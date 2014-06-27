@@ -152,7 +152,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 catch (Exception)
                 {}
                 
-                Actions.GetCurrsorToFirstTextBox(invoiceWindow);
+                //Actions.GetCurrsorToFirstTextBox(invoiceWindow);
                 Actions.ClickButtonByAutomationID(invoiceWindow, "PrevBtn");
                 Actions.SendKeysToWindow(invoiceWindow, customer);
                 Actions.SendTABToWindow(invoiceWindow);
@@ -160,6 +160,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 Actions.SendTABToWindow(invoiceWindow);
                 Actions.SendKeysToWindow(invoiceWindow, account);
                 Actions.SendTABToWindow(invoiceWindow);
+                //FrameworkLibraries.Utils.KeyStrokeSimulator.SendKeysAsCharacters(template);
+                //FrameworkLibraries.Utils.KeyStrokeSimulator.SendKey("{TAB}");
                 Actions.SendKeysToWindow(invoiceWindow, template);
                 Actions.SendTABToWindow(invoiceWindow);
                 Actions.SendTABToWindow(invoiceWindow);
