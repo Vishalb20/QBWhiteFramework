@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><recorderProject version="12.0">
+  <applicationConfiguration>
+    <moduleNamePattern>*\QBW32.EXE</moduleNamePattern>
+    <commandLinePattern/>
+    <baseStateInfo>
+      <logicalName>QuickBooks</logicalName>
+      <executable>%ProgramFiles%\Intuit\QuickBooks Enterprise Solutions 15.0\QBW32.EXE</executable>
+      <commandLineArguments>/Fsuperpro -TickCount=19225688</commandLineArguments>
+      <workingDirectory>%ProgramFiles%\Intuit\QuickBooks Enterprise Solutions 15.0</workingDirectory>
+      <className>Window</className>
+      <locator>/Window</locator>
+    </baseStateInfo>
+  </applicationConfiguration>
+  <agentOptions>
+    <entry>
+      <string>OPT_WAIT_RESOLVE_OBJDEF_RETRY</string>
+      <int>5000</int>
+    </entry>
+    <entry>
+      <string>OPT_ENSURE_ACTIVE_OBJDEF</string>
+      <boolean>true</boolean>
+    </entry>
+    <entry>
+      <string>OPT_ENABLE_ACCESSIBILITY</string>
+      <boolean>true</boolean>
+    </entry>
+    <entry>
+      <string>OPT_OBJECT_ENABLED_TIMEOUT</string>
+      <int>10000</int>
+    </entry>
+    <entry>
+      <string>OPT_TRUELOG_SCREENSHOT_MODE</string>
+      <int>3</int>
+    </entry>
+  </agentOptions>
+</recorderProject>

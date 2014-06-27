@@ -1,0 +1,8 @@
+<ObjectMap version="1">
+  <ObjectMapEntry id="Falcon Executive Aviation, Inc" locator="/Window[@caption=&apos;Falcon Executive Aviation, Inc.  - Intuit QuickBooks Enterprise Solutions 15.0&apos;]">
+    <ObjectMapEntry id="Close" locator="//PushButton[@caption=&apos;Close&apos;]"/>
+    <ObjectMapEntry id="Create Invoices - Accounts Receivable" locator="//Window[@caption=&apos;Create Invoices - Accounts Receivable&apos;]"/>
+    <ObjectMapEntry id="QuickBooksSubForm" locator="//Control[@windowClassName=&apos;QuickBooksSubForm&apos;]"/>
+    <ObjectMapEntry id="Transaction Journal" locator="//Window[@caption=&apos;Transaction Journal&apos;]"/>
+  </ObjectMapEntry>
+</ObjectMap>
