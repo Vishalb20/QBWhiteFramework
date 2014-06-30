@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileDoctor", "FileDoctor\Fi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invoice", "Invoice\Invoice.csproj", "{0BDF4BF6-4330-4D45-8F47-DBEA7A897D7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QBBATS", "QBBATS\QBBATS.csproj", "{274767B4-4224-45D1-A921-5074D4CAFA3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{0BDF4BF6-4330-4D45-8F47-DBEA7A897D7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BDF4BF6-4330-4D45-8F47-DBEA7A897D7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BDF4BF6-4330-4D45-8F47-DBEA7A897D7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{274767B4-4224-45D1-A921-5074D4CAFA3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{274767B4-4224-45D1-A921-5074D4CAFA3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{274767B4-4224-45D1-A921-5074D4CAFA3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{274767B4-4224-45D1-A921-5074D4CAFA3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

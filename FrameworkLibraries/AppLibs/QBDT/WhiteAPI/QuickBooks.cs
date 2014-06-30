@@ -213,6 +213,106 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
 //**************************************************************************************************************************************************************
 
+        public static void ExceptionHandler()
+        {
+            TestStack.White.Application app = null;
+            Window win = null;
+            
+            try
+            {
+                app = GetApp("QuickBooks");
+                win = GetAppWindow(app, "QuickBooks");
+                do
+                {
+                    List<Window> modalWin = win.ModalWindows();
+                    foreach (Window item in modalWin)
+                    {
+                        if (item.Name.Contains("Error"))
+                        {
+                            Actions.ShowWindowElementAutomationIDs(item);
+                            Actions.ClickElementByName(item, "Send");
+                        }
+                    }
+                }
+                while (win != null);
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+//**************************************************************************************************************************************************************
+
+        public static TestStack.White.Application GetApp(string appName)
+        {
+            int processID = 0;
+            TestStack.White.Application app = null;
+
+            try
+            {
+                List<Window> allWin = Desktop.Instance.Windows();
+                foreach (Window item in allWin)
+                {
+                    if (item.Name.Contains(appName))
+                    {
+                        foreach (Process p in Process.GetProcesses("."))
+                        {
+                            if (p.ProcessName.Contains("QBW32"))
+                            {
+                                processID = p.Id;
+                                app = TestStack.White.Application.Attach(processID);
+                                app.WaitWhileBusy();
+                                Thread.Sleep(1000);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                return app;
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+//**************************************************************************************************************************************************************
+
+        public static Window GetAppWindow(TestStack.White.Application app, string winName)
+        {
+            Window win = null;
+
+            try
+            {
+                List<Window> allWin = app.GetWindows();
+
+                foreach (Window item in allWin)
+                {
+                    if (item.Name.Contains(winName))
+                    {
+                        win = item;
+                        break;
+                    }
+                }
+
+                return win;
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+//**************************************************************************************************************************************************************
+
     }
 
 
