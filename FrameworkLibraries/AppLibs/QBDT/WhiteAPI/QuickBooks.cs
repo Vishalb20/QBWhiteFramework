@@ -229,12 +229,12 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     {
                         if (item.Name.Contains("Error"))
                         {
-                            Actions.ShowWindowElementAutomationIDs(item);
-                            Actions.ClickElementByName(item, "Send");
+                            Actions.ClickElementByName(item, "Don't Send");
+                            break;
                         }
                     }
                 }
-                while (win != null);
+                while (win == null);
             }
             catch (Exception e)
             {

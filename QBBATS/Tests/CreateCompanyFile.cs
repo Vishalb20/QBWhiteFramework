@@ -31,9 +31,9 @@ namespace QuickBooks.Tests
         {
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
             qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp, qbLoginUserName, qbLoginPassword);
-            ExceptionHandler = new Thread(new ThreadStart(FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler));
-            ExceptionHandler.Start();
-            ExceptionHandler.Join();
+            //ExceptionHandler = new Thread(new ThreadStart(FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler));
+            //ExceptionHandler.Start();
+            //ExceptionHandler.Join();
         }
 
         [TestMethod]
@@ -83,11 +83,10 @@ namespace QuickBooks.Tests
             Actions.ClickElementByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.CreateCompany_Button_AutoID);
             qbApp.WaitWhileBusy();
             Thread.Sleep(10000);
-            Actions.HighLightAndShowProperties(QBSetupWindow.Items, "Button");
             
-            SearchCriteria btn_search = SearchCriteria.ByControlType(ControlType.Button);
-            var button = QBSetupWindow.Get(btn_search);
-            button.Click();
+            //SearchCriteria btn_search = SearchCriteria.ByControlType(ControlType.Button);
+            //var button = QBSetupWindow.Get(btn_search);
+            //button.Click();
             //Actions.ClickElementByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.Common.Objects.CreateCompany_Button_AutoID);
             //Actions.ClickElementByName(QBSetupWindow, "Start Working");
             //qbApp.WaitWhileBusy();
@@ -97,7 +96,8 @@ namespace QuickBooks.Tests
         [TestCleanup]
         public void TestFinalize()
         {
-            ExceptionHandler.Abort();
+            FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler();
+            //ExceptionHandler.Abort();
         }
     }
 }
