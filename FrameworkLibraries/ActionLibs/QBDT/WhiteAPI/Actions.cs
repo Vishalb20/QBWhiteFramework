@@ -860,7 +860,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 {
                     if (element.GetType().Name.Contains("Check") || element.GetType().Equals("Check"))
                     {
-                        TestStack.White.UIItems.Panel x = (TestStack.White.UIItems.Panel)element;
+                        TestStack.White.UIItems.CheckBox x = (TestStack.White.UIItems.CheckBox)element;
                         checkBoxes.Add(x);
                     }
                 }
@@ -1177,6 +1177,33 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
 //**************************************************************************************************************************************************************
 
+        public static List<IUIItem> GetAllButtons(UIItemCollection collection)
+        {
+            List<IUIItem> buttons = new List<IUIItem>();
+
+            try
+            {
+                foreach (IUIItem element in collection)
+                {
+                    if (element.GetType().Name.Contains("Button") || element.GetType().Equals("Button"))
+                    {
+                        TestStack.White.UIItems.Button x = (TestStack.White.UIItems.Button)element;
+                        buttons.Add(x);
+                    }
+                }
+
+                return buttons;
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
 
     }
 }

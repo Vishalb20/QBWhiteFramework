@@ -46,7 +46,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 app = TestStack.White.Application.Attach(processID);
                                 app.WaitWhileBusy();
                                 Thread.Sleep(5000);
-                                item.Focus();
+                                //item.Focus();
                                 return app;
                             }
                         }
@@ -85,6 +85,15 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
             Window qbWin = null;
             try
             {
+                List<Window> alerts = Desktop.Instance.Windows();
+                foreach (Window item in alerts)
+                {
+                    if (item.Name.Equals("Alert") || item.Name.Contains("Alert"))
+                    {
+                        item.Close();
+                    }
+                }
+
                 List<Window> windows = app.GetWindows();
                 foreach (Window item in windows)
                 {

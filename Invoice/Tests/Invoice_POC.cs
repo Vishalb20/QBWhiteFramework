@@ -35,7 +35,6 @@ namespace Invoice.Tests
         public string category = "Null";
         private static SilkTest.Ntf.Desktop desktop = Agent.Desktop;
 
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -76,6 +75,7 @@ namespace Invoice.Tests
             }
             finally
             {
+                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler();
                 TestResults.GetTestResult(testName, moduleName, status, exception, category);
             }
         }
