@@ -15,7 +15,7 @@ using TestStack.White.UIItems;
 namespace QuickBooks.Tests
 {
     [TestClass]
-    public class CreateCompanyFile
+    public class CreateAndCloseCompany
     {
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
@@ -26,22 +26,16 @@ namespace QuickBooks.Tests
         public string qbLoginUserName = conf.get("QBLoginUserName");
         public string qbLoginPassword = conf.get("QBLoginPassword");
         public Random rand = new Random();
-        public string testName = "Create_Company";
+        public string testName = "CreateAndCloseCompany";
         public string moduleName = "BATS";
-        public string status = "Fail";
         public string exception = "Null";
         public string category = "Null";
-
-        
 
         [TestInitialize]
         public void TestInitialize()
         {
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
             qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp, qbLoginUserName, qbLoginPassword);
-            //ExceptionHandler = new Thread(new ThreadStart(FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler));
-            //ExceptionHandler.Start();
-            //ExceptionHandler.Join();
         }
 
         [TestMethod]
@@ -79,7 +73,7 @@ namespace QuickBooks.Tests
 
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.BusinessName_TxtField_AutoID, BusinessName);
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.IndustryList_TxtField_AutoID, "Information");
-                Actions.SelectListBoxItemByText(QBSetupWindow, "lstBox_Industry", "Information Technology (Computers, Software)");
+                Actions.SelectListBoxItemByText(QBSetupWindow, "lstBox_Industry", "Infomation Technology (Computers, Software)");
                 Actions.SelectComboBoxItemByText(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.TaxStructure_CmbBox_AutoID, "Corporation");
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.TaxID_TxtField_AutoID, "123-45-6789");
                 Actions.SelectComboBoxItemByText(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.HaveEmployees_CmbBox_AutoID, "No");
@@ -95,7 +89,11 @@ namespace QuickBooks.Tests
                 Thread.Sleep(10000);
                 Actions.CloseAllChildWindows(qbWindow);
                 Thread.Sleep(10000);
-                Assert.AreEqual("Test", qbWindow.Title);
+                var winTitleOfNewCompany = qbWindow.Title;
+                Assert.AreEqual(winTitleOfNewCompany, qbWindow.Title);
+                Actions.SelectMenu(qbApp, qbWindow, "File", "Close Company");
+                Thread.Sleep(10000);
+                Assert.AreNotEqual(winTitleOfNewCompany, qbWindow.Title);
             }
             catch (Exception e)
             {
@@ -107,7 +105,7 @@ namespace QuickBooks.Tests
         public void TestFinalize()
         {
             FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler();
-            TestResults.GetTestResult(testName, moduleName, status, exception, category);
+            TestResults.GetTestResult(testName, moduleName, exception, category);
         }
     }
 }

@@ -97,7 +97,7 @@ namespace FrameworkLibraries.Utils
             }
         }
 
-        public static void GetTestResult(String testName, String moduleName, String status, String exception, String category)
+        public static void GetTestResult(String testName, String moduleName, String exception, String category)
         {
             if (exception.Equals("Null"))
             {

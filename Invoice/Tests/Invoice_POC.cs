@@ -30,7 +30,6 @@ namespace Invoice.Tests
         public int invoiceNumber, poNumber;
         public string testName = "Invoice_POC";
         public string moduleName = "Invoice";
-        public string status = "Fail";
         public string exception = "Null";
         public string category = "Null";
         private static SilkTest.Ntf.Desktop desktop = Agent.Desktop;
@@ -76,7 +75,7 @@ namespace Invoice.Tests
             finally
             {
                 FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler();
-                TestResults.GetTestResult(testName, moduleName, status, exception, category);
+                TestResults.GetTestResult(testName, moduleName, exception, category);
             }
         }
     }
