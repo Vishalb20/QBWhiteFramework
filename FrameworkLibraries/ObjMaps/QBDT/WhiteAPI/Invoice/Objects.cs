@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Invoice
+namespace FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Invoice
 {
     public class Objects
     {

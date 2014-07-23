@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FrameworkLibraries.ObjMap.QBDT.Silk4NetAPI.Common
+namespace FrameworkLibraries.ObjMaps.QBDT.Silk4NetAPI.Common
 {
     public class Objects
     {

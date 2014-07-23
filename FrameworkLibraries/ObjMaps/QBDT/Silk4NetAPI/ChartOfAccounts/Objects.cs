@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FrameworkLibraries.ObjMap.QBDT.Silk4NetAPI.ChartOfAccounts
+namespace FrameworkLibraries.ObjMaps.QBDT.Silk4NetAPI.ChartOfAccounts
 {
     public class Objects
     {

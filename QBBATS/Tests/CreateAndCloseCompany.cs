@@ -45,7 +45,7 @@ namespace QuickBooks.Tests
             {
                 string BusinessName = "White" + rand.Next(1234, 8976);
 
-                var Window_Condition = Actions.CheckWindowExists(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.NoQBCompanyLoaded_Window_Name);
+                var Window_Condition = Actions.CheckWindowExists(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.NoQBCompanyLoaded_Window_Name);
 
                 if (!Window_Condition)
                 {
@@ -55,36 +55,36 @@ namespace QuickBooks.Tests
                 }
                 else
                 {
-                    Window NoCompanyLoadedWindow = Actions.GetChildWindow(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.NoQBCompanyLoaded_Window_Name);
+                    Window NoCompanyLoadedWindow = Actions.GetChildWindow(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.NoQBCompanyLoaded_Window_Name);
 
                     //Select - Create a new company
-                    Actions.ClickElementByAutomationID(NoCompanyLoadedWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.CreateNewCompany_Element_AutoID);
+                    Actions.ClickElementByAutomationID(NoCompanyLoadedWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.CreateNewCompany_Element_AutoID);
                     qbApp.WaitWhileBusy();
                     Thread.Sleep(5000);
                 }
 
-                Window QBSetupWindow = Actions.GetChildWindow(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.QBSetup_Window_Name);
+                Window QBSetupWindow = Actions.GetChildWindow(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.QBSetup_Window_Name);
                 qbApp.WaitWhileBusy();
                 Thread.Sleep(5000);
 
-                Actions.ClickElementByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.ExpressStart_Button_AutoID);
+                Actions.ClickElementByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.ExpressStart_Button_AutoID);
                 qbApp.WaitWhileBusy();
                 Thread.Sleep(500);
 
-                Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.BusinessName_TxtField_AutoID, BusinessName);
-                Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.IndustryList_TxtField_AutoID, "Information");
+                Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.BusinessName_TxtField_AutoID, BusinessName);
+                Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.IndustryList_TxtField_AutoID, "Information");
                 Actions.SelectListBoxItemByText(QBSetupWindow, "lstBox_Industry", "Infomation Technology (Computers, Software)");
-                Actions.SelectComboBoxItemByText(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.TaxStructure_CmbBox_AutoID, "Corporation");
-                Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.TaxID_TxtField_AutoID, "123-45-6789");
-                Actions.SelectComboBoxItemByText(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.HaveEmployees_CmbBox_AutoID, "No");
-                Actions.ClickElementByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.Continue_Button_AutoID);
+                Actions.SelectComboBoxItemByText(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.TaxStructure_CmbBox_AutoID, "Corporation");
+                Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.TaxID_TxtField_AutoID, "123-45-6789");
+                Actions.SelectComboBoxItemByText(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.HaveEmployees_CmbBox_AutoID, "No");
+                Actions.ClickElementByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.Continue_Button_AutoID);
                 qbApp.WaitWhileBusy();
                 Thread.Sleep(500);
 
-                Actions.SelectComboBoxItemByText(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.StateName_CmbBox_AutoID, "DE");
-                Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.ZipCode_TxtField_AutoID, "DE123");
-                Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.Phone_TxtField_AutoID, "6104567890");
-                Actions.ClickElementByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Common.Objects.CreateCompany_Button_AutoID);
+                Actions.SelectComboBoxItemByText(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.StateName_CmbBox_AutoID, "DE");
+                Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.ZipCode_TxtField_AutoID, "DE123");
+                Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.Phone_TxtField_AutoID, "6104567890");
+                Actions.ClickElementByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.CreateCompany_Button_AutoID);
                 qbApp.WaitWhileBusy();
                 Thread.Sleep(10000);
                 Actions.CloseAllChildWindows(qbWindow);

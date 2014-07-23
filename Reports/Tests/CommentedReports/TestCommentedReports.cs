@@ -12,12 +12,13 @@ using FrameworkLibraries.ActionLibs.QBDT.WhiteAPI;
 using SilkTest.Ntf;
 using System.Collections.Generic;
 using FrameworkLibraries.EntityFramework;
+using System.Windows;
 
 
-namespace Invoice.Tests
+namespace Reports.Tests.CommentedReports
 {
     [TestClass]
-    public class Invoice_POC
+    public class TestCommentedReports
     {
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
@@ -28,8 +29,8 @@ namespace Invoice.Tests
         public string qbLoginPassword = conf.get("QBLoginPassword");
         public Random rand = new Random();
         public int invoiceNumber, poNumber;
-        public string testName = "Invoice_POC";
-        public string moduleName = "Invoice";
+        public string testName = "TestCommentedReports";
+        public string moduleName = "Reports";
         public string exception = "Null";
         public string category = "Null";
         private static SilkTest.Ntf.Desktop desktop = Agent.Desktop;
@@ -48,27 +49,27 @@ namespace Invoice.Tests
         {
             try
             {
-                using (SQLCompactDBEntities entity = new SQLCompactDBEntities())
-                {
-                    var TestData = entity.Invoice_TestData.Find("Invoice_POC");
-                    var Customer = TestData.Customer_Job;
-                    var Class = TestData.Class;
-                    var Account = TestData.Account;
-                    var Template = TestData.Template;
-                    var REP = TestData.REP;
-                    var FOB = TestData.FOB;
-                    var VIA = TestData.VIA;
-                    var Item = TestData.Item;
-                    var Quantity = TestData.Qunatity;
-                    var ItemDescription = TestData.Description;
+                //FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.SelectMenu(qbApp, qbWindow, "Reports", "Commented Reports");
+                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.SelectMenu(qbApp, qbWindow, "Reports", "Company & &Financial", "Profit & Loss &Standard");
+                TestStack.White.UIItems.WindowItems.Window profitAndLossWindow = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Profit  Loss");
+                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(profitAndLossWindow, "Comment on Report");
+                TestStack.White.UIItems.WindowItems.Window commentOnProfitAndLossWindow = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Comment on Report: Profit  Loss");
+                List<IUIItem> allPanes = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetAllPanels(commentOnProfitAndLossWindow.Items);
+                
+                var p = allPanes[1].Location;
+                //var p = allPanes[1].Bounds.Top;
+                TestStack.White.InputDevices.IMouse m = TestStack.White.Desktop.Instance.Mouse;
+                m.Location = p;
+                m.Click();
+                
+                //System.Windows.Point p = allPanes[1].ClickablePoint;
+                //allPanes[1].RightClickAt(p);
+                //FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.SendKeysToWindow(commentOnProfitAndLossWindow, "Enter");
+                //allPanes[1].RightClick();
 
-                    FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.CreateInvoice(qbApp, qbWindow, Customer, Class, Account, Template, invoiceNumber,
-                        poNumber, REP, VIA, FOB, Quantity, Item, ItemDescription, false);
 
-                    FrameworkLibraries.ActionLibs.QBDT.Silk4NetAPI.Actions.CloseAllOpenQBWindows();
 
-                    
-                }    
+                FrameworkLibraries.ActionLibs.QBDT.Silk4NetAPI.Actions.CloseAllOpenQBWindows();
             }
             catch (Exception e)
             {

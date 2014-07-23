@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FrameworkLibraries.ObjMap.QBDT.Silk4NetAPI.Siebel
+namespace FrameworkLibraries.ObjMaps.QBDT.Silk4NetAPI.Siebel
 {
     public class Objects
     {

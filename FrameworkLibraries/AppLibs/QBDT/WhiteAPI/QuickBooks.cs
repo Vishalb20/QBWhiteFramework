@@ -126,6 +126,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                         item.Close();
                         try { Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Recording Transaction"), "No"); }
                         catch { }
+                        try { Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Enter Memorized Transactions Later"), "Ok"); }
+                        catch { }
                     }
                 }
 
@@ -153,10 +155,10 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
             {
                 Actions.SelectMenu(qbApp, qbWindow, "Customers", "Create Invoices");
                 Thread.Sleep(int.Parse(Execution_Speed));
-                Window invoiceWindow = Actions.GetWindow(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Invoice.Objects.CreateInvoice_Window_Name);
+                Window invoiceWindow = Actions.GetWindow(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Invoice.Objects.CreateInvoice_Window_Name);
 
                 try
-                {Actions.ClickElementByAutomationID(invoiceWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Invoice.Objects.MaximizeWindow_Button_AutoID);
+                {Actions.ClickElementByAutomationID(invoiceWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Invoice.Objects.MaximizeWindow_Button_AutoID);
                 Thread.Sleep(int.Parse(Execution_Speed));}
                 catch (Exception)
                 {}
@@ -199,9 +201,9 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 //Actions.SendKeysToWindow(invoiceWindow, itemDesc);
                 
                 if (markPending)
-                { Actions.ClickButtonByAutomationID(invoiceWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Invoice.Objects.MarkPending_Button_AutoID); }
+                { Actions.ClickButtonByAutomationID(invoiceWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Invoice.Objects.MarkPending_Button_AutoID); }
                 
-                Actions.ClickElementByName(invoiceWindow, FrameworkLibraries.ObjMaps.QBDT.WhtieAPI.Invoice.Objects.SaveClsoe_Button_Name);
+                Actions.ClickElementByName(invoiceWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Invoice.Objects.SaveClsoe_Button_Name);
                 
                 try { Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Recording Transaction"), "Yes"); }
                 catch { }

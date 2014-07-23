@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trinity", "Trinity\Trinity.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrinityAPIPOC", "TrinityAPIPOC\TrinityAPIPOC.csproj", "{B7EB6260-14C3-4284-B953-53ACA4FC28E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports", "Reports\Reports.csproj", "{A6B624C3-B9C8-4E38-83A5-8285E6258AF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{B7EB6260-14C3-4284-B953-53ACA4FC28E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7EB6260-14C3-4284-B953-53ACA4FC28E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7EB6260-14C3-4284-B953-53ACA4FC28E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6B624C3-B9C8-4E38-83A5-8285E6258AF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6B624C3-B9C8-4E38-83A5-8285E6258AF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6B624C3-B9C8-4E38-83A5-8285E6258AF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6B624C3-B9C8-4E38-83A5-8285E6258AF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

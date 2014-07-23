@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace FrameworkLibraries.ObjMap.QBDT.Silk4NetAPI.BankFeeds
+namespace FrameworkLibraries.ObjMaps.QBDT.Silk4NetAPI.BankFeeds
 {
     public class Objects
     {

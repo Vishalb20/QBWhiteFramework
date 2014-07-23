@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FrameworkLibraries.ObjMap.QBDT.Silk4NetAPI.FileDoctorExternal
+namespace FrameworkLibraries.ObjMaps.QBDT.Silk4NetAPI.FileDoctorExternal
 {
     public class Objects
     {
