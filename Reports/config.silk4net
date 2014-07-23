@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<recorderProject version="12.0">
+<?xml version="1.0" encoding="UTF-8"?><recorderProject version="12.0">
   <applicationConfiguration>
     <moduleNamePattern>*\qbw32.exe</moduleNamePattern>
     <commandLinePattern/>
@@ -12,5 +11,26 @@
       <locator>Falcon Executive Aviation, Inc</locator>
     </baseStateInfo>
   </applicationConfiguration>
-  <agentOptions/>
+  <agentOptions>
+    <entry>
+      <string>OPT_CUSTOM_CONTROLS</string>
+      <map>
+        <entry>
+          <string>WIN32</string>
+          <list>
+            <list>
+              <string>ReportsComments</string>
+              <string>Control</string>
+              <string>Control</string>
+              <string>true</string>
+            </list>
+          </list>
+        </entry>
+      </map>
+    </entry>
+    <entry>
+      <string>OPT_CUSTOM_CONTROLS_FILEPATH</string>
+      <string>Reports.CustomControls</string>
+    </entry>
+  </agentOptions>
 </recorderProject>

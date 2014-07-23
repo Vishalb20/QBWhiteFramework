@@ -73,6 +73,7 @@
     <Reference Include="TestStack.White.WebBrowser">
       <HintPath>..\packages\TestStack.White.WebBrowser.0.13.3\lib\net40\TestStack.White.WebBrowser.dll</HintPath>
     </Reference>
+    <Reference Include="UIAutomationClient" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>

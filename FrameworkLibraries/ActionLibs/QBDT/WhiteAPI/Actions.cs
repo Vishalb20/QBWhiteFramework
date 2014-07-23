@@ -1205,6 +1205,30 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
 //**************************************************************************************************************************************************************
 
+        public static void UIA_ClickOnPaneItem(AutomationElement uiaWindow, Window window, int index)
+        {
+            try
+            {
+                PropertyCondition paneCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Pane);
+                AutomationElementCollection allPanes = uiaWindow.FindAll(TreeScope.Descendants, paneCondition);
+
+                TestStack.White.UIItems.Panel p = new TestStack.White.UIItems.Panel(allPanes[index], window.ActionListener);
+                p.Focus();
+                p.Click();
+                Thread.Sleep(int.Parse(Execution_Speed));
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
+
     }
 }
 

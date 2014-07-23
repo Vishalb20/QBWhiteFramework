@@ -49,25 +49,25 @@ namespace Reports.Tests.CommentedReports
         {
             try
             {
-                //FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.SelectMenu(qbApp, qbWindow, "Reports", "Commented Reports");
                 FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.SelectMenu(qbApp, qbWindow, "Reports", "Company & &Financial", "Profit & Loss &Standard");
                 TestStack.White.UIItems.WindowItems.Window profitAndLossWindow = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Profit  Loss");
+                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(profitAndLossWindow, "Maximize");
                 FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(profitAndLossWindow, "Comment on Report");
                 TestStack.White.UIItems.WindowItems.Window commentOnProfitAndLossWindow = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Comment on Report: Profit  Loss");
+                //FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(commentOnProfitAndLossWindow, "Maximize");
+                
                 List<IUIItem> allPanes = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetAllPanels(commentOnProfitAndLossWindow.Items);
-                
-                var p = allPanes[1].Location;
-                //var p = allPanes[1].Bounds.Top;
+                //var p = allPanes[5].Location;
+                //var x = p.X + 562;
+                //var y = p.Y + 162;
+                System.Windows.Point commentsPostion = new System.Windows.Point(1047, 223);
                 TestStack.White.InputDevices.IMouse m = TestStack.White.Desktop.Instance.Mouse;
-                m.Location = p;
-                m.Click();
-                
-                //System.Windows.Point p = allPanes[1].ClickablePoint;
-                //allPanes[1].RightClickAt(p);
-                //FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.SendKeysToWindow(commentOnProfitAndLossWindow, "Enter");
-                //allPanes[1].RightClick();
+                m.DoubleClick(commentsPostion);
+                m.DoubleClick(commentsPostion);
 
-
+                //var appWindow_UIA = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.UIA_GetAppWindow(qbWindow.Name);
+                //var chilWindow_UIA = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.UIA_GetChildWindow(appWindow_UIA, commentOnProfitAndLossWindow.Name);
+                //FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.UIA_ClickOnPaneItem(chilWindow_UIA, commentOnProfitAndLossWindow, 1);
 
                 FrameworkLibraries.ActionLibs.QBDT.Silk4NetAPI.Actions.CloseAllOpenQBWindows();
             }
