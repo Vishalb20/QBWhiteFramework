@@ -12,7 +12,7 @@ using FrameworkLibraries;
 using System.Collections.Generic;
 using TestStack.White.UIItems;
 
-namespace QuickBooks.Tests
+namespace QBBATS.Tests
 {
     [TestClass]
     public class CreateAndCloseCompany
@@ -73,7 +73,8 @@ namespace QuickBooks.Tests
 
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.BusinessName_TxtField_AutoID, BusinessName);
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.IndustryList_TxtField_AutoID, "Information");
-                Actions.SelectListBoxItemByText(QBSetupWindow, "lstBox_Industry", "Infomation Technology (Computers, Software)");
+                Thread.Sleep(100);
+                Actions.SelectListBoxItemByText(QBSetupWindow, "lstBox_Industry", "Information Technology");
                 Actions.SelectComboBoxItemByText(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.TaxStructure_CmbBox_AutoID, "Corporation");
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.TaxID_TxtField_AutoID, "123-45-6789");
                 Actions.SelectComboBoxItemByText(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.HaveEmployees_CmbBox_AutoID, "No");

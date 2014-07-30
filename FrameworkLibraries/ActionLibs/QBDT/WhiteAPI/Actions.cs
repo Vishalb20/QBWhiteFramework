@@ -426,6 +426,26 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
 //**************************************************************************************************************************************************************
 
+        public static void SetTextOnElementByName(Window win, String name, String value)
+        {
+
+            try
+            {
+                AutomationProperty p = AutomationElementIdentifiers.NameProperty;
+                win.Get(SearchCriteria.ByNativeProperty(p, name)).Enter(value);
+                Thread.Sleep(int.Parse(Execution_Speed));
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
         public static void ClickButtonByAutomationID(Window win, String automationID)
         {
 
@@ -452,6 +472,27 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             try
             {
                 TestStack.White.UIItems.TextBox t = (TestStack.White.UIItems.TextBox)win.Get(SearchCriteria.ByAutomationId(automationID));
+                t.SetValue(value);
+                Thread.Sleep(int.Parse(Execution_Speed));
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
+        public static void SetTextByName(Window win, String name, String value)
+        {
+
+            try
+            {
+                AutomationProperty p = AutomationElementIdentifiers.NameProperty;
+                TestStack.White.UIItems.TextBox t = (TestStack.White.UIItems.TextBox)win.Get(SearchCriteria.ByNativeProperty(p, name));
                 t.SetValue(value);
                 Thread.Sleep(int.Parse(Execution_Speed));
             }
@@ -1053,6 +1094,35 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                     Thread.Sleep(int.Parse(Execution_Speed));
                 }
                 
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
+        public static void SelectCheckBoxByName(Window win, String checkBoxName, bool state)
+        {
+            try
+            {
+                AutomationProperty p = AutomationElementIdentifiers.NameProperty;
+                TestStack.White.UIItems.CheckBox c = win.Get<TestStack.White.UIItems.CheckBox>(SearchCriteria.ByNativeProperty(p, checkBoxName));
+                if (state)
+                {
+                    c.Select();
+                    Thread.Sleep(int.Parse(Execution_Speed));
+                }
+                else
+                {
+                    c.UnSelect();
+                    Thread.Sleep(int.Parse(Execution_Speed));
+                }
+
             }
             catch (Exception e)
             {

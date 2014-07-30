@@ -54,13 +54,12 @@ namespace Reports.Tests.CommentedReports
                 FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(profitAndLossWindow, "Maximize");
                 FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(profitAndLossWindow, "Comment on Report");
                 TestStack.White.UIItems.WindowItems.Window commentOnProfitAndLossWindow = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Comment on Report: Profit  Loss");
-                //FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(commentOnProfitAndLossWindow, "Maximize");
                 
                 List<IUIItem> allPanes = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetAllPanels(commentOnProfitAndLossWindow.Items);
                 //var p = allPanes[5].Location;
                 //var x = p.X + 562;
                 //var y = p.Y + 162;
-                System.Windows.Point commentsPostion = new System.Windows.Point(1047, 223);
+                System.Windows.Point commentsPostion = new System.Windows.Point(1287, 179);
                 TestStack.White.InputDevices.IMouse m = TestStack.White.Desktop.Instance.Mouse;
                 m.DoubleClick(commentsPostion);
                 m.DoubleClick(commentsPostion);
@@ -69,7 +68,9 @@ namespace Reports.Tests.CommentedReports
                 //var chilWindow_UIA = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.UIA_GetChildWindow(appWindow_UIA, commentOnProfitAndLossWindow.Name);
                 //FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.UIA_ClickOnPaneItem(chilWindow_UIA, commentOnProfitAndLossWindow, 1);
 
-                FrameworkLibraries.ActionLibs.QBDT.Silk4NetAPI.Actions.CloseAllOpenQBWindows();
+                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.SetTextByAutomationID(commentOnProfitAndLossWindow, "CommentTextBox", "Comment from WhiteAPI");
+                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(commentOnProfitAndLossWindow, "Save");
+                //FrameworkLibraries.ActionLibs.QBDT.Silk4NetAPI.Actions.CloseAllOpenQBWindows();
             }
             catch (Exception e)
             {
