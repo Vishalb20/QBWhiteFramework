@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FrameworkLibraries.Utils;
 using System.Windows.Automation;
 using System.Windows.Forms;
@@ -11,15 +10,15 @@ using FrameworkLibraries.ActionLibs.QBDT.WhiteAPI;
 using FrameworkLibraries;
 using System.Collections.Generic;
 using TestStack.White.UIItems;
+using Xunit;
 
-namespace QBBATS.Tests
+
+namespace BATS.Tests
 {
-    [TestClass]
-    public class CreateAndCloseCompany
+    public class CreateAndCloseCompany : IDisposable
     {
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
-        public Thread ExceptionHandler = null;
         public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
         public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
         public string exe = conf.get("QBExePath");
@@ -31,23 +30,21 @@ namespace QBBATS.Tests
         public string exception = "Null";
         public string category = "Null";
 
-        [TestInitialize]
-        public void TestInitialize()
+        public CreateAndCloseCompany()
         {
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
             qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp, qbLoginUserName, qbLoginPassword);
         }
 
-        [TestMethod]
-        public void TestMethod1()
+        [Fact]
+        [Category("P1")]
+        public void CreateAndCloseCompanyTest()
         {
-            try
-            {
-                string BusinessName = "White" + rand.Next(1234, 8976);
+                string businessName = "White" + rand.Next(1234, 8976);
 
-                var Window_Condition = Actions.CheckWindowExists(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.NoQBCompanyLoaded_Window_Name);
+                var windowCondition = Actions.CheckWindowExists(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.NoQBCompanyLoaded_Window_Name);
 
-                if (!Window_Condition)
+                if (!windowCondition)
                 {
                     Actions.SelectMenu(qbApp, qbWindow, "File", "New Company...");
                     qbApp.WaitWhileBusy();
@@ -71,7 +68,7 @@ namespace QBBATS.Tests
                 qbApp.WaitWhileBusy();
                 Thread.Sleep(500);
 
-                Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.BusinessName_TxtField_AutoID, BusinessName);
+                Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.BusinessName_TxtField_AutoID, businessName);
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.IndustryList_TxtField_AutoID, "Information");
                 Thread.Sleep(100);
                 Actions.SelectListBoxItemByText(QBSetupWindow, "lstBox_Industry", "Information Technology");
@@ -91,22 +88,15 @@ namespace QBBATS.Tests
                 Actions.CloseAllChildWindows(qbWindow);
                 Thread.Sleep(10000);
                 var winTitleOfNewCompany = qbWindow.Title;
-                Assert.AreEqual(winTitleOfNewCompany, qbWindow.Title);
+                Assert.Equal(winTitleOfNewCompany, qbWindow.Title);
                 Actions.SelectMenu(qbApp, qbWindow, "File", "Close Company");
                 Thread.Sleep(10000);
-                Assert.AreNotEqual(winTitleOfNewCompany, qbWindow.Title);
-            }
-            catch (Exception e)
-            {
-                exception = TestResults.TrimExceptionMessage(e.Message);
-            }
+                Assert.NotEqual(winTitleOfNewCompany, qbWindow.Title);
         }
 
-        [TestCleanup]
-        public void TestFinalize()
+        public void Dispose()
         {
             FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler();
-            TestResults.GetTestResult(testName, moduleName, exception, category);
         }
     }
 }

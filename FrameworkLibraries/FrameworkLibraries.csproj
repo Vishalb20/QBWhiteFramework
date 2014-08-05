@@ -82,6 +82,12 @@
     <Reference Include="UIAutomationClientsideProviders" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
+    <Reference Include="xunit">
+      <HintPath>..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.extensions">
+      <HintPath>..\packages\xunit.extensions.1.9.2\lib\net20\xunit.extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionLibs\QBDT\Silk4NetAPI\Actions.cs" />
@@ -178,6 +184,9 @@
     </None>
     <None Include="SQLCompactDBDataSet.xss">
       <DependentUpon>SQLCompactDBDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="TestSuites\QBBATS.orderedtest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -13,6 +13,7 @@ using System.Windows.Automation;
 using System.Windows.Forms;
 using System.IO;
 using TestStack.White.UIItems.MenuItems;
+using TestStack.White;
 
 namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 {
@@ -1298,6 +1299,35 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
 //**************************************************************************************************************************************************************
 
+        public static Window GetAlertWindow(string alertWindowName)
+        {
+            Window alertWindow = null;
+
+            try
+            {
+                List<Window> allChildWindows = Desktop.Instance.Windows();
+
+                foreach (Window w in allChildWindows)
+                {
+                    if (w.Name.Equals(alertWindowName) || w.Name.Contains(alertWindowName))
+                    {
+                        alertWindow = w;
+                        break;
+                    }
+                }
+
+                return alertWindow;
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
 
     }
 }

@@ -65,7 +65,7 @@ namespace Invoice.Tests
                     FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.CreateInvoice(qbApp, qbWindow, Customer, Class, Account, Template, invoiceNumber,
                         poNumber, REP, VIA, FOB, Quantity, Item, ItemDescription, false);
 
-                    FrameworkLibraries.ActionLibs.QBDT.Silk4NetAPI.Actions.CloseAllOpenQBWindows();
+                    //FrameworkLibraries.ActionLibs.QBDT.Silk4NetAPI.Actions.CloseAllOpenQBWindows();
 
                     
                 }    
