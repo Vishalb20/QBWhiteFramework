@@ -45,8 +45,6 @@
     <Reference Include="EntityFramework.SqlServerCompact">
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.1\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
     </Reference>
-    <Reference Include="SilkTest.Ntf, Version=11.0.0.0, Culture=neutral, PublicKeyToken=2c6f04359b8689a9, processorArchitecture=MSIL" />
-    <Reference Include="SilkTest.Ntf.VisualStudio2012.UnitTestingExtension, Version=13.5.0.0, Culture=neutral, PublicKeyToken=ae76320e29b79f3f, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>True</SpecificVersion>
     </Reference>
@@ -63,6 +61,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TestStack.BDDfy">
+      <HintPath>..\packages\TestStack.BDDfy.4.0.0\lib\NET40\TestStack.BDDfy.dll</HintPath>
+    </Reference>
     <Reference Include="TestStack.White">
       <HintPath>..\packages\TestStack.White.0.13.3\lib\net40\TestStack.White.dll</HintPath>
     </Reference>
@@ -89,6 +90,7 @@
   <ItemGroup>
     <Compile Include="CategoryAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\BddfyUpgradeFile.cs" />
     <Compile Include="Tests\CreateAndCloseCompany.cs" />
     <Compile Include="Tests\CreateInvoice.cs" />
     <Compile Include="Tests\UpgradeFile.cs" />

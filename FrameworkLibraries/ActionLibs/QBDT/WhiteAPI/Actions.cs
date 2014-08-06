@@ -661,10 +661,13 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 List<Window> modalWindows = window.ModalWindows();
                 foreach (Window win in modalWindows)
                 {
-                    try { win.Close();
-                    Thread.Sleep(int.Parse(Execution_Speed));
-                    }
-                    catch(Exception e){}
+                    win.Focus();
+
+                    try { FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(win, "Close"); }
+                    catch { }
+
+                    try { win.Close(); }
+                    catch { }
                 }
             }
             catch (Exception e)

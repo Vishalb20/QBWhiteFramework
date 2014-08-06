@@ -285,8 +285,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 }
                 catch { }
 
-                Actions.CloseAllChildWindows(qbWindow);
                 return true;
+
             }
             catch (Exception e)
             {
@@ -298,18 +298,13 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
 //**************************************************************************************************************************************************************
 
-        public static void ExceptionHandler()
+        public static void ExceptionHandler(Window qbWindow)
         {
-            TestStack.White.Application app = null;
-            Window win = null;
-            
             try
             {
-                app = GetApp("QuickBooks");
-                win = GetAppWindow(app, "QuickBooks");
                 do
                 {
-                    List<Window> modalWin = win.ModalWindows();
+                    List<Window> modalWin = qbWindow.ModalWindows();
                     foreach (Window item in modalWin)
                     {
                         if (item.Name.Contains("Error"))
@@ -319,7 +314,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                         }
                     }
                 }
-                while (win == null);
+                while (qbWindow == null);
             }
             catch (Exception e)
             {

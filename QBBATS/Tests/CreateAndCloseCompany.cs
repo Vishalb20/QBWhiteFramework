@@ -40,11 +40,11 @@ namespace BATS.Tests
         [Category("P1")]
         public void CreateAndCloseCompanyTest()
         {
-                string businessName = "White" + rand.Next(1234, 8976);
+                string BusinessName = "White" + rand.Next(1234, 8976);
 
-                var windowCondition = Actions.CheckWindowExists(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.NoQBCompanyLoaded_Window_Name);
+                var Window_Condition = Actions.CheckWindowExists(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.NoQBCompanyLoaded_Window_Name);
 
-                if (!windowCondition)
+                if (!Window_Condition)
                 {
                     Actions.SelectMenu(qbApp, qbWindow, "File", "New Company...");
                     qbApp.WaitWhileBusy();
@@ -68,7 +68,7 @@ namespace BATS.Tests
                 qbApp.WaitWhileBusy();
                 Thread.Sleep(500);
 
-                Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.BusinessName_TxtField_AutoID, businessName);
+                Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.BusinessName_TxtField_AutoID, BusinessName);
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.IndustryList_TxtField_AutoID, "Information");
                 Thread.Sleep(100);
                 Actions.SelectListBoxItemByText(QBSetupWindow, "lstBox_Industry", "Information Technology");
@@ -96,7 +96,7 @@ namespace BATS.Tests
 
         public void Dispose()
         {
-            FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler();
+            FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler(qbWindow);
         }
     }
 }

@@ -76,7 +76,7 @@ namespace Invoice.Tests
             }
             finally
             {
-                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler();
+                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler(qbWindow);
                 TestResults.GetTestResult(testName, moduleName, exception, category);
             }
         }

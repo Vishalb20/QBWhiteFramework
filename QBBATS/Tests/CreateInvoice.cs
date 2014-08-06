@@ -12,6 +12,7 @@ using SilkTest.Ntf;
 using System.Collections.Generic;
 using FrameworkLibraries.EntityFramework;
 using Xunit;
+using TestStack.BDDfy;
 
 
 namespace BATS.Tests
@@ -32,10 +33,11 @@ namespace BATS.Tests
         public string moduleName = "Invoice";
         public string exception = "Null";
         public string category = "Null";
+        public static string filePath = "C:\\Falcon_Pre_R7.qbw";
         private static SilkTest.Ntf.Desktop desktop = Agent.Desktop;
 
-        
-        public CreateInvoice()
+        [Given(StepTitle = "Given - QuickBooks App and Window instances are available")]
+        public void Setup()
         {
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
             qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp, qbLoginUserName, qbLoginPassword);
@@ -43,30 +45,45 @@ namespace BATS.Tests
             poNumber = rand.Next(12345, 99999);
         }
 
-        [Fact]
-        [Category("P3")]
+        [When(StepTitle = "When - A company file is opened or upgraded successfully for creating a transaction")]
+        public void OpenCompanyFile()
+        {
+            FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(filePath, qbApp, qbWindow);
+        }
+
+        [Then(StepTitle = "Then - An Invoice should be created successfully")]
         public void CreateInvoiceTest()
         {
-                using (SQLCompactDBEntities entity = new SQLCompactDBEntities())
-                {
-                    var testData = entity.Invoice_TestData.Find("CreateInvoice");
-                    var customer = testData.Customer_Job;
-                    var clss = testData.Class;
-                    var account = testData.Account;
-                    var template = testData.Template;
-                    var rep = testData.REP;
-                    var fob = testData.FOB;
-                    var via = testData.VIA;
-                    var item = testData.Item;
-                    var quantity = testData.Qunatity;
-                    var itemDescription = testData.Description;
-                    var filePath = "C:\\Falcon_Pre_R7.qbw";
+            using (SQLCompactDBEntities entity = new SQLCompactDBEntities())
+            {
+                var testData = entity.Invoice_TestData.Find("CreateInvoice");
+                var customer = testData.Customer_Job;
+                var clss = testData.Class;
+                var account = testData.Account;
+                var template = testData.Template;
+                var rep = testData.REP;
+                var fob = testData.FOB;
+                var via = testData.VIA;
+                var item = testData.Item;
+                var quantity = testData.Qunatity;
+                var itemDescription = testData.Description;
 
-                    FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(filePath, qbApp, qbWindow);
+                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.CreateInvoice(qbApp, qbWindow, customer, clss, account, template, invoiceNumber,
+                    poNumber, rep, via, fob, quantity, item, itemDescription, false);
+            }
+        }
 
-                    FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.CreateInvoice(qbApp, qbWindow, customer, clss, account, template, invoiceNumber,
-                        poNumber, rep, via, fob, quantity, item, itemDescription, false);
-                }    
+        [AndThen(StepTitle = "AndThen - Perform tear down activities to ensure that there are no on-screen exceptions")]
+        public void TearDown()
+        {
+            FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler(qbWindow);
+        }
+
+        [Fact]
+        [Category("P3")]
+        public void RunCreateInovoiceTest()
+        {
+            this.BDDfy();
         }
     }
 }
