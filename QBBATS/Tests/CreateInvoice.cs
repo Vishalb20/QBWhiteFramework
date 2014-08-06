@@ -8,8 +8,6 @@ using TestStack.White.UIItems.Finders;
 using TestStack.White;
 using System.Threading;
 using FrameworkLibraries.ActionLibs.QBDT.WhiteAPI;
-using SilkTest.Ntf;
-using System.Collections.Generic;
 using FrameworkLibraries.EntityFramework;
 using Xunit;
 using TestStack.BDDfy;
@@ -34,7 +32,6 @@ namespace BATS.Tests
         public string exception = "Null";
         public string category = "Null";
         public static string filePath = "C:\\Falcon_Pre_R7.qbw";
-        private static SilkTest.Ntf.Desktop desktop = Agent.Desktop;
 
         [Given(StepTitle = "Given - QuickBooks App and Window instances are available")]
         public void Setup()

@@ -9,7 +9,6 @@ using TestStack.White.UIItems.Finders;
 using TestStack.White;
 using System.Threading;
 using FrameworkLibraries.ActionLibs.QBDT.WhiteAPI;
-using SilkTest.Ntf;
 using System.Collections.Generic;
 using FrameworkLibraries.EntityFramework;
 using System.Windows;
@@ -33,7 +32,6 @@ namespace Reports.Tests.CommentedReports
         public string moduleName = "Reports";
         public string exception = "Null";
         public string category = "Null";
-        private static SilkTest.Ntf.Desktop desktop = Agent.Desktop;
 
         [TestInitialize]
         public void TestInitialize()
