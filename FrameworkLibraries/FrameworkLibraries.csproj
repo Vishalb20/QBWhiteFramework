@@ -186,9 +186,6 @@
     <None Include="SQLCompactDBDataSet.xss">
       <DependentUpon>SQLCompactDBDataSet.xsd</DependentUpon>
     </None>
-    <None Include="TestSuites\QBBATS.orderedtest">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="SQLCompactDB.sdf">

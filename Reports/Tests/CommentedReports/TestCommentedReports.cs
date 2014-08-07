@@ -12,6 +12,7 @@ using FrameworkLibraries.ActionLibs.QBDT.WhiteAPI;
 using System.Collections.Generic;
 using FrameworkLibraries.EntityFramework;
 using System.Windows;
+using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
 
 
 namespace Reports.Tests.CommentedReports
@@ -37,7 +38,8 @@ namespace Reports.Tests.CommentedReports
         public void TestInitialize()
         {
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
-            qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp, qbLoginUserName, qbLoginPassword);
+            qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp);
+            QuickBooks.ResetQBWindows(qbApp, qbWindow);
             invoiceNumber = rand.Next(12345, 99999);
             poNumber = rand.Next(12345, 99999);
         }
@@ -76,7 +78,7 @@ namespace Reports.Tests.CommentedReports
             }
             finally
             {
-                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler(qbWindow);
+                QuickBooks.ResetQBWindows(qbApp, qbWindow);
                 TestResults.GetTestResult(testName, moduleName, exception, category);
             }
         }

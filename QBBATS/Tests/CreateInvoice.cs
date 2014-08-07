@@ -11,6 +11,7 @@ using FrameworkLibraries.ActionLibs.QBDT.WhiteAPI;
 using FrameworkLibraries.EntityFramework;
 using Xunit;
 using TestStack.BDDfy;
+using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
 
 
 namespace BATS.Tests
@@ -31,13 +32,14 @@ namespace BATS.Tests
         public string moduleName = "Invoice";
         public string exception = "Null";
         public string category = "Null";
-        public static string filePath = "C:\\Falcon_Pre_R7.qbw";
+        public static string filePath = startupPath + "falcon.qbw";
 
         [Given(StepTitle = "Given - QuickBooks App and Window instances are available")]
         public void Setup()
         {
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
-            qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp, qbLoginUserName, qbLoginPassword);
+            qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp);
+            QuickBooks.ResetQBWindows(qbApp, qbWindow);
             invoiceNumber = rand.Next(12345, 99999);
             poNumber = rand.Next(12345, 99999);
         }
@@ -73,7 +75,7 @@ namespace BATS.Tests
         [AndThen(StepTitle = "AndThen - Perform tear down activities to ensure that there are no on-screen exceptions")]
         public void TearDown()
         {
-            FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler(qbWindow);
+            QuickBooks.ResetQBWindows(qbApp, qbWindow);
         }
 
         [Fact]

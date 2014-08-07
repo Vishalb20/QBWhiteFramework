@@ -90,10 +90,9 @@
   <ItemGroup>
     <Compile Include="CategoryAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\BddfyUpgradeFile.cs" />
-    <Compile Include="Tests\CreateAndCloseCompany.cs" />
-    <Compile Include="Tests\CreateInvoice.cs" />
     <Compile Include="Tests\UpgradeFile.cs" />
+    <Compile Include="Tests\CreateCompany.cs" />
+    <Compile Include="Tests\CreateInvoice.cs" />
     <Compile Include="UpgradeTestDataSource.cs" />
   </ItemGroup>
   <ItemGroup>

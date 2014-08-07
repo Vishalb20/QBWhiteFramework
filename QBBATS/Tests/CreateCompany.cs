@@ -11,24 +11,23 @@ using FrameworkLibraries;
 using System.Collections.Generic;
 using TestStack.White.UIItems;
 using Xunit;
-using Xunit.Extensions;
 using TestStack.BDDfy;
+using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
+
 
 namespace BATS.Tests
 {
-    public class BddfyUpgradeFile
+    public class CreateCompany
     {
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
-        public Thread ExceptionHandler = null;
         public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
         public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
         public string exe = conf.get("QBExePath");
         public string qbLoginUserName = conf.get("QBLoginUserName");
         public string qbLoginPassword = conf.get("QBLoginPassword");
-        public static string companyFilePath = null;
         public Random rand = new Random();
-        public string testName = "UpgradeCompanyFile";
+        public string testName = "CreateAndCloseCompany";
         public string moduleName = "BATS";
         public string exception = "Null";
         public string category = "Null";
@@ -37,30 +36,34 @@ namespace BATS.Tests
         public void Setup()
         {
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
-            qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp, qbLoginUserName, qbLoginPassword);
+            qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp);
+            QuickBooks.ResetQBWindows(qbApp, qbWindow);
         }
 
-
-        [Then(StepTitle = "Then - A company file should be opened or upgraded successfully")]
-        public void UpgradeCompanyFile()
+        [Then(StepTitle = "Then - Create new company file should be successful")]
+        public void CreateAndCloseCompany()
         {
-            FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(companyFilePath, qbApp, qbWindow);
+            string businessName = "White" + rand.Next(1234, 8976);
+            QuickBooks.CreateCompany(qbApp, qbWindow, businessName, "Information Technology");
+            QuickBooks.ResetQBWindows(qbApp, qbWindow);
+            var winTitleOfNewCompany = qbWindow.Title;
+            Assert.Equal(winTitleOfNewCompany, qbWindow.Title);
+            Actions.SelectMenu(qbApp, qbWindow, "File", "Close Company");
+            Thread.Sleep(10000);
+            Assert.NotEqual(winTitleOfNewCompany, qbWindow.Title);
         }
 
         [AndThen(StepTitle = "AndThen - Perform tear down activities to ensure that there are no on-screen exceptions")]
         public void TearDown()
         {
-            FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.ExceptionHandler(qbWindow);
+            QuickBooks.ResetQBWindows(qbApp, qbWindow);
         }
 
-        [Theory]
+        [Fact]
         [Category("P1")]
-        [PropertyData("TestData", PropertyType = typeof(UpgradeTestDataSource))]
-        public void RunUpgradeCompanyFileTest(string fileName)
+        public void RunCreateCompanyTest()
         {
-            companyFilePath = startupPath + fileName;
             this.BDDfy();
         }
-        
     }
 }
