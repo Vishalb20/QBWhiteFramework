@@ -88,9 +88,6 @@
     <Compile Include="Tests\CommentedReports\TestCommentedReports.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="config.silk4net" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Config\" />
     <Folder Include="Data\" />
   </ItemGroup>

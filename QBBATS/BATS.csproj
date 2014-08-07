@@ -96,9 +96,6 @@
     <Compile Include="UpgradeTestDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="config.silk4net" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>

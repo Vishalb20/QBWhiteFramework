@@ -156,7 +156,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SQLCompactDBModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <EmbeddedResource Include="config.silk4net" />
     <None Include="EntityFramework\SQLCompactDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SQLCompactDBModel.edmx</DependentUpon>
