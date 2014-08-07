@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrameworkLibraries", "FrameworkLibraries\FrameworkLibraries.csproj", "{41150A92-AC11-4A13-B88B-45E36310E2F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileDoctor", "FileDoctor\FileDoctor.csproj", "{51B19891-E1B7-4335-9268-7BE8B0D54C7A}"

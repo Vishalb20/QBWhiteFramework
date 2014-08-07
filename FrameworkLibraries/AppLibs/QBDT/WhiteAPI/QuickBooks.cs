@@ -301,148 +301,196 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     modalWin = qbWindow.ModalWindows();
                     iteration = iteration+1;
 
-                    if (iteration <= 2)
+                    if (iteration <= 10)
                     {
                         foreach (Window item in modalWin)
                         {
                             //QB Login window handler
-                            try
+                            if (item.Name.Contains("QuickBooks Login"))
                             {
-                                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "QuickBooks Login"), "OK");
-                                Thread.Sleep(2500);
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "OK");
+                                    Thread.Sleep(2500);
+                                }
+                                catch (Exception) { }
                             }
-                            catch (Exception) { }
 
-                            //Warning window handler
-                            try
+                            //Warning window handler - OK
+                            else if (item.Name.Contains("Warning"))
                             {
-                                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Warning"), "OK");
-                                Thread.Sleep(2500);
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "OK");
+                                    Thread.Sleep(2500);
+                                }
+                                catch (Exception) { }
                             }
-                            catch (Exception) { }
 
-
-                            //QB Warning handler
-                            try
+                            //QB Warning handler - Continue
+                            else if (item.Name.Contains("Warning"))
                             {
-                                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Warning"), "Continue");
-                                Thread.Sleep(2500);
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "Continue");
+                                    Thread.Sleep(2500);
+                                }
+                                catch (Exception) { }
                             }
-                            catch (Exception) { }
 
                             //Save backup copy window handler
-                            try
+                            else if (item.Name.Contains("Save Backup Copy"))
                             {
-                                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Save Backup Copy"), "Save");
-                                Thread.Sleep(60000);
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "Save");
+                                    Thread.Sleep(60000);
+                                }
+                                catch (Exception) { }
                             }
-                            catch (Exception) { }
 
                             //Update to new version window handler - I agree
-                            try
+                            else if (item.Name.Contains("Update Company File for New Version"))
                             {
-                                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Update Company File for New Version"), "I understand that my company file will be updated to this new version of QuickBooks.");
-                                Thread.Sleep(2500);
+                                try
+                                {
+                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Update Company File for New Version"), "I understand that my company file will be updated to this new version of QuickBooks.");
+                                    Thread.Sleep(100);
+                                }
+                                catch (Exception) { }
+                                try
+                                {
+                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Update Company File for New Version"), "Update Now");
+                                    Thread.Sleep(2500);
+                                }
+                                catch (Exception) { }
                             }
-                            catch (Exception) { }
-
-                            //Update to new version window handler - Update now
-                            try
-                            {
-                                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Update Company File for New Version"), "Update Now");
-                                Thread.Sleep(2500);
-                            }
-                            catch (Exception) { }
 
                             //QB Information window handler
-                            try
+                            else if (item.Name.Contains("QuickBooks Information"))
                             {
-                                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "QuickBooks Information"), "OK");
-                                Thread.Sleep(2500);
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "OK");
+                                    Thread.Sleep(2500);
+                                }
+                                catch (Exception) { }
                             }
-                            catch (Exception) { }
 
                             //Update company window handler
-                            try
+                            else if (item.Name.Contains("Update Company"))
                             {
-                                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Update Company"), "Yes");
-                                Thread.Sleep(60000);
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "Yes");
+                                    Thread.Sleep(60000);
+                                }
+                                catch (Exception) { }
                             }
-                            catch (Exception) { }
 
                             //Update company window handler 2
-                            try
+                            else if (item.Name.Contains("Update Company"))
                             {
-                                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Update Company"), "Continue");
-                                Thread.Sleep(60000);
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "Continue");
+                                    Thread.Sleep(60000);
+                                }
+                                catch (Exception) { }
                             }
-                            catch (Exception) { }
 
 
                             //Create backup copy window handler
-                            try
+                            else if (item.Name.Contains("Create Backup"))
                             {
-                                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Create Backup"), "Next");
-                                Thread.Sleep(10000);
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "Next");
+                                    Thread.Sleep(10000);
+                                }
+                                catch (Exception) { }
                             }
-                            catch (Exception) { }
 
                             //Backup options window handler - file path
-                            try
+                            else if (item.Name.Contains("Backup Options"))
                             {
-                                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.SetTextByAutomationID(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Backup Options"), "2002", "C:\\");
-                                Thread.Sleep(2500);
-                            }
-                            catch (Exception) { }
+                                try
+                                {
+                                    Actions.SetTextByAutomationID(item, "2002", "C:\\");
+                                    Thread.Sleep(100);
 
-                            //Backup options window handler - Ok
-                            try { FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Backup Options"), "OK"); Thread.Sleep(2500); }
-                            catch (Exception) { }
+                                }
+                                catch (Exception) { }
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "OK");
+                                    Thread.Sleep(2500);
+                                }
+                                catch (Exception) { }
+                            }
 
                             //Quickbooks use this location window handler
-                            try
+                            else if (item.Name.Contains("QuickBooks"))
                             {
-                                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "QuickBooks"), "Use this Location");
-                                Thread.Sleep(2500);
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "Use this Location");
+                                    Thread.Sleep(2500);
+                                }
+                                catch (Exception) { }
                             }
-                            catch (Exception) { }
-
-                            //Alert window handler
-                            try
-                            {
-                                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetAlertWindow("Alert"), "OK");
-                                Thread.Sleep(2500);
-                            }
-                            catch (Exception) { }
 
                             //Warning window handler
-                            try
+                            else if (item.Name.Contains("Warning"))
                             {
-                                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Warning"), "Continue");
-                                Thread.Sleep(10000);
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "Continue");
+                                    Thread.Sleep(10000);
+                                }
+                                catch (Exception) { }
                             }
-                            catch (Exception) { }
 
                             //Home window handler
-                            try { FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Home"), "Close"); }
-                            catch (Exception) { }
+                            else if (item.Name.Contains("Home"))
+                            {
+                                try { Actions.ClickElementByName(item, "Close"); }
+                                catch (Exception) { }
+                            }
 
                             //Enter memorized transaction window handler
-                            try
+                            else if (item.Name.Contains("Enter Memorized Transactions"))
                             {
-                                Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Enter Memorized Transactions"), "Enter All Later");
-                                Thread.Sleep(5000);
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "Enter All Later");
+                                    Thread.Sleep(5000);
+                                }
+                                catch { }
                             }
-                            catch { }
 
                             //Enter memorized transaction window handler
-                            try
+                            else if (item.Name.Contains("Enter Memorized Transactions"))
                             {
-                                Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Enter Memorized Transactions"), "OK");
-                                Thread.Sleep(5000);
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "OK");
+                                    Thread.Sleep(5000);
+                                }
+                                catch { }
                             }
-                            catch { }
 
+                            else
+                            {
+                                //Alert window handler
+                                try
+                                {
+                                    Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
+                                    Thread.Sleep(2500);
+                                }
+                                catch (Exception) { }
+
+                            }
                         }
                     }
                     else
@@ -475,6 +523,13 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                     foreach (Window item in modalWin)
                     {
+                        //Alert window handler
+                        try
+                        {
+                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
+                            Thread.Sleep(2500);
+                        }
+                        catch (Exception) { }
 
                         //No company window handler
                         if (item.Name.Contains("No"))
