@@ -64,7 +64,7 @@ namespace BATS.Tests
         public void RunUpgradeCompanyFileTest(string fileName)
         {
             companyFileName = fileName;
-            companyFilePath = startupPath + fileName;
+            companyFilePath = startupPath + "TestData\\" + fileName;
             this.BDDfy();
         }
         

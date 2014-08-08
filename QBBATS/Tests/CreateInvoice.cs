@@ -32,7 +32,7 @@ namespace BATS.Tests
         public string moduleName = "Invoice";
         public string exception = "Null";
         public string category = "Null";
-        public static string filePath = startupPath + "falcon.qbw";
+        public static string filePath = startupPath + "TestData\\" + "falcon.qbw";
 
         [Given(StepTitle = "Given - QuickBooks App and Window instances are available")]
         public void Setup()

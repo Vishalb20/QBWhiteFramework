@@ -10,8 +10,10 @@ namespace BATS
     {
         private static List<object[]> _data = new List<object[]>
         {
-            new object[]{"force.qbw"},
-            new object[]{"T1.qbw"}
+            new object[]{"Sync.qbw"},
+            new object[]{"falcon"},
+            new object[]{"Force"},
+            new object[]{"Misty"},
         };
 
         public static IEnumerable<object[]> TestData

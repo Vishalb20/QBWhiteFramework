@@ -15,6 +15,7 @@ using System.Windows.Automation;
 using TestStack.White.UIItems.Finders;
 using FrameworkLibraries.ObjMaps.QBDT;
 using FrameworkLibraries.ActionLibs.QBDT.WhiteAPI;
+using System.IO;
 
 namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 {
@@ -26,7 +27,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         public static string UserName = conf.get("QBLoginUserName");
         public static string Password = conf.get("QBLoginPassword");
         public static string CompanyFile = conf.get("DefaultCompanyFile");
-        public static string FilePath = startupPath + CompanyFile;
+        public static string FilePath = startupPath + "TestData\\" + CompanyFile;
 
         //**************************************************************************************************************************************************************
 
@@ -40,7 +41,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 List<Window> allWin = Desktop.Instance.Windows();
                 foreach (Window item in allWin)
                 {
-                    if (item.Name.Contains("Intuit QuickBooks"))
+                    if (item.Name.Contains("QuickBooks"))
                     {
                         foreach (Process p in Process.GetProcesses("."))
                         {
@@ -92,13 +93,20 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 List<Window> windows = app.GetWindows();
                 foreach (Window item in windows)
                 {
-                    if (item.Name.Contains("Intuit QuickBooks"))
+                    if (item.Name.Contains("QuickBooks"))
                     {
                         qbWin = item;
                         Thread.Sleep(5000);
                         break;
                     }
                 }
+
+                //Delete all the local test company files
+                FileOperations.DeleteAllFilesInDirectory(startupPath + "TestData\\");
+
+                //Copy test company files from a network share
+                FileOperations.CopyAllFilesToDirectory("\\\\banfsalab02\\Users\\QBWhiteFramework", startupPath + "TestData\\");
+
                 return qbWin;
 
             }
@@ -299,7 +307,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 do
                 {
                     modalWin = qbWindow.ModalWindows();
-                    iteration = iteration+1;
+                    iteration = iteration + 1;
 
                     if (iteration <= 10)
                     {
@@ -312,6 +320,135 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 {
                                     Actions.ClickElementByName(item, "OK");
                                     Thread.Sleep(2500);
+                                }
+                                catch (Exception) { }
+                            }
+
+                            //Update to new version window handler - I agree
+                            else if (item.Name.Contains("Update Company File for New Version"))
+                            {
+                                try
+                                {
+                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Update Company File for New Version"), "I understand that my company file will be updated to this new version of QuickBooks.");
+                                    Thread.Sleep(500);
+                                }
+                                catch (Exception) { }
+                                try
+                                {
+                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Update Company File for New Version"), "Update Now");
+                                    Thread.Sleep(2500);
+                                }
+                                catch (Exception) { }
+                            }
+
+                            //QB Backup
+                            else if (item.Name.Contains("QuickBooks Backup"))
+                            {
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "OK");
+                                    Thread.Sleep(15000);
+                                }
+                                catch (Exception) { }
+                            }
+
+                            //Sync company file window handler
+                            else if (item.Name.Contains("Sync Company File"))
+                            {
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "Continue");
+                                    Thread.Sleep(10000);
+                                }
+                                catch (Exception) { }
+                            }
+
+                            //QB Information window handler
+                            else if (item.Name.Contains("QuickBooks Information"))
+                            {
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "OK");
+                                    Thread.Sleep(10000);
+                                }
+                                catch (Exception) { }
+                            }
+
+                            //Create backup copy window handler
+                            else if (item.Name.Contains("Create Backup"))
+                            {
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "Next");
+                                    Thread.Sleep(5000);
+                                }
+                                catch (Exception) { }
+                            }
+
+                            //Backup options window handler - file path
+                            else if (item.Name.Equals("Backup Options"))
+                            {
+                                try
+                                {
+                                    Actions.SetTextByAutomationID(item, "2002", "C:\\");
+                                    Thread.Sleep(100);
+
+                                }
+
+                                catch (Exception) { }
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "OK");
+                                    Thread.Sleep(2500);
+                                }
+                                catch (Exception) { }
+
+                                try
+                                {
+                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "QuickBooks"), "Use this Location");
+                                    Thread.Sleep(2500);
+                                }
+                                catch (Exception) { }
+
+                                try
+                                {
+                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Save Backup Copy"), "Save");
+                                    Thread.Sleep(60000);
+                                }
+                                catch (Exception) { }
+                            }
+
+                            //Quickbooks use this location window handler
+                            else if (item.Name.Contains("QuickBooks"))
+                            {
+                                try
+                                {
+                                Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "QuickBooks"), "Use this Location");
+                                Thread.Sleep(2500);
+                                }
+                                catch(Exception)
+                                {
+                                }
+                            }
+
+                            //Save backup copy window handler
+                            else if (item.Name.Contains("Save Backup Copy"))
+                            {
+                                try
+                                {
+                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Save Backup Copy"), "Save");
+                                    Thread.Sleep(60000);
+                                }
+                                catch (Exception) { }
+                            }
+
+                            //Update company window handler
+                            else if (item.Name.Contains("Update Company"))
+                            {
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "Yes");
+                                    Thread.Sleep(60000);
                                 }
                                 catch (Exception) { }
                             }
@@ -332,53 +469,29 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
-                            }
 
-                            //Save backup copy window handler
-                            else if (item.Name.Contains("Save Backup Copy"))
-                            {
                                 try
                                 {
-                                    Actions.ClickElementByName(item, "Save");
-                                    Thread.Sleep(60000);
-                                }
-                                catch (Exception) { }
-                            }
-
-                            //Update to new version window handler - I agree
-                            else if (item.Name.Contains("Update Company File for New Version"))
-                            {
-                                try
-                                {
-                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Update Company File for New Version"), "I understand that my company file will be updated to this new version of QuickBooks.");
-                                    Thread.Sleep(100);
-                                }
-                                catch (Exception) { }
-                                try
-                                {
-                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Update Company File for New Version"), "Update Now");
+                                    Actions.ClickElementByName(item, "Start");
                                     Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
-                            }
 
-                            //QB Information window handler
-                            else if (item.Name.Contains("QuickBooks Information"))
-                            {
                                 try
                                 {
-                                    Actions.ClickElementByName(item, "OK");
+                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "QuickBooks File Doctor"), "Continue");
                                     Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
+
                             }
 
-                            //Update company window handler
-                            else if (item.Name.Contains("Update Company"))
+                            //QuickBooks File Doctor window handler
+                            else if (item.Name.Contains("QuickBooks File Doctor"))
                             {
                                 try
                                 {
-                                    Actions.ClickElementByName(item, "Yes");
+                                    Actions.ClickElementByName(item, "Continue");
                                     Thread.Sleep(60000);
                                 }
                                 catch (Exception) { }
@@ -391,47 +504,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 {
                                     Actions.ClickElementByName(item, "Continue");
                                     Thread.Sleep(60000);
-                                }
-                                catch (Exception) { }
-                            }
-
-
-                            //Create backup copy window handler
-                            else if (item.Name.Contains("Create Backup"))
-                            {
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "Next");
-                                    Thread.Sleep(10000);
-                                }
-                                catch (Exception) { }
-                            }
-
-                            //Backup options window handler - file path
-                            else if (item.Name.Contains("Backup Options"))
-                            {
-                                try
-                                {
-                                    Actions.SetTextByAutomationID(item, "2002", "C:\\");
-                                    Thread.Sleep(100);
-
-                                }
-                                catch (Exception) { }
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(2500);
-                                }
-                                catch (Exception) { }
-                            }
-
-                            //Quickbooks use this location window handler
-                            else if (item.Name.Contains("QuickBooks"))
-                            {
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "Use this Location");
-                                    Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
                             }
@@ -476,9 +548,9 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 catch { }
                             }
 
+                            //Alert window handler
                             else
                             {
-                                //Alert window handler
                                 try
                                 {
                                     Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
@@ -533,6 +605,17 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(FilePath, qbApp, qbWin);
+                            }
+                            catch { }
+                        }
+
+                        //No company window handler
+                        if (item.Name.Contains("Update QuickBooks"))
+                        {
+                            try
+                            {
+                                Actions.ClickElementByName(item, "Close");
+                                Thread.Sleep(2500);
                             }
                             catch { }
                         }

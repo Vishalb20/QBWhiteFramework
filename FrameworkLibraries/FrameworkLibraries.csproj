@@ -141,6 +141,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SQLCompactDBDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Utils\FileOperations.cs" />
     <Compile Include="Utils\KeyStrokeSimulator.cs" />
     <Compile Include="Utils\LastException.cs" />
     <Compile Include="Utils\Properties.cs" />
