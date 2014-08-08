@@ -325,11 +325,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
-                            }
 
-                            //QB Warning handler - Continue
-                            else if (item.Name.Contains("Warning"))
-                            {
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Continue");
@@ -668,8 +664,27 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                         //Warning window handler
                         else if (item.Name.Contains("Warning"))
                         {
-                            Actions.ClickElementByName(item, "OK");
-                            Thread.Sleep(1000);
+                            try
+                            {
+                                Actions.ClickElementByName(item, "OK");
+                                Thread.Sleep(1000);
+                            }
+                            catch(Exception)
+                            {
+
+                            }
+
+                            try
+                            {
+                                Actions.ClickElementByName(item, "Warning");
+                                Thread.Sleep(1000);
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                            
+
                         }
 
                         else

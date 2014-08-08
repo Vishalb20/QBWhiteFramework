@@ -144,6 +144,7 @@
     <Compile Include="Utils\KeyStrokeSimulator.cs" />
     <Compile Include="Utils\LastException.cs" />
     <Compile Include="Utils\Properties.cs" />
+    <Compile Include="Utils\StringFunctions.cs" />
     <Compile Include="Utils\TestResults.cs" />
   </ItemGroup>
   <ItemGroup>

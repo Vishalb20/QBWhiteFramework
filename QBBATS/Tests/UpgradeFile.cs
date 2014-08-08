@@ -28,6 +28,7 @@ namespace BATS.Tests
         public string qbLoginUserName = conf.get("QBLoginUserName");
         public string qbLoginPassword = conf.get("QBLoginPassword");
         public static string companyFilePath = null;
+        public static string companyFileName = null;
         public Random rand = new Random();
         public string testName = "UpgradeCompanyFile";
         public string moduleName = "BATS";
@@ -47,6 +48,8 @@ namespace BATS.Tests
         public void UpgradeCompanyFile()
         {
             FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(companyFilePath, qbApp, qbWindow);
+            var expectedTitleOfNewCompany = FrameworkLibraries.Utils.StringFunctions.RemoveExtentionFromFileName(companyFileName);
+            Assert.Contains(expectedTitleOfNewCompany.ToUpper(), qbWindow.Title.ToUpper());
         }
 
         [AndThen(StepTitle = "AndThen - Perform tear down activities to ensure that there are no on-screen exceptions")]
@@ -60,6 +63,7 @@ namespace BATS.Tests
         [PropertyData("TestData", PropertyType = typeof(UpgradeTestDataSource))]
         public void RunUpgradeCompanyFileTest(string fileName)
         {
+            companyFileName = fileName;
             companyFilePath = startupPath + fileName;
             this.BDDfy();
         }
