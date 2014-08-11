@@ -361,6 +361,27 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
 //**************************************************************************************************************************************************************
 
+        public static bool CheckElementExistsByAutomationID(Window win, String automationID)
+        {
+            bool exists = false;
+
+            try
+            {
+                exists = win.Get(SearchCriteria.ByAutomationId(automationID)).Visible;
+                Thread.Sleep(int.Parse(Execution_Speed));
+                return exists;
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
         public static void ShowWindowElementAutomationIDs(Window win)
         {
             String spy = null;

@@ -892,6 +892,22 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 qbApp.WaitWhileBusy();
                 Thread.Sleep(500);
 
+                if (Actions.CheckElementExistsByAutomationID(QBSetupWindow, "txt_LoginEmail"))
+                {
+                    Actions.SetTextByAutomationID(QBSetupWindow, "txt_LoginEmail", "test@gmail.com");
+                    Actions.ClickElementByAutomationID(QBSetupWindow, "btn_Next");
+                    try
+                    {
+                        Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Encountered a Problem"), "Skip");
+                        Thread.Sleep(1000);
+                    }
+                    catch (Exception) { }
+                    try { Actions.ClickElementByAutomationID(QBSetupWindow, "btn_Continue"); }
+                    catch (Exception) { }
+                }
+                    
+
+
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.BusinessName_TxtField_AutoID, businessName);
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.IndustryList_TxtField_AutoID, "Information");
                 Thread.Sleep(100);
