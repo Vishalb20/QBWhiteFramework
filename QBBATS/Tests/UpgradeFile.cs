@@ -34,6 +34,9 @@ namespace BATS.Tests
         public string moduleName = "BATS";
         public string exception = "Null";
         public string category = "Null";
+        public static string TestDataSourceDirectory = conf.get("TestDataSourceDirectory");
+        public static string TestDataLocalDirectory = conf.get("TestDataLocalDirectory");
+
 
         [Given(StepTitle = "Given - QuickBooks App and Window instances are available")]
         public void Setup()
@@ -64,7 +67,7 @@ namespace BATS.Tests
         public void RunUpgradeCompanyFileTest(string fileName)
         {
             companyFileName = fileName;
-            companyFilePath = startupPath + "TestData\\" + fileName;
+            companyFilePath = TestDataLocalDirectory + fileName;
             this.BDDfy();
         }
         

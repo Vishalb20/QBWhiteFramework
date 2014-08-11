@@ -26,8 +26,10 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         public static string Execution_Speed = conf.get("ExecutionSpeed");
         public static string UserName = conf.get("QBLoginUserName");
         public static string Password = conf.get("QBLoginPassword");
-        public static string CompanyFile = conf.get("DefaultCompanyFile");
-        public static string FilePath = startupPath + "TestData\\" + CompanyFile;
+        public static string DefaultCompanyFile = conf.get("DefaultCompanyFile");
+        public static string DefaultCompanyFilePath = startupPath + DefaultCompanyFile;
+        public static string TestDataSourceDirectory = conf.get("TestDataSourceDirectory");
+        public static string TestDataLocalDirectory = conf.get("TestDataLocalDirectory");
 
         //**************************************************************************************************************************************************************
 
@@ -35,6 +37,12 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         {
             int processID = 0;
             TestStack.White.Application app = null;
+
+            //Delete all the local test company files
+            FileOperations.DeleteAllFilesInDirectory(TestDataLocalDirectory);
+
+            //Copy test company files from a network share
+            FileOperations.CopyAllFilesToDirectory(TestDataSourceDirectory, TestDataLocalDirectory);
 
             try
             {
@@ -100,12 +108,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                         break;
                     }
                 }
-
-                //Delete all the local test company files
-                FileOperations.DeleteAllFilesInDirectory(startupPath + "TestData\\");
-
-                //Copy test company files from a network share
-                FileOperations.CopyAllFilesToDirectory("\\\\banfsalab02\\Users\\QBWhiteFramework", startupPath + "TestData\\");
 
                 return qbWin;
 
@@ -313,6 +315,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     {
                         foreach (Window item in modalWin)
                         {
+                            
                             //QB Login window handler
                             if (item.Name.Contains("QuickBooks Login"))
                             {
@@ -322,6 +325,17 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
+                            }
+
+                            //Enter memorized transaction window handler
+                            else if (item.Name.Contains("Register QuickBooks"))
+                            {
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "Remind Me Later");
+                                    Thread.Sleep(5000);
+                                }
+                                catch { }
                             }
 
                             //Update to new version window handler - I agree
@@ -350,6 +364,32 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     Thread.Sleep(15000);
                                 }
                                 catch (Exception) { }
+
+                                try
+                                {
+                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Backup"), "Yes");
+                                    Thread.Sleep(10000);
+                                }
+                                catch (Exception) { }
+
+                                try
+                                {
+                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Backup Incompatible"), "OK");
+                                    Thread.Sleep(10000);
+                                }
+                                catch (Exception) { }
+
+                            }
+
+                            //Backup incompatible window handler
+                            else if (item.Name.Contains("Backup Incompatible"))
+                            {
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "OK");
+                                    Thread.Sleep(5000);
+                                }
+                                catch (Exception) { }
                             }
 
                             //Sync company file window handler
@@ -369,7 +409,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(10000);
+                                    Thread.Sleep(20000);
                                 }
                                 catch (Exception) { }
                             }
@@ -448,9 +488,21 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Yes");
-                                    Thread.Sleep(60000);
+                                    Thread.Sleep(100000);
                                 }
                                 catch (Exception) { }
+                            }
+
+                            //Enter email address window handler
+                            else if (item.Name.Contains("Enter your email address"))
+                            {
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "Close");
+                                    Thread.Sleep(500);
+                                }
+                                catch (Exception) { }
+
                             }
 
                             //Warning window handler - OK
@@ -599,18 +651,31 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                         }
                         catch (Exception) { }
 
-                        //No company window handler
-                        if (item.Name.Contains("No"))
+                        //Register QB window handler
+                        if (item.Name.Contains("Register QuickBooks"))
                         {
                             try
                             {
-                                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(FilePath, qbApp, qbWin);
+                                Actions.ClickElementByName(item, "Remind Me Later");
+                                Thread.Sleep(5000);
                             }
                             catch { }
                         }
 
                         //No company window handler
-                        if (item.Name.Contains("Update QuickBooks"))
+                        else if (item.Name.Contains("No"))
+                        {
+                            try
+                            {
+                                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(DefaultCompanyFilePath, qbApp, qbWin);
+                                Thread.Sleep(5000);
+                                break;
+                            }
+                            catch { }
+                        }
+
+                        //No company window handler
+                        else if (item.Name.Contains("Update QuickBooks"))
                         {
                             try
                             {
