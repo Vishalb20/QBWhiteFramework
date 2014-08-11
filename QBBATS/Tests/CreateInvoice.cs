@@ -32,7 +32,7 @@ namespace BATS.Tests
         public string moduleName = "Invoice";
         public string exception = "Null";
         public string category = "Null";
-        public static string filePath = startupPath + "TestData\\" + "falcon.qbw";
+        public static string filePath = startupPath + "TestData\\" + "Falcon.qbw";
 
         [Given(StepTitle = "Given - QuickBooks App and Window instances are available")]
         public void Setup()
@@ -47,7 +47,8 @@ namespace BATS.Tests
         [When(StepTitle = "When - A company file is opened or upgraded successfully for creating a transaction")]
         public void OpenCompanyFile()
         {
-            FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(filePath, qbApp, qbWindow);
+            if(!qbWindow.Title.Contains("Falcon"))
+                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(filePath, qbApp, qbWindow);
         }
 
         [Then(StepTitle = "Then - An Invoice should be created successfully")]

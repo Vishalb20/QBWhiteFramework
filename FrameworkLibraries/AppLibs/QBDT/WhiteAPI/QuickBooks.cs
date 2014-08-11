@@ -27,7 +27,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         public static string UserName = conf.get("QBLoginUserName");
         public static string Password = conf.get("QBLoginPassword");
         public static string DefaultCompanyFile = conf.get("DefaultCompanyFile");
-        public static string DefaultCompanyFilePath = startupPath + DefaultCompanyFile;
+        public static string DefaultCompanyFilePath = startupPath + "TestData\\" + DefaultCompanyFile;
         public static string TestDataSourceDirectory = conf.get("TestDataSourceDirectory");
         public static string TestDataLocalDirectory = conf.get("TestDataLocalDirectory");
 
@@ -37,12 +37,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         {
             int processID = 0;
             TestStack.White.Application app = null;
-
-            //Delete all the local test company files
-            FileOperations.DeleteAllFilesInDirectory(TestDataLocalDirectory);
-
-            //Copy test company files from a network share
-            FileOperations.CopyAllFilesToDirectory(TestDataSourceDirectory, TestDataLocalDirectory);
 
             try
             {
@@ -311,7 +305,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     modalWin = qbWindow.ModalWindows();
                     iteration = iteration + 1;
 
-                    if (iteration <= 10)
+                    if (iteration <= 7)
                     {
                         foreach (Window item in modalWin)
                         {
@@ -686,7 +680,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                         }
 
                         //Payroll update window handler
-                        else if (item.Name.Contains("Payroll Update"))
+                        else if (item.Name.Equals("Payroll Update"))
                         {
                             try
                             {
@@ -788,6 +782,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             Thread.Sleep(1000);
                         }
 
+                        //Error window handler
+                        else if (item.Name.Equals("Payroll Update"))
+                        {
+                            Actions.ClickElementByName(item, "OK");
+                            Thread.Sleep(1000);
+                        }
+
+
                         //QB Setup window handler
                         else if (item.Name.Contains("Setup"))
                         {
@@ -831,7 +833,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
 
                             }
-                            
 
                         }
 
