@@ -38,7 +38,7 @@ namespace FrameworkLibraries.Utils
                 string[] split = filePath.Split('\\');
                 foreach(string s in split)
                 {
-                    if (s.Contains(".qbw") || s.Contains(".QBW"))
+                    if (s.Contains(".qbw") || s.Contains(".QBW") || s.Contains(".QBB") || s.Contains(".qbb"))
                     {
                         destinationFile = s;
                         break;

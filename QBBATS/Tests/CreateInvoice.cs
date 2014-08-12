@@ -48,7 +48,7 @@ namespace BATS.Tests
         public void OpenCompanyFile()
         {
             if(!qbWindow.Title.Contains("Falcon"))
-                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(filePath, qbApp, qbWindow);
+                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(filePath, qbApp, qbWindow, false, false);
         }
 
         [Then(StepTitle = "Then - An Invoice should be created successfully")]

@@ -282,20 +282,63 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
-        public static void OpenOrUpgradeCompanyFile(string companyFilePath, TestStack.White.Application qbApp, Window qbWindow)
+        public static void OpenOrUpgradeCompanyFile(string companyFilePath, TestStack.White.Application qbApp, Window qbWindow, bool backupcopy, bool portalcopy)
         {
             try
             {
                 FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.SelectMenu(qbApp, qbWindow, "File", "Open or Restore Company...");
                 Thread.Sleep(2500);
                 Window openRestoreCompanyWindow = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Open or Restore Company");
-                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openRestoreCompanyWindow, "Open a company file");
-                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openRestoreCompanyWindow, "Next");
-                Thread.Sleep(2500);
-                Window openCompanyWindow = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Open a Company");
-                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.SetTextOnElementByName(openCompanyWindow, "File name:", companyFilePath);
-                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openCompanyWindow, "Open");
-                Thread.Sleep(20000);
+
+                if (backupcopy)
+                {
+                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openRestoreCompanyWindow, "Restore a backup copy");
+                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openRestoreCompanyWindow, "Next");
+                    Thread.Sleep(2500);
+                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Local backup");
+                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Next");
+                    Thread.Sleep(2500);
+                    try
+                    {
+                        Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Open Backup Copy"), "File name:", companyFilePath);
+                        Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open Backup Copy"), "Open");
+                        Thread.Sleep(10000);
+                    }
+                    catch (Exception) { }
+
+                    try
+                    {
+                        Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Next");
+                        Thread.Sleep(2500);
+                    }
+                    catch (Exception) { }
+
+                    try
+                    {
+                        Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "File name:", Utils.StringFunctions.RandomString(5));
+                        Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "Save");
+                        Thread.Sleep(5000);
+                    }
+                    catch (Exception) { }
+
+                    try
+                    {
+                        Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Confirm Save As"), "Yes");
+                        Thread.Sleep(5000);
+                    }
+                    catch (Exception) { }
+
+                }
+                else
+                {
+                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openRestoreCompanyWindow, "Open a company file");
+                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openRestoreCompanyWindow, "Next");
+                    Thread.Sleep(2500);
+                    Window openCompanyWindow = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Open a Company");
+                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.SetTextOnElementByName(openCompanyWindow, "File name:", companyFilePath);
+                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openCompanyWindow, "Open");
+                    Thread.Sleep(20000);
+                }
 
                 List<Window> modalWin = null;
                 int iteration = 0;
@@ -497,6 +540,25 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 }
                                 catch (Exception) { }
 
+                                try
+                                {
+                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Encountered a Problem"), "Skip");
+                                    Thread.Sleep(500);
+                                }
+                                catch (Exception) { }
+
+
+                            }
+
+                            else if(item.Name.Contains("Encountered a Problem"))
+                            {
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "Skip");
+                                    Thread.Sleep(500);
+                                }
+                                catch (Exception) { }
+
                             }
 
                             //Warning window handler - OK
@@ -661,7 +723,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                         {
                             try
                             {
-                                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(DefaultCompanyFilePath, qbApp, qbWin);
+                                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(DefaultCompanyFilePath, qbApp, qbWin, false, false);
                                 Thread.Sleep(5000);
                                 break;
                             }
@@ -935,6 +997,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         }
 
         //**************************************************************************************************************************************************************
+
 
     }
 

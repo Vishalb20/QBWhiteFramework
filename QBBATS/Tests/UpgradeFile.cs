@@ -60,7 +60,7 @@ namespace BATS.Tests
         [Then(StepTitle = "Then - A company file should be opened or upgraded successfully")]
         public void UpgradeCompanyFile()
         {
-            FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(companyFilePath, qbApp, qbWindow);
+            FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(companyFilePath, qbApp, qbWindow, false, false);
             var expectedTitleOfNewCompany = FrameworkLibraries.Utils.StringFunctions.RemoveExtentionFromFileName(companyFileName);
             Assert.Contains(expectedTitleOfNewCompany.ToUpper(), qbWindow.Title.ToUpper());
         }
