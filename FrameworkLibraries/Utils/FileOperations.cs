@@ -28,7 +28,7 @@ namespace FrameworkLibraries.Utils
 
         }
 
-        public static void CopyAllFilesToDirectory(string source, string destination)
+        public static void CopyCompanyFilesToDirectory(string source, string destination)
         {
             string destinationFile = null;
 
@@ -38,7 +38,7 @@ namespace FrameworkLibraries.Utils
                 string[] split = filePath.Split('\\');
                 foreach(string s in split)
                 {
-                    if (s.Contains(".qbw") || s.Contains(".QBW") || s.Contains(".QBB") || s.Contains(".qbb"))
+                    if (s.Contains(".qbw") || s.Contains(".QBW") || s.Contains(".QBB") || s.Contains(".qbb") || s.Contains(".QBM") || s.Contains(".qbm"))
                     {
                         destinationFile = s;
                         break;

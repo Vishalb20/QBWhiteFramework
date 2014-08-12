@@ -18,7 +18,7 @@ using BATS.DATA;
 
 namespace BATS.Tests
 {
-    public class UpgradeFile
+    public class OpenQbBackupFile
     {
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
@@ -31,7 +31,7 @@ namespace BATS.Tests
         public static string companyFilePath = null;
         public static string companyFileName = null;
         public Random rand = new Random();
-        public string testName = "UpgradeCompanyFile";
+        public string testName = "OpenQbBackupFile";
         public string moduleName = "BATS";
         public string exception = "Null";
         public string category = "Null";
@@ -58,10 +58,10 @@ namespace BATS.Tests
         }
 
 
-        [Then(StepTitle = "Then - A company file should be opened or upgraded successfully")]
-        public void UpgradeCompanyFile()
+        [Then(StepTitle = "Then - A QB backup company file should be opened or upgraded successfully")]
+        public void OpenBackupCompanyFile()
         {
-            FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(companyFilePath, qbApp, qbWindow, false, false);
+            QuickBooks.OpenOrUpgradeCompanyFile(companyFilePath, qbApp, qbWindow, true, false);
             var expectedTitleOfNewCompany = FrameworkLibraries.Utils.StringFunctions.RemoveExtentionFromFileName(companyFileName);
             Assert.Contains(expectedTitleOfNewCompany.ToUpper(), qbWindow.Title.ToUpper());
         }
@@ -74,14 +74,14 @@ namespace BATS.Tests
 
         [Theory]
         [Category("P1")]
-        [PropertyData("TestData", PropertyType = typeof(UpgradeTestDataSource))]
-        public void RunUpgradeCompanyFileTest(string fileName)
+        [PropertyData("TestData", PropertyType = typeof(OpenBackupFileTestDataSource))]
+        public void RunOpenBackupCompanyFile(string fileName)
         {
             companyFileName = fileName;
             companyFilePath = TestDataLocalDirectory + fileName;
             companyFilePath = companyFilePath.Replace("\\\\", "\\");
             this.BDDfy();
         }
-        
+
     }
 }

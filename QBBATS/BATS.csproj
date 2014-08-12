@@ -89,14 +89,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoryAttribute.cs" />
+    <Compile Include="Data\OpenPortableFileTestDataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\OpenPortableFile.cs" />
     <Compile Include="Tests\QuickTestSample.cs" />
     <Compile Include="Tests\OpenQbBackupFile.cs" />
     <Compile Include="Tests\UpgradeFile.cs" />
     <Compile Include="Tests\CreateCompany.cs" />
     <Compile Include="Tests\CreateInvoice.cs" />
-    <Compile Include="OpenBackupFileTestDataSource.cs" />
-    <Compile Include="UpgradeTestDataSource.cs" />
+    <Compile Include="Data\OpenBackupFileTestDataSource.cs" />
+    <Compile Include="Data\UpgradeTestDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

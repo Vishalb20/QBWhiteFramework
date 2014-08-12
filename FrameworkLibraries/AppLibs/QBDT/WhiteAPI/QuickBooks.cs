@@ -321,10 +321,32 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     }
                     catch (Exception) { }
 
+                }
+                else if (portalcopy)
+                {
+                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openRestoreCompanyWindow, "Restore a portable file");
+                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openRestoreCompanyWindow, "Next");
+                    Thread.Sleep(2500);
                     try
                     {
-                        Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Confirm Save As"), "Yes");
-                        Thread.Sleep(5000);
+                        Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Open Portable Company File"), "File name:", companyFilePath);
+                        Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open Portable Company File"), "Open");
+                        Thread.Sleep(10000);
+                    }
+                    catch (Exception) { }
+
+                    try
+                    {
+                        Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Next");
+                        Thread.Sleep(2500);
+                    }
+                    catch (Exception) { }
+
+                    try
+                    {
+                        Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "File name:", Utils.StringFunctions.RandomString(5));
+                        Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "Save");
+                        //Thread.Sleep(60000);
                     }
                     catch (Exception) { }
 
@@ -376,17 +398,17 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             }
 
                             //Update to new version window handler - I agree
-                            else if (item.Name.Contains("Update Company File for New Version"))
+                            else if (item.Name.Contains("Update Company File for New Version") || item.Name.Contains("Update Company File to New Version"))
                             {
                                 try
                                 {
-                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Update Company File for New Version"), "I understand that my company file will be updated to this new version of QuickBooks.");
+                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Update Company File"), "I understand that my company file will be updated to this new version of QuickBooks.");
                                     Thread.Sleep(500);
                                 }
                                 catch (Exception) { }
                                 try
                                 {
-                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Update Company File for New Version"), "Update Now");
+                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Update Company File"), "Update Now");
                                     Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
