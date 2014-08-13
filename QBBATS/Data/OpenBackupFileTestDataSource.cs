@@ -10,7 +10,7 @@ namespace BATS.DATA
     {
         private static List<object[]> _data = new List<object[]>
         {
-            new object[]{"Denali.qbb"}
+            new object[]{"Denali"}
         };
 
         public static IEnumerable<object[]> TestData

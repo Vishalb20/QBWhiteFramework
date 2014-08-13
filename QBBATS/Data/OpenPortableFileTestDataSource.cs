@@ -10,7 +10,7 @@ namespace BATS.DATA
     {
         private static List<object[]> _data = new List<object[]>
         {
-            new object[]{"Matrix.qbm"}
+            new object[]{"Matrix"}
         };
 
         public static IEnumerable<object[]> TestData

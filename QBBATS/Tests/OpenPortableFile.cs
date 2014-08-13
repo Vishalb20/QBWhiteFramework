@@ -42,11 +42,8 @@ namespace BATS.Tests
         [Given(StepTitle = "All the test company files are successfully copied from the source location")]
         public void CopyFiles()
         {
-            //Delete all the local test company files
-            FileOperations.DeleteAllFilesInDirectory(TestDataLocalDirectory);
-
-            //Copy test company files from a network share
-            FileOperations.CopyCompanyFilesToDirectory(TestDataSourceDirectory, TestDataLocalDirectory);
+            FileOperations.DeleteCompanyFileInDirectory(TestDataLocalDirectory, companyFileName);
+            FileOperations.CopyCompanyFileToDirectory(TestDataSourceDirectory, TestDataLocalDirectory, companyFileName);
         }
 
         [AndGiven(StepTitle = "Given - QuickBooks App and Window instances are available")]

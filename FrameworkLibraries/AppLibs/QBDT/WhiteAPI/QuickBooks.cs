@@ -27,7 +27,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         public static string UserName = conf.get("QBLoginUserName");
         public static string Password = conf.get("QBLoginPassword");
         public static string DefaultCompanyFile = conf.get("DefaultCompanyFile");
-        public static string DefaultCompanyFilePath = startupPath + "TestData\\" + DefaultCompanyFile;
+        public static string DefaultCompanyFilePath = startupPath + DefaultCompanyFile;
         public static string TestDataSourceDirectory = conf.get("TestDataSourceDirectory");
         public static string TestDataLocalDirectory = conf.get("TestDataLocalDirectory");
 
@@ -317,7 +317,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     {
                         Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "File name:", Utils.StringFunctions.RandomString(5));
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "Save");
-                        Thread.Sleep(5000);
+                        Thread.Sleep(60000);
                     }
                     catch (Exception) { }
 
@@ -346,7 +346,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     {
                         Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "File name:", Utils.StringFunctions.RandomString(5));
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "Save");
-                        //Thread.Sleep(60000);
+                        Thread.Sleep(60000);
                     }
                     catch (Exception) { }
 
@@ -402,13 +402,13 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
-                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Update Company File"), "I understand that my company file will be updated to this new version of QuickBooks.");
+                                    Actions.ClickElementByName(item, "I understand that my company file will be updated to this new version of QuickBooks.");
                                     Thread.Sleep(500);
                                 }
                                 catch (Exception) { }
                                 try
                                 {
-                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Update Company File"), "Update Now");
+                                    Actions.ClickElementByName(item, "Update Now");
                                     Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
@@ -735,7 +735,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "Remind Me Later");
-                                Thread.Sleep(5000);
+                                Thread.Sleep(20000);
                             }
                             catch { }
                         }
@@ -745,7 +745,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                         {
                             try
                             {
-                                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(DefaultCompanyFilePath, qbApp, qbWin, false, false);
+                                //FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(DefaultCompanyFilePath, qbApp, qbWin, false, false);
+                                Actions.ClickElementByName(item, "Open");
                                 Thread.Sleep(5000);
                                 break;
                             }

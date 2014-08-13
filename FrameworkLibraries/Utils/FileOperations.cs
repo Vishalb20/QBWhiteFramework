@@ -28,6 +28,20 @@ namespace FrameworkLibraries.Utils
 
         }
 
+        public static void DeleteCompanyFileInDirectory(string dir, string fileName)
+        {
+            string[] filePaths = Directory.GetFiles(dir);
+            foreach (string filePath in filePaths)
+            {
+                if (filePath.Contains(fileName))
+                {
+                    File.GetAccessControl(filePath);
+                    File.Delete(filePath);
+                }
+            }
+
+        }
+
         public static void CopyCompanyFilesToDirectory(string source, string destination)
         {
             string destinationFile = null;
@@ -47,6 +61,27 @@ namespace FrameworkLibraries.Utils
                 File.Copy(filePath, destination+destinationFile, true);
             }
         }
+
+        public static void CopyCompanyFileToDirectory(string sourceDir, string destinationDir, string fileName)
+        {
+            string destinationFile = null;
+
+            string[] filePaths = Directory.GetFiles(sourceDir);
+            foreach (string filePath in filePaths)
+            {
+                string[] split = filePath.Split('\\');
+                foreach (string s in split)
+                {
+                    if (s.Contains(fileName))
+                    {
+                        destinationFile = s;
+                        File.Copy(filePath, destinationDir + destinationFile, true);
+                        break;
+                    }
+                }
+            }
+        }
+
 
     }
 }
