@@ -394,6 +394,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Remind Me Later");
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Register QuickBooks", 10000);
                                 }
                                 catch { }
                             }
@@ -409,6 +410,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Update Now");
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Update Company File", 10000);
                                 }
                                 catch (Exception) { }
                             }
@@ -662,6 +664,17 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 catch { }
                             }
 
+                            //Insights works on accural basis window handler
+                            else if (item.Name.Contains("Insights works on the accrual basis only"))
+                            {
+                                try
+                                {
+                                    Actions.ClickElementByName(item, "OK");
+                                }
+                                catch { }
+                            }
+
+
                             //Alert window handler
                             else
                             {
@@ -730,8 +743,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                         {
                             try
                             {
-                                Actions.ClickElementByName(item, "Open");
-                                Actions.WaitForAnyChildWindow(qbWin, "No", 10000);
+                                QuickBooks.OpenOrUpgradeCompanyFile(DefaultCompanyFilePath, qbApp, qbWin, false, false);
+                                //Actions.WaitForAnyChildWindow(qbWin, "No", 10000);
                             }
                             catch { }
                         }
