@@ -72,7 +72,7 @@ namespace BATS.Tests
         [Theory]
         [Category("P1")]
         [PropertyData("TestData", PropertyType = typeof(OpenPortableFileTestDataSource))]
-        public void RunOpenBackupCompanyFile(string fileName)
+        public void RunOpenPortableCompanyFileTest(string fileName)
         {
             companyFileName = fileName;
             companyFilePath = TestDataLocalDirectory + fileName;

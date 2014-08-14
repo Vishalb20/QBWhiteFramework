@@ -52,7 +52,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 processID = p.Id;
                                 app = TestStack.White.Application.Attach(processID);
                                 app.WaitWhileBusy();
-                                Thread.Sleep(10000);
+                                Actions.WaitForAppWindow("QuickBooks", 100000);
                                 return app;
                             }
                         }
@@ -63,7 +63,9 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 proc.StartInfo.FileName = exePath;
                 proc.Start();
                 proc.WaitForInputIdle();
-                Thread.Sleep(60000);
+                try { Actions.WaitForAppWindow("QuickBooks", 100000); }
+                catch (Exception) { }
+                Thread.Sleep(int.Parse(Execution_Speed));
                 foreach (Process p in Process.GetProcesses("."))
                 {
                     if (p.ProcessName.Contains("QBW32"))
@@ -73,7 +75,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 }
                 app = TestStack.White.Application.Attach(processID);
                 app.WaitWhileBusy();
-                Thread.Sleep(5000);
+                Thread.Sleep(int.Parse(Execution_Speed));
                 return app;
             }
             catch (Exception e)
@@ -98,7 +100,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     if (item.Name.Contains("QuickBooks"))
                     {
                         qbWin = item;
-                        Thread.Sleep(5000);
+                        Thread.Sleep(int.Parse(Execution_Speed));
                         break;
                     }
                 }
@@ -174,7 +176,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 try
                 {
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Recording Transaction"), "Yes");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(int.Parse(Execution_Speed));
                 }
                 catch { }
 
@@ -184,21 +186,21 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 try
                 {
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Information Changed"), "No");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(int.Parse(Execution_Speed));
                 }
                 catch { }
 
                 try
                 {
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Past Transactions"), "No");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(int.Parse(Execution_Speed));
                 }
                 catch { }
 
                 try
                 {
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Available Credits"), "No");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(int.Parse(Execution_Speed));
                 }
                 catch { }
 
@@ -234,7 +236,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 processID = p.Id;
                                 app = TestStack.White.Application.Attach(processID);
                                 app.WaitWhileBusy();
-                                Thread.Sleep(1000);
+                                Thread.Sleep(int.Parse(Execution_Speed));
                                 break;
                             }
                         }
@@ -286,30 +288,30 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         {
             try
             {
-                FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.SelectMenu(qbApp, qbWindow, "File", "Open or Restore Company...");
-                Thread.Sleep(2500);
-                Window openRestoreCompanyWindow = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Open or Restore Company");
+                Actions.SelectMenu(qbApp, qbWindow, "File", "Open or Restore Company...");
+                Thread.Sleep(int.Parse(Execution_Speed));
 
                 if (backupcopy)
                 {
-                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openRestoreCompanyWindow, "Restore a backup copy");
-                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openRestoreCompanyWindow, "Next");
-                    Thread.Sleep(2500);
+                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Restore a backup copy");
+                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Next");
+                    Thread.Sleep(int.Parse(Execution_Speed));
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Local backup");
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Next");
-                    Thread.Sleep(2500);
+                    Thread.Sleep(int.Parse(Execution_Speed));
+                    
                     try
                     {
                         Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Open Backup Copy"), "File name:", companyFilePath);
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open Backup Copy"), "Open");
-                        Thread.Sleep(10000);
+                        Actions.WaitForChildWindow(qbWindow, "Open or Restore Company", 10000);
                     }
                     catch (Exception) { }
 
                     try
                     {
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Next");
-                        Thread.Sleep(2500);
+                        Thread.Sleep(int.Parse(Execution_Speed));
                     }
                     catch (Exception) { }
 
@@ -317,28 +319,29 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     {
                         Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "File name:", Utils.StringFunctions.RandomString(5));
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "Save");
-                        Thread.Sleep(60000);
+                        Actions.WaitForAnyChildWindow(qbWindow, "Save Company File as", 60000);
                     }
                     catch (Exception) { }
 
                 }
                 else if (portalcopy)
                 {
-                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openRestoreCompanyWindow, "Restore a portable file");
-                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openRestoreCompanyWindow, "Next");
-                    Thread.Sleep(2500);
+                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Restore a portable file");
+                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Next");
+                    Thread.Sleep(int.Parse(Execution_Speed));
+                    
                     try
                     {
                         Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Open Portable Company File"), "File name:", companyFilePath);
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open Portable Company File"), "Open");
-                        Thread.Sleep(10000);
+                        Actions.WaitForChildWindow(qbWindow, "Open or Restore Company", 10000);
                     }
                     catch (Exception) { }
 
                     try
                     {
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Next");
-                        Thread.Sleep(2500);
+                        Thread.Sleep(int.Parse(Execution_Speed));
                     }
                     catch (Exception) { }
 
@@ -346,20 +349,19 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     {
                         Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "File name:", Utils.StringFunctions.RandomString(5));
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "Save");
-                        Thread.Sleep(60000);
+                        Actions.WaitForAnyChildWindow(qbWindow, "Save Company File as", 60000);
                     }
                     catch (Exception) { }
 
                 }
                 else
                 {
-                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openRestoreCompanyWindow, "Open a company file");
-                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openRestoreCompanyWindow, "Next");
-                    Thread.Sleep(2500);
-                    Window openCompanyWindow = FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.GetChildWindow(qbWindow, "Open a Company");
-                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.SetTextOnElementByName(openCompanyWindow, "File name:", companyFilePath);
-                    FrameworkLibraries.ActionLibs.QBDT.WhiteAPI.Actions.ClickElementByName(openCompanyWindow, "Open");
-                    Thread.Sleep(20000);
+                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Open a company file");
+                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Next");
+                    Thread.Sleep(int.Parse(Execution_Speed));
+                    Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Open a Company"), "File name:", companyFilePath);
+                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open a Company"), "Open");
+                    Actions.WaitForAnyChildWindow(qbWindow, "Open a Company", 60000);
                 }
 
                 List<Window> modalWin = null;
@@ -381,7 +383,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(2500);
+                                    Actions.WaitForAnyChildWindow(qbWindow, "QuickBooks Login", 10000);
                                 }
                                 catch (Exception) { }
                             }
@@ -392,7 +394,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Remind Me Later");
-                                    Thread.Sleep(5000);
                                 }
                                 catch { }
                             }
@@ -403,13 +404,11 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "I understand that my company file will be updated to this new version of QuickBooks.");
-                                    Thread.Sleep(500);
                                 }
                                 catch (Exception) { }
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Update Now");
-                                    Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
                             }
@@ -420,21 +419,21 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(15000);
+                                    Actions.WaitForChildWindow(qbWindow, "Backup", 20000);
                                 }
                                 catch (Exception) { }
 
                                 try
                                 {
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Backup"), "Yes");
-                                    Thread.Sleep(10000);
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Backup", 60000);
                                 }
                                 catch (Exception) { }
 
                                 try
                                 {
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Backup Incompatible"), "OK");
-                                    Thread.Sleep(10000);
+                                    Thread.Sleep(int.Parse(Execution_Speed));
                                 }
                                 catch (Exception) { }
 
@@ -446,7 +445,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(5000);
                                 }
                                 catch (Exception) { }
                             }
@@ -457,7 +455,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Continue");
-                                    Thread.Sleep(10000);
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Sync Company File", 60000);
                                 }
                                 catch (Exception) { }
                             }
@@ -468,7 +466,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(20000);
+                                    Actions.WaitForAnyChildWindow(qbWindow, "QuickBooks Information", 60000);
                                 }
                                 catch (Exception) { }
                             }
@@ -479,7 +477,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Next");
-                                    Thread.Sleep(5000);
+                                    Thread.Sleep(int.Parse(Execution_Speed));
                                 }
                                 catch (Exception) { }
                             }
@@ -490,29 +488,25 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.SetTextByAutomationID(item, "2002", "C:\\");
-                                    Thread.Sleep(100);
-
                                 }
 
                                 catch (Exception) { }
                                 try
                                 {
                                     Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
 
                                 try
                                 {
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "QuickBooks"), "Use this Location");
-                                    Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
 
                                 try
                                 {
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Save Backup Copy"), "Save");
-                                    Thread.Sleep(60000);
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Save Backup Copy", 60000);
                                 }
                                 catch (Exception) { }
                             }
@@ -523,7 +517,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                 Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "QuickBooks"), "Use this Location");
-                                Thread.Sleep(2500);
                                 }
                                 catch(Exception)
                                 {
@@ -536,7 +529,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Save Backup Copy"), "Save");
-                                    Thread.Sleep(60000);
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Save Backup Copy", 60000);
                                 }
                                 catch (Exception) { }
                             }
@@ -547,7 +540,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Yes");
-                                    Thread.Sleep(100000);
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Update Company", 60000);
                                 }
                                 catch (Exception) { }
                             }
@@ -557,19 +550,15 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
-                                    Actions.ClickElementByName(item, "Close");
-                                    Thread.Sleep(500);
+                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Encountered a Problem"), "Skip");
                                 }
                                 catch (Exception) { }
 
                                 try
                                 {
-                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Encountered a Problem"), "Skip");
-                                    Thread.Sleep(500);
+                                    Actions.ClickElementByName(item, "Close");
                                 }
                                 catch (Exception) { }
-
-
                             }
 
                             else if(item.Name.Contains("Encountered a Problem"))
@@ -577,7 +566,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Skip");
-                                    Thread.Sleep(500);
                                 }
                                 catch (Exception) { }
 
@@ -589,28 +577,24 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
 
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Continue");
-                                    Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
 
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Start");
-                                    Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
 
                                 try
                                 {
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "QuickBooks File Doctor"), "Continue");
-                                    Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
 
@@ -622,7 +606,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Continue");
-                                    Thread.Sleep(60000);
+                                    Actions.WaitForAnyChildWindow(qbWindow, "QuickBooks File Doctor", 60000);
                                 }
                                 catch (Exception) { }
                             }
@@ -633,7 +617,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Continue");
-                                    Thread.Sleep(60000);
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Update Company", 60000);
                                 }
                                 catch (Exception) { }
                             }
@@ -644,7 +628,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Continue");
-                                    Thread.Sleep(10000);
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Warning", 60000);
                                 }
                                 catch (Exception) { }
                             }
@@ -662,7 +646,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Enter All Later");
-                                    Thread.Sleep(5000);
+                                    Thread.Sleep(int.Parse(Execution_Speed));
                                 }
                                 catch { }
                             }
@@ -673,7 +657,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(5000);
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Enter Memorized Transactions", 60000);
                                 }
                                 catch { }
                             }
@@ -684,7 +668,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
-                                    Thread.Sleep(2500);
                                 }
                                 catch (Exception) { }
 
@@ -694,10 +677,13 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     else
                     {
                         ResetQBWindows(qbApp, qbWindow);
+                        Thread.Sleep(int.Parse(Execution_Speed));
                         break;
                     }
+                    Thread.Sleep(int.Parse(Execution_Speed));
                 }
                 while (modalWin.Count != 0);
+                Thread.Sleep(int.Parse(Execution_Speed));
             }
             catch (Exception e)
             {
@@ -725,7 +711,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                         try
                         {
                             Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
-                            Thread.Sleep(2500);
                         }
                         catch (Exception) { }
 
@@ -735,7 +720,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "Remind Me Later");
-                                Thread.Sleep(20000);
+                                Actions.WaitForAnyChildWindow(qbWin, "Remind Me Later", 10000);
                             }
                             catch { }
                         }
@@ -745,10 +730,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                         {
                             try
                             {
-                                //FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(DefaultCompanyFilePath, qbApp, qbWin, false, false);
                                 Actions.ClickElementByName(item, "Open");
-                                Thread.Sleep(5000);
-                                break;
+                                Actions.WaitForAnyChildWindow(qbWin, "No", 10000);
                             }
                             catch { }
                         }
@@ -759,7 +742,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "Close");
-                                Thread.Sleep(2500);
+                                Actions.WaitForAnyChildWindow(qbWin, item.Name, 10000);
                             }
                             catch { }
                         }
@@ -770,14 +753,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "Cancel");
-                                Thread.Sleep(5000);
+                                Thread.Sleep(int.Parse(Execution_Speed));
                             }
                             catch { }
 
                             try
                             {
                                 Actions.ClickElementByName(item, "OK");
-                                Thread.Sleep(5000);
+                                Thread.Sleep(int.Parse(Execution_Speed));
                             }
                             catch { }
 
@@ -789,7 +772,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "OK");
-                                Thread.Sleep(5000);
+                                Thread.Sleep(int.Parse(Execution_Speed));
                             }
                             catch { }
                         }
@@ -800,7 +783,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "Cancel");
-                                Thread.Sleep(5000);
+                                Thread.Sleep(int.Parse(Execution_Speed));
                             }
                             catch { }
                         }
@@ -813,14 +796,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Enter Memorized Transactions"), "Enter All Later");
-                                Thread.Sleep(5000);
+                                Thread.Sleep(int.Parse(Execution_Speed));
                             }
                             catch { }
 
                             try
                             {
                                 Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Enter Memorized Transactions"), "OK");
-                                Thread.Sleep(5000);
+                                Actions.WaitForAnyChildWindow(qbWin, item.Name, 10000);
                             }
                             catch { }
                         }
@@ -831,7 +814,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "No");
-                                Thread.Sleep(5000);
+                                Actions.WaitForAnyChildWindow(qbWin, item.Name, 10000);
                             }
                             catch { }
                         }
@@ -842,7 +825,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "OK");
-                                Thread.Sleep(5000);
+                                Actions.WaitForAnyChildWindow(qbWin, item.Name, 10000);
                             }
                             catch { }
                         }
@@ -857,21 +840,21 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             Actions.SendTABToWindow(item);
                             Actions.SendKeysToWindow(item, Password);
                             Actions.ClickElementByAutomationID(item, "51");
-                            Thread.Sleep(10000);
+                            Actions.WaitForAnyChildWindow(qbWin, "QuickBooks Login", 10000);
                         }
 
                         //Error window handler
                         else if (item.Name.Contains("Error"))
                         {
                             Actions.ClickElementByName(item, "Don't Send");
-                            Thread.Sleep(1000);
+                            Actions.WaitForAnyChildWindow(qbWin, item.Name, 10000);
                         }
 
                         //Error window handler
                         else if (item.Name.Equals("Payroll Update"))
                         {
                             Actions.ClickElementByName(item, "OK");
-                            Thread.Sleep(1000);
+                            Actions.WaitForAnyChildWindow(qbWin, item.Name, 10000);
                         }
 
 
@@ -881,7 +864,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "Close");
-                                Thread.Sleep(2500);
+                                Thread.Sleep(int.Parse(Execution_Speed));
                             }
                             catch (Exception)
                             { }
@@ -889,7 +872,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "Yes");
-                                Thread.Sleep(2500);
+                                Actions.WaitForAnyChildWindow(qbWin, item.Name, 10000);
                             }
                             catch (Exception)
                             { }
@@ -902,19 +885,9 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "OK");
-                                Thread.Sleep(1000);
+                                Actions.WaitForAnyChildWindow(qbWin, item.Name, 10000);
                             }
                             catch(Exception)
-                            {
-
-                            }
-
-                            try
-                            {
-                                Actions.ClickElementByName(item, "Warning");
-                                Thread.Sleep(1000);
-                            }
-                            catch (Exception)
                             {
 
                             }
@@ -928,10 +901,13 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try { Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Recording Transaction"), "No"); }
                             catch { }
 
-                            try { Actions.ClickElementByName(item, "Close"); }
+                            try { Actions.ClickElementByName(item, "Close");
+                            Actions.WaitForAnyChildWindow(qbWin, item.Name, 5000);
+                            }
                             catch { }
 
-                            try { item.Close(); }
+                            try { item.Close();
+                            Actions.WaitForAnyChildWindow(qbWin, item.Name, 5000);}
                             catch { }
                         }
                     }
@@ -953,29 +929,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         {
             try
             {
-                var Window_Condition = Actions.CheckWindowExists(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.NoQBCompanyLoaded_Window_Name);
-
-                if (!Window_Condition)
-                {
-                    Actions.SelectMenu(qbApp, qbWindow, "File", "New Company...");
-                    qbApp.WaitWhileBusy();
-                    Thread.Sleep(5000);
-                }
-                else
-                {
-                    Window NoCompanyLoadedWindow = Actions.GetChildWindow(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.NoQBCompanyLoaded_Window_Name);
-                    Actions.ClickElementByAutomationID(NoCompanyLoadedWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.CreateNewCompany_Element_AutoID);
-                    qbApp.WaitWhileBusy();
-                    Thread.Sleep(5000);
-                }
+                Actions.SelectMenu(qbApp, qbWindow, "File", "New Company...");
+                Thread.Sleep(int.Parse(Execution_Speed));
 
                 Window QBSetupWindow = Actions.GetChildWindow(qbWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.QBSetup_Window_Name);
-                qbApp.WaitWhileBusy();
-                Thread.Sleep(5000);
+                Thread.Sleep(int.Parse(Execution_Speed));
 
                 Actions.ClickElementByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.ExpressStart_Button_AutoID);
-                qbApp.WaitWhileBusy();
-                Thread.Sleep(500);
+                Thread.Sleep(int.Parse(Execution_Speed));
 
                 if (Actions.CheckElementExistsByAutomationID(QBSetupWindow, "txt_LoginEmail"))
                 {
@@ -984,32 +945,26 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     try
                     {
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Encountered a Problem"), "Skip");
-                        Thread.Sleep(1000);
                     }
                     catch (Exception) { }
                     try { Actions.ClickElementByAutomationID(QBSetupWindow, "btn_Continue"); }
                     catch (Exception) { }
                 }
-                    
-
 
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.BusinessName_TxtField_AutoID, businessName);
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.IndustryList_TxtField_AutoID, "Information");
-                Thread.Sleep(100);
+                Thread.Sleep(int.Parse(Execution_Speed));
                 Actions.SelectListBoxItemByText(QBSetupWindow, "lstBox_Industry", "Information Technology");
                 Actions.SelectComboBoxItemByText(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.TaxStructure_CmbBox_AutoID, "Corporation");
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.TaxID_TxtField_AutoID, "123-45-6789");
                 Actions.SelectComboBoxItemByText(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.HaveEmployees_CmbBox_AutoID, "No");
                 Actions.ClickElementByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.Continue_Button_AutoID);
-                qbApp.WaitWhileBusy();
-                Thread.Sleep(500);
-
+                Thread.Sleep(int.Parse(Execution_Speed));
                 Actions.SelectComboBoxItemByText(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.StateName_CmbBox_AutoID, "DE");
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.ZipCode_TxtField_AutoID, "DE123");
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.Phone_TxtField_AutoID, "6104567890");
                 Actions.ClickElementByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.CreateCompany_Button_AutoID);
-                qbApp.WaitWhileBusy();
-                Thread.Sleep(10000);
+                Actions.WaitForAnyChildWindow(qbWindow, QBSetupWindow.Name, 5000);
             }
             catch (Exception e)
             {

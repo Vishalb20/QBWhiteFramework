@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using System.IO;
 using TestStack.White.UIItems.MenuItems;
 using TestStack.White;
+using System.Diagnostics;
 
 namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 {
@@ -435,6 +436,32 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             {
                 AutomationProperty p = AutomationElementIdentifiers.NameProperty;
                 win.Get(SearchCriteria.ByNativeProperty(p, name)).Click();
+                Thread.Sleep(int.Parse(Execution_Speed));
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
+        public static void ClickElementByMatchingName(Window win, String matchingName)
+        {
+
+            try
+            {
+                UIItemCollection allItems = win.Items;
+                foreach (IUIItem item in allItems)
+                {
+                    if(item.Name.Contains(matchingName))
+                    {
+                        item.Click();
+                    }
+                }
                 Thread.Sleep(int.Parse(Execution_Speed));
             }
             catch (Exception e)
@@ -1055,6 +1082,152 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 //**************************************************************************************************************************************************************
+
+        public static bool WaitForChildWindow(Window mainWindow, string childWindowName, long timeOut)
+        {
+            bool windowFound = false;
+            long elapsedTime = 0;
+            var stopwatch = Stopwatch.StartNew();
+
+            try
+            {
+                do
+                {
+                    if (windowFound)
+                        break;
+
+                    elapsedTime = stopwatch.ElapsedMilliseconds;
+
+                    List<Window> allChildWindows = mainWindow.ModalWindows();
+
+                    foreach (Window w in allChildWindows)
+                    {
+                        try
+                        {
+                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
+                            Thread.Sleep(2500);
+                        }
+                        catch (Exception) { }
+
+                        if (w.Name.Equals(childWindowName) || w.Name.Contains(childWindowName))
+                        {
+                            windowFound = true;
+                            break;
+                        }
+                    }
+                }
+                while (elapsedTime<=timeOut);
+
+                return windowFound;
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
+        public static bool WaitForAnyChildWindow(Window mainWindow, string currentWindowName, long timeOut)
+        {
+            bool windowFound = false;
+            long elapsedTime = 0;
+            var stopwatch = Stopwatch.StartNew();
+
+            try
+            {
+                do
+                {
+                    if (windowFound)
+                        break;
+
+                    elapsedTime = stopwatch.ElapsedMilliseconds;
+
+                    List<Window> allChildWindows = mainWindow.ModalWindows();
+
+                    foreach (Window w in allChildWindows)
+                    {
+                        try
+                        {
+                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
+                            Thread.Sleep(2500);
+                        }
+                        catch (Exception) { }
+
+                        if (!w.Name.Equals(currentWindowName) || !w.Name.Contains(currentWindowName))
+                        {
+                            windowFound = true;
+                            break;
+                        }
+                    }
+                }
+                while (elapsedTime <= timeOut);
+
+                return windowFound;
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
+        public static bool WaitForAppWindow(string appWindowName, long timeOut)
+        {
+            bool windowFound = false;
+            long elapsedTime = 0;
+            var stopwatch = Stopwatch.StartNew();
+
+            try
+            {
+                do
+                {
+                    if (windowFound)
+                        break;
+
+                    elapsedTime = stopwatch.ElapsedMilliseconds;
+
+                    List<Window> allChildWindows = Desktop.Instance.Windows();
+
+                    foreach (Window w in allChildWindows)
+                    {
+                        try
+                        {
+                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
+                            Thread.Sleep(int.Parse(Execution_Speed));
+                        }
+                        catch (Exception) { }
+
+                        if (w.Name.Equals(appWindowName) || w.Name.Contains(appWindowName))
+                        {
+                            windowFound = true;
+                            Thread.Sleep(int.Parse(Execution_Speed));
+                            break;
+                        }
+                    }
+                }
+                while (elapsedTime <= timeOut);
+
+                return windowFound;
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
         public static void SendSHIFT_ENDToWindow(Window window)
         {
             try
