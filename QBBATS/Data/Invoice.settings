@@ -32,5 +32,8 @@
     <Setting Name="Test_Name" Type="System.String" Scope="User">
       <Value Profile="(Default)">Invoice</Value>
     </Setting>
+    <Setting Name="Module_Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">BATS</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

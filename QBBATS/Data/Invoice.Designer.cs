@@ -142,5 +142,17 @@ namespace QBBATS.Data {
                 this["Test_Name"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("BATS")]
+        public string Module_Name {
+            get {
+                return ((string)(this["Module_Name"]));
+            }
+            set {
+                this["Module_Name"] = value;
+            }
+        }
     }
 }
