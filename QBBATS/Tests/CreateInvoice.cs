@@ -12,6 +12,7 @@ using FrameworkLibraries.EntityFramework;
 using Xunit;
 using TestStack.BDDfy;
 using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
+using QBBATS.Data;
 
 
 namespace BATS.Tests
@@ -22,7 +23,7 @@ namespace BATS.Tests
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
         public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
-        public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
+        public static Property conf = new Property("C:" + "\\QBAutomation.properties");
         public string exe = conf.get("QBExePath");
         public string qbLoginUserName = conf.get("QBLoginUserName");
         public string qbLoginPassword = conf.get("QBLoginPassword");
@@ -60,23 +61,19 @@ namespace BATS.Tests
         [Then(StepTitle = "Then - An Invoice should be created successfully")]
         public void CreateInvoiceTest()
         {
-            using (SQLCompactDBEntities entity = new SQLCompactDBEntities())
-            {
-                var testData = entity.Invoice_TestData.Find("CreateInvoice");
-                var customer = testData.Customer_Job;
-                var clss = testData.Class;
-                var account = testData.Account;
-                var template = testData.Template;
-                var rep = testData.REP;
-                var fob = testData.FOB;
-                var via = testData.VIA;
-                var item = testData.Item;
-                var quantity = testData.Qunatity;
-                var itemDescription = testData.Description;
+            var customer = Invoice.Default.Customer_Job;
+            var clss = Invoice.Default.Class;
+            var account = Invoice.Default.Account;
+            var template = Invoice.Default.Template;
+            var rep = Invoice.Default.REP;
+            var fob = Invoice.Default.FOB;
+            var via = Invoice.Default.VIA;
+            var item = Invoice.Default.Item;
+            var quantity = Invoice.Default.Quantity;
+            var itemDescription = "QuickBooks BATS";
 
-                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.CreateInvoice(qbApp, qbWindow, customer, clss, account, template, invoiceNumber,
-                    poNumber, rep, via, fob, quantity, item, itemDescription, false);
-            }
+            FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.CreateInvoice(qbApp, qbWindow, customer, clss, account, template, invoiceNumber,
+                poNumber, rep, via, fob, quantity, item, itemDescription, false);
         }
 
         [AndThen(StepTitle = "AndThen - Perform tear down activities to ensure that there are no on-screen exceptions")]

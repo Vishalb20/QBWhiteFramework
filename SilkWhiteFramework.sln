@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BATS", "QBBATS\BATS.csproj"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports", "Reports\Reports.csproj", "{A6B624C3-B9C8-4E38-83A5-8285E6258AF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XunitDemo.cs", "XunitDemo.cs\XunitDemo.cs.csproj", "{88C1247F-5C3D-4868-A8CA-43C2A4D993E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XunitDemo", "XunitDemo.cs\XunitDemo.csproj", "{88C1247F-5C3D-4868-A8CA-43C2A4D993E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

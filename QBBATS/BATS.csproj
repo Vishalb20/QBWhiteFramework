@@ -89,18 +89,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoryAttribute.cs" />
+    <Compile Include="Data\Invoice.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Invoice.settings</DependentUpon>
+    </Compile>
     <Compile Include="Data\OpenPortableFileTestDataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\OpenPortableFile.cs" />
-    <Compile Include="Tests\BATSDriver.cs" />
     <Compile Include="Tests\OpenQbBackupFile.cs" />
     <Compile Include="Tests\CreateCompany.cs" />
     <Compile Include="Tests\CreateInvoice.cs" />
     <Compile Include="Data\OpenBackupFileTestDataSource.cs" />
-    <Compile Include="Tests\UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Data\Invoice.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Invoice.Designer.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
