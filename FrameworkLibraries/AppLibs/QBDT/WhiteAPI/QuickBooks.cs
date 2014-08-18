@@ -495,7 +495,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
-                                    Actions.SetTextByAutomationID(item, "2002", "C:\\");
+                                    Actions.SetTextByAutomationID(item, "2002", TestDataLocalDirectory);
                                 }
 
                                 catch (Exception) { }
