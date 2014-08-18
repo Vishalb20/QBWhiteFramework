@@ -1105,9 +1105,17 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                         try
                         {
                             Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
-                            Thread.Sleep(2500);
+                            Thread.Sleep(int.Parse(Execution_Speed));
                         }
                         catch (Exception) { }
+
+                        try
+                        {
+                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
+                            Thread.Sleep(int.Parse(Execution_Speed));
+                        }
+                        catch (Exception) { }
+
 
                         if (w.Name.Equals(childWindowName) || w.Name.Contains(childWindowName))
                         {
@@ -1153,9 +1161,17 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                         try
                         {
                             Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
-                            Thread.Sleep(2500);
+                            Thread.Sleep(int.Parse(Execution_Speed));
                         }
                         catch (Exception) { }
+
+                        try
+                        {
+                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
+                            Thread.Sleep(int.Parse(Execution_Speed));
+                        }
+                        catch (Exception) { }
+
 
                         if (!w.Name.Equals(currentWindowName) || !w.Name.Contains(currentWindowName))
                         {
@@ -1204,6 +1220,14 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                             Thread.Sleep(int.Parse(Execution_Speed));
                         }
                         catch (Exception) { }
+
+                        try
+                        {
+                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
+                            Thread.Sleep(int.Parse(Execution_Speed));
+                        }
+                        catch (Exception) { }
+
 
                         if (w.Name.Equals(appWindowName) || w.Name.Contains(appWindowName))
                         {

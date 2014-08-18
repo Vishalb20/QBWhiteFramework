@@ -24,7 +24,7 @@ namespace BATS.Tests
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
         public Thread ExceptionHandler = null;
         public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
-        public static Property conf = new Property("C:" + "\\QBAutomation.properties");
+        public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
         public string exe = conf.get("QBExePath");
         public string qbLoginUserName = conf.get("QBLoginUserName");
         public string qbLoginPassword = conf.get("QBLoginPassword");
