@@ -69,7 +69,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 Thread.Sleep(int.Parse(Execution_Speed));
                 foreach (Process p in Process.GetProcesses("."))
                 {
-                    if (p.ProcessName.Contains("QBW32"))
+                    if (p.ProcessName.Contains("QBW32") || p.ProcessName.Contains("qbw32"))
                     {
                         processID = p.Id;
                     }
@@ -594,24 +594,27 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                             }
 
-                            //Warning window handler - OK
+                            //Warning window handler
                             else if (item.Name.Contains("Warning"))
                             {
                                 try
                                 {
                                     Actions.ClickElementByName(item, "OK");
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Warning", int.Parse(Sync_Timeout));
                                 }
                                 catch (Exception) { }
 
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Continue");
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Warning", int.Parse(Sync_Timeout));
                                 }
                                 catch (Exception) { }
 
                                 try
                                 {
                                     Actions.ClickElementByName(item, "Start");
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Warning", int.Parse(Sync_Timeout));
                                 }
                                 catch (Exception) { }
 
@@ -634,17 +637,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 catch (Exception) { }
                             }
 
-
-                            //Warning window handler
-                            else if (item.Name.Contains("Warning"))
-                            {
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "Continue");
-                                    Actions.WaitForAnyChildWindow(qbWindow, "Warning", int.Parse(Sync_Timeout));
-                                }
-                                catch (Exception) { }
-                            }
 
                             //Home window handler
                             else if (item.Name.Contains("Home"))
