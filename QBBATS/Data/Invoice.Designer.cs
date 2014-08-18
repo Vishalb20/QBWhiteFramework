@@ -130,5 +130,17 @@ namespace QBBATS.Data {
                 this["Account"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Invoice")]
+        public string Test_Name {
+            get {
+                return ((string)(this["Test_Name"]));
+            }
+            set {
+                this["Test_Name"] = value;
+            }
+        }
     }
 }

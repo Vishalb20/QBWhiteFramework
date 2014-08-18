@@ -29,5 +29,8 @@
     <Setting Name="Account" Type="System.String" Scope="User">
       <Value Profile="(Default)">Accounts Receivable</Value>
     </Setting>
+    <Setting Name="Test_Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Invoice</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
