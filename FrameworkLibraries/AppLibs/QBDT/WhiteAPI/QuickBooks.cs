@@ -747,7 +747,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "Remind Me Later");
-                                Actions.WaitForAnyChildWindow(qbWin, "Remind Me Later", int.Parse(Sync_Timeout));
+                                Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
                             }
                             catch { }
                         }
@@ -758,12 +758,11 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 QuickBooks.OpenOrUpgradeCompanyFile(DefaultCompanyFilePath, qbApp, qbWin, false, false);
-                                //Actions.WaitForAnyChildWindow(qbWin, "No", 10000);
                             }
                             catch { }
                         }
 
-                        //No company window handler
+                        //Update quickbooks window handler
                         else if (item.Name.Contains("Update QuickBooks"))
                         {
                             try
@@ -815,7 +814,27 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             catch { }
                         }
 
+                        //Insights works on the accrual basis window handler
+                        else if (item.Name.Equals("Insights works on the accrual basis only"))
+                        {
+                            try
+                            {
+                                Actions.ClickElementByName(item, "OK");
+                                Thread.Sleep(int.Parse(Execution_Speed));
+                            }
+                            catch { }
+                        }
 
+                        //Insights works on the accrual basis window handler
+                        else if (item.Name.Contains("Insights"))
+                        {
+                            try
+                            {
+                                Actions.ClickElementByName(item, "OK");
+                                Thread.Sleep(int.Parse(Execution_Speed));
+                            }
+                            catch { }
+                        }
 
                         //Enter memorized transactions window handler
                         else if (item.Name.Contains("Enter Memorized Transactions"))
@@ -846,17 +865,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             catch { }
                         }
 
-                        //Recording transaction window handler
-                        else if (item.Name.Contains("Alert"))
-                        {
-                            try
-                            {
-                                Actions.ClickElementByName(item, "OK");
-                                Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
-                            }
-                            catch { }
-                        }
-
 
                         //Login window handler
                         else if (item.Name.Equals("QuickBooks Login"))
@@ -874,13 +882,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                         else if (item.Name.Contains("Error"))
                         {
                             Actions.ClickElementByName(item, "Don't Send");
-                            Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
-                        }
-
-                        //Error window handler
-                        else if (item.Name.Equals("Payroll Update"))
-                        {
-                            Actions.ClickElementByName(item, "OK");
                             Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
                         }
 
@@ -915,10 +916,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
                             }
                             catch(Exception)
-                            {
-
-                            }
-
+                            {}
                         }
 
                         else
@@ -951,11 +949,15 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                 try
                 {
-                    Thread.Sleep(int.Parse(Execution_Speed));
                     Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
                 }
                 catch (Exception) { }
-                
+
+                try
+                {
+                    Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
+                }
+                catch (Exception) { }
             }
 
             catch (Exception e)
@@ -1007,7 +1009,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.ZipCode_TxtField_AutoID, "DE123");
                 Actions.SetTextByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.Phone_TxtField_AutoID, "6104567890");
                 Actions.ClickElementByAutomationID(QBSetupWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Common.Objects.CreateCompany_Button_AutoID);
-                Actions.WaitForAnyChildWindow(qbWindow, QBSetupWindow.Name, 5000);
+                Actions.WaitForAnyChildWindow(qbWindow, QBSetupWindow.Name, int.Parse(Sync_Timeout));
             }
             catch (Exception e)
             {

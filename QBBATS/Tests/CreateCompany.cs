@@ -48,9 +48,6 @@ namespace BATS.Tests
             QuickBooks.ResetQBWindows(qbApp, qbWindow);
             var winTitleOfNewCompany = qbWindow.Title;
             Assert.Equal(winTitleOfNewCompany, qbWindow.Title);
-            Actions.SelectMenu(qbApp, qbWindow, "File", "Close Company");
-            Thread.Sleep(10000);
-            Assert.NotEqual(winTitleOfNewCompany, qbWindow.Title);
         }
 
         [AndThen(StepTitle = "AndThen - Perform tear down activities to ensure that there are no on-screen exceptions")]
