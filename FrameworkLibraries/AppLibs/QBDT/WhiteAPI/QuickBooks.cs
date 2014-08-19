@@ -25,6 +25,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
         public static string Execution_Speed = conf.get("ExecutionSpeed");
         public static string Sync_Timeout = conf.get("SyncTimeOut");
+        public static string ResetWindow_Timeout = conf.get("ResetWindowTimeOut");
         public static string UserName = conf.get("QBLoginUserName");
         public static string Password = conf.get("QBLoginPassword");
         public static string DefaultCompanyFile = conf.get("DefaultCompanyFile");
@@ -63,7 +64,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 Process proc = new Process();
                 proc.StartInfo.FileName = exePath;
                 proc.Start();
-                //proc.WaitForInputIdle();
+                proc.WaitForInputIdle();
                 try { Actions.WaitForAppWindow("QuickBooks", int.Parse(Sync_Timeout)); }
                 catch (Exception) { }
                 Thread.Sleep(int.Parse(Execution_Speed));
@@ -641,7 +642,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             //Home window handler
                             else if (item.Name.Contains("Home"))
                             {
-                                try { Actions.ClickElementByName(item, "Close"); }
+                                try { Actions.ClickElementByName(item, "Close");
+                                Thread.Sleep(int.Parse(Execution_Speed));}
                                 catch (Exception) { }
                             }
 
@@ -662,7 +664,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "OK");
-                                    Actions.WaitForAnyChildWindow(qbWindow, "Enter Memorized Transactions", int.Parse(Sync_Timeout));
+                                    Thread.Sleep(int.Parse(Execution_Speed));
                                 }
                                 catch { }
                             }
@@ -673,6 +675,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(item, "OK");
+                                    Thread.Sleep(int.Parse(Execution_Speed));
                                 }
                                 catch { }
                             }
@@ -683,12 +686,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
+                                    Thread.Sleep(int.Parse(Execution_Speed));
                                 }
                                 catch (Exception) { }
 
                                 try
                                 {
                                     Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
+                                    Thread.Sleep(int.Parse(Execution_Speed));
                                 }
                                 catch (Exception) { }
                             }
@@ -696,8 +701,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     }
                     else
                     {
-                        ResetQBWindows(qbApp, qbWindow);
-                        Thread.Sleep(int.Parse(Execution_Speed));
+                        //ResetQBWindows(qbApp, qbWindow);
                         break;
                     }
                     Thread.Sleep(int.Parse(Execution_Speed));
@@ -731,12 +735,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                         try
                         {
                             Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
+                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
                         }
                         catch (Exception) { }
 
                         try
                         {
                             Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
+                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
                         }
                         catch (Exception) { }
 
@@ -747,7 +753,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "Remind Me Later");
-                                Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch { }
                         }
@@ -768,7 +774,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "Close");
-                                Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch { }
                         }
@@ -779,14 +785,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "Cancel");
-                                Thread.Sleep(int.Parse(Execution_Speed));
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch { }
 
                             try
                             {
                                 Actions.ClickElementByName(item, "OK");
-                                Thread.Sleep(int.Parse(Execution_Speed));
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch { }
 
@@ -798,7 +804,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "OK");
-                                Thread.Sleep(int.Parse(Execution_Speed));
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch { }
                         }
@@ -809,7 +815,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "Cancel");
-                                Thread.Sleep(int.Parse(Execution_Speed));
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch { }
                         }
@@ -820,7 +826,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "OK");
-                                Thread.Sleep(int.Parse(Execution_Speed));
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch { }
                         }
@@ -831,7 +837,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "OK");
-                                Thread.Sleep(int.Parse(Execution_Speed));
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch { }
                         }
@@ -842,14 +848,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Enter Memorized Transactions"), "Enter All Later");
-                                Thread.Sleep(int.Parse(Execution_Speed));
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch { }
 
                             try
                             {
                                 Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Enter Memorized Transactions"), "OK");
-                                Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch { }
                         }
@@ -860,7 +866,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "No");
-                                Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch { }
                         }
@@ -876,13 +882,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             Actions.SendKeysToWindow(item, Password);
                             Actions.ClickElementByAutomationID(item, "51");
                             Actions.WaitForAnyChildWindow(qbWin, "QuickBooks Login", int.Parse(Sync_Timeout));
+                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
                         }
 
                         //Error window handler
                         else if (item.Name.Contains("Error"))
                         {
                             Actions.ClickElementByName(item, "Don't Send");
-                            Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
+                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
                         }
 
 
@@ -892,7 +899,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "Close");
-                                Thread.Sleep(int.Parse(Execution_Speed));
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch (Exception)
                             { }
@@ -900,7 +907,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "Yes");
-                                Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch (Exception)
                             { }
@@ -913,7 +920,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             try
                             {
                                 Actions.ClickElementByName(item, "OK");
-                                Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch(Exception)
                             {}
@@ -927,37 +934,41 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             catch { }
 
                             try { Actions.ClickElementByName(item, "Close");
-                            Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
-                            }
+                            Thread.Sleep(int.Parse(ResetWindow_Timeout));}
                             catch { }
 
                             try { item.Close();
-                            Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
-                            }
+                            Thread.Sleep(int.Parse(ResetWindow_Timeout));}
                             catch { }
 
                             try
                             {
                                 Actions.ClickElementByName(item, "OK");
+                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
                             }
                             catch { }
                         }
                     }
+                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
+
+                    try
+                    {
+                        Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
+                        Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                    }
+                    catch (Exception) { }
+
+                    try
+                    {
+                        Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
+                        Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                    }
+                    catch (Exception) { }
+
+                    Thread.Sleep(int.Parse(Execution_Speed));
                 }
                 while (modalWin.Count != 0);
                 Thread.Sleep(int.Parse(Execution_Speed));
-
-                try
-                {
-                    Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
-                }
-                catch (Exception) { }
-
-                try
-                {
-                    Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
-                }
-                catch (Exception) { }
             }
 
             catch (Exception e)

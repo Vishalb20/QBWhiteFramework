@@ -1497,6 +1497,35 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
 //**************************************************************************************************************************************************************
 
+        public static List<IUIItem> GetAllCustomControls(UIItemCollection collection)
+        {
+            List<IUIItem> customControls = new List<IUIItem>();
+
+            try
+            {
+                foreach (IUIItem element in collection)
+                {
+                    if (element.GetType().Name.Contains("Custom") || element.GetType().Equals("Custom"))
+                    {
+                        var x = (TestStack.White.UIItems.Custom.CustomUIItem)element;
+                        customControls.Add(x);
+                    }
+                }
+
+                return customControls;
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
+
         public static void UIA_ClickOnPaneItem(AutomationElement uiaWindow, Window window, int index)
         {
             try
