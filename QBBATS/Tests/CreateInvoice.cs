@@ -35,7 +35,8 @@ namespace BATS.Tests
         public string category = "Null";
         public static string TestDataSourceDirectory = conf.get("TestDataSourceDirectory");
         public static string TestDataLocalDirectory = conf.get("TestDataLocalDirectory");
-        public static string filePath = startupPath + "TestData\\" + "Falcon.qbw";
+        public static string DefaultCompanyFile = conf.get("DefaultCompanyFile");
+        public static string DefaultCompanyFilePath = startupPath + DefaultCompanyFile;
 
         [Given(StepTitle = "Given - QuickBooks App and Window instances are available")]
         public void Setup()
@@ -52,9 +53,7 @@ namespace BATS.Tests
         {
             if (!qbWindow.Title.Contains("Falcon"))
             {
-                FileOperations.DeleteCompanyFileInDirectory(TestDataLocalDirectory, "Falcon");
-                FileOperations.CopyCompanyFileToDirectory(TestDataSourceDirectory, TestDataLocalDirectory, "Falcon");
-                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(filePath, qbApp, qbWindow, false, false);
+                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(DefaultCompanyFilePath, qbApp, qbWindow, false, false);
             }
         }
 
@@ -79,7 +78,7 @@ namespace BATS.Tests
         [AndThen(StepTitle = "AndThen - Perform tear down activities to ensure that there are no on-screen exceptions")]
         public void TearDown()
         {
-            QuickBooks.ResetQBWindows(qbApp, qbWindow);
+            //QuickBooks.ResetQBWindows(qbApp, qbWindow);
         }
 
         [Fact]

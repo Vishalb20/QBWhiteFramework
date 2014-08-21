@@ -66,7 +66,7 @@ namespace BATS.Tests
         [AndThen(StepTitle = "AndThen - Perform tear down activities to ensure that there are no on-screen exceptions")]
         public void TearDown()
         {
-            QuickBooks.ResetQBWindows(qbApp, qbWindow);
+            //QuickBooks.ResetQBWindows(qbApp, qbWindow);
         }
 
         [Theory]
