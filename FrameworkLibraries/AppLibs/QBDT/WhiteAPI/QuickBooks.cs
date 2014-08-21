@@ -206,6 +206,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 }
                 catch { }
 
+                try
+                {
+                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Transaction Cleared"), "No");
+                    Thread.Sleep(int.Parse(Execution_Speed));
+                }
+                catch { }
+
+
                 return true;
 
             }
@@ -290,6 +298,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         {
             try
             {
+                Thread.Sleep(int.Parse(Execution_Speed));
                 Actions.SelectMenu(qbApp, qbWindow, "File", "Open or Restore Company...");
                 Thread.Sleep(int.Parse(Execution_Speed));
 
@@ -300,7 +309,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     Thread.Sleep(int.Parse(Execution_Speed));
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Local backup");
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Next");
-                    Thread.Sleep(int.Parse(Execution_Speed));
+                    Actions.WaitForAnyChildWindow(qbWindow, "Open or Restore Company", int.Parse(Sync_Timeout));
                     
                     try
                     {
@@ -330,7 +339,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 {
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Restore a portable file");
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Next");
-                    Thread.Sleep(int.Parse(Execution_Speed));
+                    Actions.WaitForAnyChildWindow(qbWindow, "Open or Restore Company", int.Parse(Sync_Timeout));
                     
                     try
                     {
@@ -360,7 +369,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 {
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Open a company file");
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Next");
-                    Thread.Sleep(int.Parse(Execution_Speed));
+                    Actions.WaitForAnyChildWindow(qbWindow, "Open or Restore Company", int.Parse(Sync_Timeout));
                     Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Open a Company"), "File name:", companyFilePath);
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open a Company"), "Open");
                     Actions.WaitForAnyChildWindow(qbWindow, "Open a Company", int.Parse(Sync_Timeout));

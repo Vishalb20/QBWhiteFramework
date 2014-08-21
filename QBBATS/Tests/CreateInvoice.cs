@@ -13,6 +13,7 @@ using Xunit;
 using TestStack.BDDfy;
 using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
 using QBBATS.Data;
+using System.Windows.Forms;
 
 
 namespace BATS.Tests
@@ -82,7 +83,7 @@ namespace BATS.Tests
         }
 
         [Fact]
-        [Category("P3")]
+        [Category("P2")]
         public void RunCreateInovoiceTest()
         {
             this.BDDfy();
