@@ -37,7 +37,7 @@ namespace BATS.Tests
         {
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
             qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp);
-            QuickBooks.ResetQBWindows(qbApp, qbWindow);
+            QuickBooks.ResetQBWindows(qbApp, qbWindow, false);
         }
 
         [Then(StepTitle = "Then - Create new company file should be successful")]
@@ -45,7 +45,7 @@ namespace BATS.Tests
         {
             string businessName = "White" + rand.Next(1234, 8976);
             QuickBooks.CreateCompany(qbApp, qbWindow, businessName, "Information Technology");
-            QuickBooks.ResetQBWindows(qbApp, qbWindow);
+            QuickBooks.ResetQBWindows(qbApp, qbWindow, false);
             var winTitleOfNewCompany = qbWindow.Title;
             Assert.Equal(winTitleOfNewCompany, qbWindow.Title);
         }

@@ -717,7 +717,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     }
                     else
                     {
-                        //ResetQBWindows(qbApp, qbWindow);
+                        ResetQBWindows(qbApp, qbWindow, false);
                         break;
                     }
                     Thread.Sleep(int.Parse(Execution_Speed));
@@ -735,7 +735,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
-        public static void ResetQBWindows(TestStack.White.Application qbApp, Window qbWin)
+        public static void ResetQBWindows(TestStack.White.Application qbApp, Window qbWin, bool openFileOnNoCompany)
         {
             List<Window> modalWin = null;
             int iteration = 0;
@@ -744,262 +744,253 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
             {
                 do
                 {
-                    if (iteration <= 10)
+                    if (!Actions.CheckMenuEnabled(qbApp, qbWin, "File"))
                     {
-                        iteration = iteration + 1;
-                        modalWin = qbWin.ModalWindows();
-
-                        foreach (Window item in modalWin)
+                        do
                         {
-                            //Alert window handler
-                            try
+                            if (iteration <= 10)
                             {
-                                Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
-                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                            }
-                            catch (Exception) { }
+                                iteration = iteration + 1;
+                                modalWin = qbWin.ModalWindows();
 
-                            try
-                            {
-                                Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
-                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                            }
-                            catch (Exception) { }
-
-
-                            //Register QB window handler
-                            if (item.Name.Contains("Register QuickBooks"))
-                            {
-                                try
+                                foreach (Window item in modalWin)
                                 {
-                                    Actions.ClickElementByName(item, "Remind Me Later");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                    //Alert window handler
+                                    try
+                                    {
+                                        Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
+                                        Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                    }
+                                    catch (Exception) { }
+
+                                    try
+                                    {
+                                        Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
+                                        Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                    }
+                                    catch (Exception) { }
+
+
+                                    //Register QB window handler
+                                    if (item.Name.Contains("Register QuickBooks"))
+                                    {
+                                        try
+                                        {
+                                            Actions.ClickElementByName(item, "Remind Me Later");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+                                    }
+
+                                    //No company window handler
+                                    else if (item.Name.Contains("No") && openFileOnNoCompany.Equals(true))
+                                    {
+                                        try
+                                        {
+                                            QuickBooks.OpenOrUpgradeCompanyFile(DefaultCompanyFilePath, qbApp, qbWin, false, false);
+                                        }
+                                        catch { }
+                                    }
+
+                                    //Update quickbooks window handler
+                                    else if (item.Name.Contains("Update QuickBooks"))
+                                    {
+                                        try
+                                        {
+                                            Actions.ClickElementByName(item, "Close");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+                                    }
+
+                                    //Payroll update window handler
+                                    else if (item.Name.Equals("Payroll Update"))
+                                    {
+                                        try
+                                        {
+                                            Actions.ClickElementByName(item, "Cancel");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+
+                                        try
+                                        {
+                                            Actions.ClickElementByName(item, "OK");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+
+                                    }
+
+                                    //Intuit payroll services window hadler
+                                    else if (item.Name.Contains("Intuit Payroll Services"))
+                                    {
+                                        try
+                                        {
+                                            Actions.ClickElementByName(item, "OK");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+                                    }
+
+                                    //Employer services window handler
+                                    else if (item.Name.Contains("Employer Services"))
+                                    {
+                                        try
+                                        {
+                                            Actions.ClickElementByName(item, "Cancel");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+                                    }
+
+                                    //Insights works on the accrual basis window handler
+                                    else if (item.Name.Equals("Insights works on the accrual basis only"))
+                                    {
+                                        try
+                                        {
+                                            Actions.ClickElementByName(item, "OK");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+                                    }
+
+                                    //Insights works on the accrual basis window handler
+                                    else if (item.Name.Contains("Insights"))
+                                    {
+                                        try
+                                        {
+                                            Actions.ClickElementByName(item, "OK");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+                                    }
+
+                                    //Enter memorized transactions window handler
+                                    else if (item.Name.Contains("Enter Memorized Transactions"))
+                                    {
+                                        try
+                                        {
+                                            Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Enter Memorized Transactions"), "Enter All Later");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+
+                                        try
+                                        {
+                                            Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Enter Memorized Transactions"), "OK");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+                                    }
+
+                                    //Recording transaction window handler
+                                    else if (item.Name.Contains("Recording Transaction"))
+                                    {
+                                        try
+                                        {
+                                            Actions.ClickElementByName(item, "No");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+                                    }
+
+
+                                    //Login window handler
+                                    else if (item.Name.Equals("QuickBooks Login"))
+                                    {
+                                        Actions.SetFocusOnWindow(item);
+                                        Actions.SendBCKSPACEToWindow(item);
+                                        Actions.SetTextByAutomationID(item, "15922", UserName);
+                                        Actions.SendTABToWindow(item);
+                                        Actions.SendKeysToWindow(item, Password);
+                                        Actions.ClickElementByAutomationID(item, "51");
+                                        Actions.WaitForAnyChildWindow(qbWin, "QuickBooks Login", int.Parse(Sync_Timeout));
+                                        Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                    }
+
+                                    //Error window handler
+                                    else if (item.Name.Contains("Error"))
+                                    {
+                                        Actions.ClickElementByName(item, "Don't Send");
+                                        Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                    }
+
+
+                                    //QB Setup window handler
+                                    else if (item.Name.Contains("Setup"))
+                                    {
+                                        try
+                                        {
+                                            Actions.ClickElementByName(item, "Close");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch (Exception)
+                                        { }
+
+                                        try
+                                        {
+                                            Actions.ClickElementByName(item, "Yes");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch (Exception)
+                                        { }
+
+                                    }
+
+                                    //Warning window handler
+                                    else if (item.Name.Contains("Warning"))
+                                    {
+                                        try
+                                        {
+                                            Actions.ClickElementByName(item, "OK");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch (Exception)
+                                        { }
+                                    }
+
+                                    else
+                                    {
+                                        item.Focus();
+
+                                        try { Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Recording Transaction"), "No"); }
+                                        catch { }
+
+                                        try
+                                        {
+                                            Actions.ClickElementByName(item, "Close");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+
+                                        try
+                                        {
+                                            item.Close();
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+
+                                        try
+                                        {
+                                            Actions.ClickElementByName(item, "OK");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+                                    }
                                 }
-                                catch { }
+                                Thread.Sleep(int.Parse(Execution_Speed));
                             }
-
-                            //No company window handler
-                            else if (item.Name.Contains("No"))
-                            {
-                                try
-                                {
-                                    QuickBooks.OpenOrUpgradeCompanyFile(DefaultCompanyFilePath, qbApp, qbWin, false, false);
-                                }
-                                catch { }
-                            }
-
-                            //Update quickbooks window handler
-                            else if (item.Name.Contains("Update QuickBooks"))
-                            {
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "Close");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch { }
-                            }
-
-                            //Payroll update window handler
-                            else if (item.Name.Equals("Payroll Update"))
-                            {
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "Cancel");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch { }
-
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch { }
-
-                            }
-
-                            //Intuit payroll services window hadler
-                            else if (item.Name.Contains("Intuit Payroll Services"))
-                            {
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch { }
-                            }
-
-                            //Employer services window handler
-                            else if (item.Name.Contains("Employer Services"))
-                            {
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "Cancel");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch { }
-                            }
-
-                            //Insights works on the accrual basis window handler
-                            else if (item.Name.Equals("Insights works on the accrual basis only"))
-                            {
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch { }
-                            }
-
-                            //Insights works on the accrual basis window handler
-                            else if (item.Name.Contains("Insights"))
-                            {
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch { }
-                            }
-
-                            //Enter memorized transactions window handler
-                            else if (item.Name.Contains("Enter Memorized Transactions"))
-                            {
-                                try
-                                {
-                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Enter Memorized Transactions"), "Enter All Later");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch { }
-
-                                try
-                                {
-                                    Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Enter Memorized Transactions"), "OK");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch { }
-                            }
-
-                            //Recording transaction window handler
-                            else if (item.Name.Contains("Recording Transaction"))
-                            {
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "No");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch { }
-                            }
-
-
-                            //Login window handler
-                            else if (item.Name.Equals("QuickBooks Login"))
-                            {
-                                Actions.SetFocusOnWindow(item);
-                                Actions.SendBCKSPACEToWindow(item);
-                                Actions.SetTextByAutomationID(item, "15922", UserName);
-                                Actions.SendTABToWindow(item);
-                                Actions.SendKeysToWindow(item, Password);
-                                Actions.ClickElementByAutomationID(item, "51");
-                                Actions.WaitForAnyChildWindow(qbWin, "QuickBooks Login", int.Parse(Sync_Timeout));
-                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                            }
-
-                            //Error window handler
-                            else if (item.Name.Contains("Error"))
-                            {
-                                Actions.ClickElementByName(item, "Don't Send");
-                                Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                            }
-
-
-                            //QB Setup window handler
-                            else if (item.Name.Contains("Setup"))
-                            {
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "Close");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch (Exception)
-                                { }
-
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "Yes");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch (Exception)
-                                { }
-
-                            }
-
-                            //Warning window handler
-                            else if (item.Name.Contains("Warning"))
-                            {
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch (Exception)
-                                { }
-                            }
-
                             else
                             {
-                                item.Focus();
-
-                                try { Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Recording Transaction"), "No"); }
-                                catch { }
-
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "Close");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch { }
-
-                                try
-                                {
-                                    item.Close();
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch { }
-
-                                try
-                                {
-                                    Actions.ClickElementByName(item, "OK");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch { }
+                                break;
                             }
                         }
-                        Thread.Sleep(int.Parse(ResetWindow_Timeout));
-
-                        try
-                        {
-                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
-                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                        }
-                        catch (Exception) { }
-
-                        try
-                        {
-                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
-                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                        }
-                        catch (Exception) { }
-
+                        while (modalWin.Count != 0);
                         Thread.Sleep(int.Parse(Execution_Speed));
                     }
-                    else
-                    {
-                        break;
-                    }
                 }
-                while (modalWin.Count != 0);
-                Thread.Sleep(int.Parse(Execution_Speed));
+                while (!Actions.CheckMenuEnabled(qbApp, qbWin, "File"));
             }
 
             catch (Exception e)

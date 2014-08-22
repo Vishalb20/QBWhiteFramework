@@ -44,7 +44,7 @@ namespace BATS.Tests
         {
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
             qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp);
-            QuickBooks.ResetQBWindows(qbApp, qbWindow);
+            QuickBooks.ResetQBWindows(qbApp, qbWindow, true);
             invoiceNumber = rand.Next(12345, 99999);
             poNumber = rand.Next(12345, 99999);
         }

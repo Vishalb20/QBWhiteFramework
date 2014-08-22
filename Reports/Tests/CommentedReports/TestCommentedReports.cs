@@ -39,7 +39,7 @@ namespace Reports.Tests.CommentedReports
         {
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
             qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp);
-            QuickBooks.ResetQBWindows(qbApp, qbWindow);
+            QuickBooks.ResetQBWindows(qbApp, qbWindow, true);
             invoiceNumber = rand.Next(12345, 99999);
             poNumber = rand.Next(12345, 99999);
         }
@@ -80,7 +80,7 @@ namespace Reports.Tests.CommentedReports
             }
             finally
             {
-                QuickBooks.ResetQBWindows(qbApp, qbWindow);
+                QuickBooks.ResetQBWindows(qbApp, qbWindow, true);
                 TestResults.GetTestResult(testName, moduleName, exception, category);
             }
         }

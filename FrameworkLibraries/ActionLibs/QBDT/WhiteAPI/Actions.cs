@@ -45,6 +45,24 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
 //**************************************************************************************************************************************************************
 
+        public static bool CheckMenuEnabled(TestStack.White.Application app, Window win, string level1)
+        {
+            try
+            {
+                MenuBar qbMenu = app.GetWindow(win.Name).MenuBar;
+                return qbMenu.MenuItem(level1).Enabled;
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+
+//**************************************************************************************************************************************************************
+
         public static bool SelectMenu(TestStack.White.Application app, Window win, string level1, string level2, string level3)
         {
             try
