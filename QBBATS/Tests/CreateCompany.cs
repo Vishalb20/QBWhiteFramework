@@ -46,11 +46,6 @@ namespace BATS.Tests
         [Then(StepTitle = "Then - Create new company file should be successful")]
         public void CreateAndCloseCompany()
         {
-            Actions.SelectMenu(qbApp, qbWindow, "Reports", "Commented Reports");
-            Window cr = Actions.GetChildWindow(qbWindow, "Commented Reports");
-            Actions.SelectMenu(qbApp, cr, "Commented Reports", "Edit Commented Report");
-
-
             string businessName = "White" + rand.Next(1234, 8976);
             QuickBooks.CreateCompany(qbApp, qbWindow, businessName, "Information Technology");
             QuickBooks.ResetQBWindows(qbApp, qbWindow, false);

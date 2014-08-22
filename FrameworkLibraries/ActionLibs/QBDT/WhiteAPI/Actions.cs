@@ -533,6 +533,28 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
 //**************************************************************************************************************************************************************
 
+        public static void ClickMenuItemByName(Window win, String name)
+        {
+
+            try
+            {
+                AutomationProperty p = AutomationElementIdentifiers.NameProperty;
+                TestStack.White.UIItems.MenuItems.Menu b = (TestStack.White.UIItems.MenuItems.Menu)win.Get(SearchCriteria.ByNativeProperty(p, name));
+                b.Click();
+                Thread.Sleep(int.Parse(Execution_Speed));
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
+
         public static void SetTextByAutomationID(Window win, String automationID, String value)
         {
 
@@ -1566,6 +1588,100 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 //**************************************************************************************************************************************************************
+
+        public static void UIA_ClickMenuItem(AutomationElement uiaWindow, Window window, string name)
+        {
+            try
+            {
+                PropertyCondition condition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.MenuItem);
+
+                AutomationElement menuItem = uiaWindow.FindFirst(TreeScope.Descendants, condition);
+
+                TestStack.White.UIItems.MenuItems.Menu p = new TestStack.White.UIItems.MenuItems.Menu(menuItem, window.ActionListener);
+                p.Focus();
+                p.Click();
+                Thread.Sleep(int.Parse(Execution_Speed));
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
+        public static void UIA_ClickItemByName(AutomationElement uiaWindow, Window window, string name)
+        {
+            try
+            {
+                AutomationProperty p = AutomationElementIdentifiers.NameProperty;
+                PropertyCondition condition = new PropertyCondition(p, name);
+                AutomationElement element = uiaWindow.FindFirst(TreeScope.Descendants, condition);
+
+                TestStack.White.UIItems.UIItem e = new TestStack.White.UIItems.UIItem(element, window.ActionListener);
+                e.Focus();
+                e.Click();
+                Thread.Sleep(int.Parse(Execution_Speed));
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
+        public static void UIA_ClickItemByAutomationID(AutomationElement uiaWindow, Window window, string automationID)
+        {
+            try
+            {
+                AutomationProperty p = AutomationElementIdentifiers.AutomationIdProperty;
+                PropertyCondition condition = new PropertyCondition(p, automationID);
+                AutomationElement element = uiaWindow.FindFirst(TreeScope.Descendants, condition);
+
+                TestStack.White.UIItems.UIItem e = new TestStack.White.UIItems.UIItem(element, window.ActionListener);
+                e.Focus();
+                e.Click();
+                Thread.Sleep(int.Parse(Execution_Speed));
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+        
+        public static void DesktopInstance_ClickElementByName(string name)
+        {
+            try
+            {
+                AutomationProperty p = AutomationElementIdentifiers.NameProperty;
+                SearchCriteria x = SearchCriteria.ByNativeProperty(p, name);
+                var e = TestStack.White.Desktop.Instance.Get(x);
+                e.Click();
+                Thread.Sleep(int.Parse(Execution_Speed));
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
 
         public static Window GetAlertWindow(string alertWindowName)
         {
