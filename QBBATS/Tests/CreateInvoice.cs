@@ -14,6 +14,7 @@ using TestStack.BDDfy;
 using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
 using QBBATS.Data;
 using System.Windows.Forms;
+using System.IO;
 
 
 namespace BATS.Tests
@@ -23,7 +24,8 @@ namespace BATS.Tests
     {
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
-        public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
+        //public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
+        public static string startupPath = Directory.GetCurrentDirectory();
         public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
         public string exe = conf.get("QBExePath");
         public string qbLoginUserName = conf.get("QBLoginUserName");
@@ -37,7 +39,7 @@ namespace BATS.Tests
         public static string TestDataSourceDirectory = conf.get("TestDataSourceDirectory");
         public static string TestDataLocalDirectory = conf.get("TestDataLocalDirectory");
         public static string DefaultCompanyFile = conf.get("DefaultCompanyFile");
-        public static string DefaultCompanyFilePath = startupPath + DefaultCompanyFile;
+        public static string DefaultCompanyFilePath = startupPath + "\\" + DefaultCompanyFile;
 
         [Given(StepTitle = "Given - QuickBooks App and Window instances are available")]
         public void Setup()

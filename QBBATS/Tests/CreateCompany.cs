@@ -13,6 +13,7 @@ using TestStack.White.UIItems;
 using Xunit;
 using TestStack.BDDfy;
 using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
+using System.IO;
 
 
 namespace BATS.Tests
@@ -21,7 +22,8 @@ namespace BATS.Tests
     {
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
-        public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
+        public static string startupPath = Directory.GetCurrentDirectory();
+        //public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
         public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
         public string exe = conf.get("QBExePath");
         public string qbLoginUserName = conf.get("QBLoginUserName");
@@ -35,6 +37,7 @@ namespace BATS.Tests
         [Given(StepTitle = "Given - QuickBooks App and Window instances are available")]
         public void Setup()
         {
+            MessageBox.Show(startupPath);
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
             qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp);
             QuickBooks.ResetQBWindows(qbApp, qbWindow, false);
@@ -43,6 +46,11 @@ namespace BATS.Tests
         [Then(StepTitle = "Then - Create new company file should be successful")]
         public void CreateAndCloseCompany()
         {
+            Actions.SelectMenu(qbApp, qbWindow, "Reports", "Commented Reports");
+            Window cr = Actions.GetChildWindow(qbWindow, "Commented Reports");
+            Actions.SelectMenu(qbApp, cr, "Commented Reports", "Edit Commented Report");
+
+
             string businessName = "White" + rand.Next(1234, 8976);
             QuickBooks.CreateCompany(qbApp, qbWindow, businessName, "Information Technology");
             QuickBooks.ResetQBWindows(qbApp, qbWindow, false);

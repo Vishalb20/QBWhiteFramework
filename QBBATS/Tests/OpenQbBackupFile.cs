@@ -15,6 +15,7 @@ using Xunit.Extensions;
 using TestStack.BDDfy;
 using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
 using BATS.DATA;
+using System.IO;
 
 namespace BATS.Tests
 {
@@ -23,7 +24,8 @@ namespace BATS.Tests
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
         public Thread ExceptionHandler = null;
-        public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
+        //public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
+        public static string startupPath = Directory.GetCurrentDirectory();
         public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
         public string exe = conf.get("QBExePath");
         public string qbLoginUserName = conf.get("QBLoginUserName");

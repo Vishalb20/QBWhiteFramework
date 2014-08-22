@@ -21,7 +21,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 {
     public class QuickBooks
     {
-        public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
+        //public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
+        public static string startupPath = Directory.GetCurrentDirectory();
         public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
         public static string Execution_Speed = conf.get("ExecutionSpeed");
         public static string Sync_Timeout = conf.get("SyncTimeOut");
@@ -29,7 +30,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         public static string UserName = conf.get("QBLoginUserName");
         public static string Password = conf.get("QBLoginPassword");
         public static string DefaultCompanyFile = conf.get("DefaultCompanyFile");
-        public static string DefaultCompanyFilePath = startupPath + DefaultCompanyFile;
+        public static string DefaultCompanyFilePath = startupPath + "\\" + DefaultCompanyFile;
         public static string TestDataSourceDirectory = conf.get("TestDataSourceDirectory");
         public static string TestDataLocalDirectory = conf.get("TestDataLocalDirectory");
 
@@ -739,11 +740,15 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         {
             List<Window> modalWin = null;
             int iteration = 0;
+            bool menuEnabled = false;
 
             try
             {
                 do
                 {
+                    try { Actions.SelectMenu(qbApp, qbWin, "Window", "Close All"); }
+                    catch (Exception) { }
+
                     if (!Actions.CheckMenuEnabled(qbApp, qbWin, "File"))
                     {
                         do
@@ -755,6 +760,12 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                 foreach (Window item in modalWin)
                                 {
+                                    if (Actions.CheckMenuEnabled(qbApp, qbWin, "File"))
+                                    {
+                                        menuEnabled = true;
+                                        break;
+                                    }
+
                                     //Alert window handler
                                     try
                                     {
@@ -966,6 +977,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                         try
                                         {
+                                            Actions.ClickElementByName(item, "No");
+                                            Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        }
+                                        catch { }
+
+
+                                        try
+                                        {
                                             item.Close();
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -986,7 +1005,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 break;
                             }
                         }
-                        while (modalWin.Count != 0);
+                        while (modalWin.Count != 0 && menuEnabled.Equals(false));
                         Thread.Sleep(int.Parse(Execution_Speed));
                     }
                 }
