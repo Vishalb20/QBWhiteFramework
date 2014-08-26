@@ -24,26 +24,20 @@ namespace BATS.Tests
     {
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
-        //public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
-        public static string startupPath = Directory.GetCurrentDirectory();
-        public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
+        public static Property conf = Property.GetPropertyInstance();
         public string exe = conf.get("QBExePath");
-        public string qbLoginUserName = conf.get("QBLoginUserName");
-        public string qbLoginPassword = conf.get("QBLoginPassword");
         public Random rand = new Random();
         public int invoiceNumber, poNumber;
-        public string testName = "Invoice_POC";
-        public string moduleName = "Invoice";
-        public string exception = "Null";
-        public string category = "Null";
+        public string testName = "CreateInvoice";
         public static string TestDataSourceDirectory = conf.get("TestDataSourceDirectory");
         public static string TestDataLocalDirectory = conf.get("TestDataLocalDirectory");
         public static string DefaultCompanyFile = conf.get("DefaultCompanyFile");
-        public static string DefaultCompanyFilePath = startupPath + "\\" + DefaultCompanyFile;
+        public static string DefaultCompanyFilePath = DefaultCompanyFile;
 
         [Given(StepTitle = "Given - QuickBooks App and Window instances are available")]
         public void Setup()
         {
+            Logger log = new Logger(testName);
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
             qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp);
             QuickBooks.ResetQBWindows(qbApp, qbWindow, true);
@@ -54,6 +48,7 @@ namespace BATS.Tests
         [When(StepTitle = "When - A company file is opened or upgraded successfully for creating a transaction")]
         public void OpenCompanyFile()
         {
+
             if (!qbWindow.Title.Contains("Falcon"))
             {
                 FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(DefaultCompanyFilePath, qbApp, qbWindow, false, false);

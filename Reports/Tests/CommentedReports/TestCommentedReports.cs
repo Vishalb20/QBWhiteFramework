@@ -22,8 +22,7 @@ namespace Reports.Tests.CommentedReports
     {
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
-        public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
-        public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
+        public static Property conf = Property.GetPropertyInstance();
         public string exe = conf.get("QBExePath");
         public string qbLoginUserName = conf.get("QBLoginUserName");
         public string qbLoginPassword = conf.get("QBLoginPassword");

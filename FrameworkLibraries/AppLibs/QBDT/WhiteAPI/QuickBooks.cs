@@ -21,16 +21,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 {
     public class QuickBooks
     {
-        //public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
-        public static string startupPath = Directory.GetCurrentDirectory();
-        public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
+        public static Property conf = Property.GetPropertyInstance();
         public static string Execution_Speed = conf.get("ExecutionSpeed");
         public static string Sync_Timeout = conf.get("SyncTimeOut");
         public static string ResetWindow_Timeout = conf.get("ResetWindowTimeOut");
         public static string UserName = conf.get("QBLoginUserName");
         public static string Password = conf.get("QBLoginPassword");
         public static string DefaultCompanyFile = conf.get("DefaultCompanyFile");
-        public static string DefaultCompanyFilePath = startupPath + "\\" + DefaultCompanyFile;
+        public static string DefaultCompanyFilePath = DefaultCompanyFile;
         public static string TestDataSourceDirectory = conf.get("TestDataSourceDirectory");
         public static string TestDataLocalDirectory = conf.get("TestDataLocalDirectory");
 
@@ -297,6 +295,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
         public static void OpenOrUpgradeCompanyFile(string companyFilePath, TestStack.White.Application qbApp, Window qbWindow, bool backupcopy, bool portalcopy)
         {
+            Logger.logMessage("OpenOrUpgradeCompanyFile " + companyFilePath + "->" + " - Begin");
             try
             {
                 Thread.Sleep(int.Parse(Execution_Speed));
@@ -725,9 +724,16 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 }
                 while (modalWin.Count != 0);
                 Thread.Sleep(int.Parse(Execution_Speed));
+
+                Logger.logMessage("OpenOrUpgradeCompanyFile " + companyFilePath + "->" + " - End");
+                Logger.logMessage("------------------------------------------------------------------------------");
             }
             catch (Exception e)
             {
+                Logger.logMessage("OpenOrUpgradeCompanyFile " + companyFilePath + "->" + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+
                 String sMessage = e.Message;
                 LastException.SetLastError(sMessage);
                 throw new Exception(sMessage);
@@ -738,6 +744,9 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
         public static void ResetQBWindows(TestStack.White.Application qbApp, Window qbWin, bool openFileOnNoCompany)
         {
+
+            Logger.logMessage("ResetQBWindows " + " - Begin");
+            
             List<Window> modalWin = null;
             int iteration = 0;
             bool menuEnabled = false;
@@ -1010,10 +1019,16 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     }
                 }
                 while (!Actions.CheckMenuEnabled(qbApp, qbWin, "File"));
+
+                Logger.logMessage("ResetQBWindows " + " - End");
+                Logger.logMessage("------------------------------------------------------------------------------");
             }
 
             catch (Exception e)
             {
+                Logger.logMessage("ResetQBWindows " + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
                 String sMessage = e.Message;
                 LastException.SetLastError(sMessage);
                 throw new Exception(sMessage);

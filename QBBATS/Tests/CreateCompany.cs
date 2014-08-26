@@ -22,22 +22,15 @@ namespace BATS.Tests
     {
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
-        public static string startupPath = Directory.GetCurrentDirectory();
-        //public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
-        public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
+        public static Property conf = Property.GetPropertyInstance();
         public string exe = conf.get("QBExePath");
-        public string qbLoginUserName = conf.get("QBLoginUserName");
-        public string qbLoginPassword = conf.get("QBLoginPassword");
         public Random rand = new Random();
         public string testName = "CreateAndCloseCompany";
-        public string moduleName = "BATS";
-        public string exception = "Null";
-        public string category = "Null";
 
         [Given(StepTitle = "Given - QuickBooks App and Window instances are available")]
         public void Setup()
         {
-            MessageBox.Show(startupPath);
+            Logger log = new Logger(testName);
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
             qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp);
             QuickBooks.ResetQBWindows(qbApp, qbWindow, false);
@@ -56,7 +49,7 @@ namespace BATS.Tests
         [AndThen(StepTitle = "AndThen - Perform tear down activities to ensure that there are no on-screen exceptions")]
         public void TearDown()
         {
-            //QuickBooks.ResetQBWindows(qbApp, qbWindow);
+            QuickBooks.ResetQBWindows(qbApp, qbWindow, false);
         }
 
         [Fact]

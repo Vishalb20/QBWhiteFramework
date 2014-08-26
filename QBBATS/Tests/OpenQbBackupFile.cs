@@ -23,20 +23,12 @@ namespace BATS.Tests
     {
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
-        public Thread ExceptionHandler = null;
-        //public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
-        public static string startupPath = Directory.GetCurrentDirectory();
-        public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
+        public static Property conf = Property.GetPropertyInstance();
         public string exe = conf.get("QBExePath");
-        public string qbLoginUserName = conf.get("QBLoginUserName");
-        public string qbLoginPassword = conf.get("QBLoginPassword");
         public static string companyFilePath = null;
         public static string companyFileName = null;
         public Random rand = new Random();
         public string testName = "OpenQbBackupFile";
-        public string moduleName = "BATS";
-        public string exception = "Null";
-        public string category = "Null";
         public static string TestDataSourceDirectory = conf.get("TestDataSourceDirectory");
         public static string TestDataLocalDirectory = conf.get("TestDataLocalDirectory");
 
@@ -44,6 +36,7 @@ namespace BATS.Tests
         [Given(StepTitle = "All the test company files are successfully copied from the source location")]
         public void CopyFiles()
         {
+            Logger log = new Logger(testName);
             FileOperations.DeleteCompanyFileInDirectory(TestDataLocalDirectory, companyFileName);
             FileOperations.CopyCompanyFileToDirectory(TestDataSourceDirectory, TestDataLocalDirectory, companyFileName);
         }

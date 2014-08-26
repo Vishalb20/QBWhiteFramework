@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,10 +11,32 @@ namespace FrameworkLibraries.Utils
     {
         private Dictionary<String, String> list;
         private String filename;
+        private static Property _property;
+        private static object _syncObj = new object();
 
-        public Property(String file)
+        private Property()
         {
-            reload(file);
+            var pathBuilder = new StringBuilder();
+            //pathBuilder.Append(Directory.GetCurrentDirectory());
+            pathBuilder.Append("QBAutomation.properties");
+            reload(pathBuilder.ToString());
+        }
+
+        static public Property GetPropertyInstance()
+        {
+            if (_property == null)
+            {
+                lock (_syncObj)
+                {
+                    if(_property == null)
+                    {
+                        _property = new Property();
+                    }
+                }
+                
+            }
+
+            return _property;
         }
 
         public String get(String field, String defValue)

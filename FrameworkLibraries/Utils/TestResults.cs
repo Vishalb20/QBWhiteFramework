@@ -11,8 +11,7 @@ namespace FrameworkLibraries.Utils
 {
     public static class TestResults
     {
-        public static String startupPath = System.IO.Path.GetFullPath("..\\..\\..\\");
-        public static Property conf = new Property(startupPath + "\\QBAutomation.properties");
+        public static Property conf = Property.GetPropertyInstance();
 
         public static String GetResultUpdateQuery(String sModule, String sTestName, String sStatus, String sFailReason, String sFailCategory)
 	    {
