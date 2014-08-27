@@ -15,6 +15,7 @@ using System.IO;
 using TestStack.White.UIItems.MenuItems;
 using TestStack.White;
 using System.Diagnostics;
+using Xunit;
 
 namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 {
@@ -2063,6 +2064,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         public static Window GetAlertWindow(string alertWindowName)
         {
             Window alertWindow = null;
+            string alertText = null;
 
             try
             {
@@ -2073,11 +2075,22 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                     if (w.Name.Equals(alertWindowName) || w.Name.Contains(alertWindowName))
                     {
                         alertWindow = w;
+
+                        var elements = alertWindow.Items;
+
+                        foreach (var item in elements)
+                        {
+                            if (item.GetType().Name.Equals("Label"))
+                            {
+                                alertText = item.Name;
+                            }
+                        }
+                        Logger.logMessage("GetAlertWindow " + alertWindowName + " - Sucessful");
+                        Logger.logMessage(alertText);
+                        Logger.logMessage("------------------------------------------------------------------------------");
                         break;
                     }
                 }
-                Logger.logMessage("GetAlertWindow " + alertWindowName + " - Sucessful");
-                Logger.logMessage("------------------------------------------------------------------------------");
 
                 return alertWindow;
             }
@@ -2094,6 +2107,53 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 //**************************************************************************************************************************************************************
+
+        public static bool XunitAssertEuqals(string obj1, string obj2)
+        {
+            try
+            {
+                Assert.Equal(obj1, obj2);
+                Logger.logMessage("XunitAssertEuqals " + obj1 + "->" + obj2 + " - Sucessful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+                return true;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("XunitAssertEuqals " + obj1 + "->" + obj2 + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+        public static bool XunitAssertContains(string obj1, string obj2)
+        {
+            try
+            {
+                Assert.Contains(obj1, obj2);
+                Logger.logMessage("XunitAssertContains " + obj1 + "->" + obj2 + " - Sucessful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+                return true;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("XunitAssertContains " + obj1 + "->" + obj2 + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
+
 
     }
 }

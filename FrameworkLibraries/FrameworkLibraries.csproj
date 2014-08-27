@@ -141,10 +141,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SQLCompactDBDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Utils\DateTimeOperations.cs" />
     <Compile Include="Utils\FileOperations.cs" />
     <Compile Include="Utils\KeyStrokeSimulator.cs" />
     <Compile Include="Utils\LastException.cs" />
     <Compile Include="Utils\Logger.cs" />
+    <Compile Include="Utils\PathBuilder.cs" />
     <Compile Include="Utils\Properties.cs" />
     <Compile Include="Utils\StringFunctions.cs" />
     <Compile Include="Utils\TestResults.cs" />

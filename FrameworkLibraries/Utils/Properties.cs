@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,10 +17,7 @@ namespace FrameworkLibraries.Utils
 
         private Property()
         {
-            var pathBuilder = new StringBuilder();
-            //pathBuilder.Append(Directory.GetCurrentDirectory());
-            pathBuilder.Append("QBAutomation.properties");
-            reload(pathBuilder.ToString());
+            reload(PathBuilder.GetPath("QBAutomation.properties"));
         }
 
         static public Property GetPropertyInstance()

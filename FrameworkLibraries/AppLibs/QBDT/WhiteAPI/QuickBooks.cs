@@ -16,6 +16,7 @@ using TestStack.White.UIItems.Finders;
 using FrameworkLibraries.ObjMaps.QBDT;
 using FrameworkLibraries.ActionLibs.QBDT.WhiteAPI;
 using System.IO;
+using System.Reflection;
 
 namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 {
@@ -63,7 +64,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 Process proc = new Process();
                 proc.StartInfo.FileName = exePath;
                 proc.Start();
-                proc.WaitForInputIdle();
+                Thread.Sleep(7500);
                 try { Actions.WaitForAppWindow("QuickBooks", int.Parse(Sync_Timeout)); }
                 catch (Exception) { }
                 Thread.Sleep(int.Parse(Execution_Speed));
@@ -807,7 +808,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     {
                                         try
                                         {
-                                            QuickBooks.OpenOrUpgradeCompanyFile(DefaultCompanyFilePath, qbApp, qbWin, false, false);
+                                            QuickBooks.OpenOrUpgradeCompanyFile(PathBuilder.GetPath("DefaultCompanyFile.qbw"), qbApp, qbWin, false, false);
                                         }
                                         catch { }
                                     }

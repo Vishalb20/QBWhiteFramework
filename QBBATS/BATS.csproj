@@ -101,6 +101,7 @@
     <Compile Include="Tests\CreateCompany.cs" />
     <Compile Include="Tests\CreateInvoice.cs" />
     <Compile Include="Data\OpenBackupFileTestDataSource.cs" />
+    <Compile Include="Tests\UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

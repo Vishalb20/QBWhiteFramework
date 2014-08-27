@@ -36,7 +36,8 @@ namespace BATS.Tests
         [Given(StepTitle = "All the test company files are successfully copied from the source location")]
         public void CopyFiles()
         {
-            Logger log = new Logger(testName);
+            var timeStamp = DateTimeOperations.GetTimeStamp(DateTime.Now);
+            Logger log = new Logger(testName + "_" + timeStamp);
             FileOperations.DeleteCompanyFileInDirectory(TestDataLocalDirectory, companyFileName);
             FileOperations.CopyCompanyFileToDirectory(TestDataSourceDirectory, TestDataLocalDirectory, companyFileName);
         }
@@ -55,13 +56,13 @@ namespace BATS.Tests
         {
             QuickBooks.OpenOrUpgradeCompanyFile(companyFilePath, qbApp, qbWindow, true, false);
             var expectedTitleOfNewCompany = FrameworkLibraries.Utils.StringFunctions.RemoveExtentionFromFileName(companyFileName);
-            Assert.Contains(expectedTitleOfNewCompany.ToUpper(), qbWindow.Title.ToUpper());
+            Actions.XunitAssertContains(expectedTitleOfNewCompany.ToUpper(), qbWindow.Title.ToUpper());
         }
 
         [AndThen(StepTitle = "AndThen - Perform tear down activities to ensure that there are no on-screen exceptions")]
         public void TearDown()
         {
-            //QuickBooks.ResetQBWindows(qbApp, qbWindow);
+            QuickBooks.ResetQBWindows(qbApp, qbWindow, false);
         }
 
         [Theory]

@@ -37,7 +37,8 @@ namespace BATS.Tests
         [Given(StepTitle = "Given - QuickBooks App and Window instances are available")]
         public void Setup()
         {
-            Logger log = new Logger(testName);
+            var timeStamp = DateTimeOperations.GetTimeStamp(DateTime.Now);
+            Logger log = new Logger(testName + "_" + timeStamp);
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
             qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp);
             QuickBooks.ResetQBWindows(qbApp, qbWindow, true);
@@ -51,7 +52,7 @@ namespace BATS.Tests
 
             if (!qbWindow.Title.Contains("Falcon"))
             {
-                FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.OpenOrUpgradeCompanyFile(DefaultCompanyFilePath, qbApp, qbWindow, false, false);
+                QuickBooks.OpenOrUpgradeCompanyFile(PathBuilder.GetPath("DefaultCompanyFile.qbw"), qbApp, qbWindow, false, false);
             }
         }
 
@@ -76,7 +77,7 @@ namespace BATS.Tests
         [AndThen(StepTitle = "AndThen - Perform tear down activities to ensure that there are no on-screen exceptions")]
         public void TearDown()
         {
-            //QuickBooks.ResetQBWindows(qbApp, qbWindow);
+            QuickBooks.ResetQBWindows(qbApp, qbWindow, false);
         }
 
         [Fact]

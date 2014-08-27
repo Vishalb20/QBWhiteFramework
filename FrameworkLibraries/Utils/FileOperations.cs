@@ -13,6 +13,9 @@ namespace FrameworkLibraries.Utils
     {
         public static void DeleteAllFilesInDirectory(string dir)
         {
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
             string[] filePaths = Directory.GetFiles(dir);
             foreach (string filePath in filePaths)
             {
@@ -30,6 +33,9 @@ namespace FrameworkLibraries.Utils
 
         public static void DeleteCompanyFileInDirectory(string dir, string fileName)
         {
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
             string[] filePaths = Directory.GetFiles(dir);
             foreach (string filePath in filePaths)
             {
@@ -64,6 +70,9 @@ namespace FrameworkLibraries.Utils
 
         public static void CopyCompanyFileToDirectory(string sourceDir, string destinationDir, string fileName)
         {
+            if (!Directory.Exists(destinationDir))
+                Directory.CreateDirectory(destinationDir);
+
             string destinationFile = null;
 
             string[] filePaths = Directory.GetFiles(sourceDir);

@@ -14,6 +14,7 @@ using Xunit;
 using TestStack.BDDfy;
 using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
 using System.IO;
+using System.Reflection;
 
 
 namespace BATS.Tests
@@ -30,7 +31,8 @@ namespace BATS.Tests
         [Given(StepTitle = "Given - QuickBooks App and Window instances are available")]
         public void Setup()
         {
-            Logger log = new Logger(testName);
+            var timeStamp = DateTimeOperations.GetTimeStamp(DateTime.Now);
+            Logger log = new Logger(testName+"_"+timeStamp);
             qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
             qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp);
             QuickBooks.ResetQBWindows(qbApp, qbWindow, false);
@@ -43,7 +45,7 @@ namespace BATS.Tests
             QuickBooks.CreateCompany(qbApp, qbWindow, businessName, "Information Technology");
             QuickBooks.ResetQBWindows(qbApp, qbWindow, false);
             var winTitleOfNewCompany = qbWindow.Title;
-            Assert.Equal(winTitleOfNewCompany, qbWindow.Title);
+            Actions.XunitAssertEuqals(winTitleOfNewCompany, qbWindow.Title);
         }
 
         [AndThen(StepTitle = "AndThen - Perform tear down activities to ensure that there are no on-screen exceptions")]
