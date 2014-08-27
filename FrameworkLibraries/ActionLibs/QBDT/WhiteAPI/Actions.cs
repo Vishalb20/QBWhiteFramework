@@ -1241,7 +1241,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             }
             catch (Exception e)
             {
-                Logger.logMessage("UIA_SetTextByName " + uiaWindow + "->" + window + "->" + name + "->" + value + "->" + " - Successful");
+                Logger.logMessage("UIA_SetTextByName " + uiaWindow + "->" + window + "->" + name + "->" + value + "->" + " - Failed");
                 Logger.logMessage(e.Message);
                 Logger.logMessage("------------------------------------------------------------------------------");
                 String sMessage = e.Message;
@@ -1252,6 +1252,39 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 //**************************************************************************************************************************************************************
+        public static void UIA_ClickTextByName(AutomationElement uiaWindow, Window window, string name)
+        {
+            try
+            {
+                PropertyCondition textCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Text);
+                AutomationElementCollection texts = uiaWindow.FindAll(TreeScope.Descendants, textCondition);
+                foreach (AutomationElement e in texts)
+                {
+                    if (e.Current.Name.Equals(name))
+                    {
+                        TestStack.White.UIItems.Label t = new TestStack.White.UIItems.Label(e, window.ActionListener);
+                        t.Click();
+                    }
+                }
+                Thread.Sleep(int.Parse(Execution_Speed));
+                Logger.logMessage("UIA_ClickTextByName " + uiaWindow + "->" + window + "->" + name + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("UIA_ClickTextByName " + uiaWindow + "->" + window + "->" + name + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
 
 
         public static void UIA_SetTextByAutomationID(AutomationElement uiaWindow, Window window, string automationID, string value)
