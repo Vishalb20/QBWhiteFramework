@@ -1220,6 +1220,74 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
 //**************************************************************************************************************************************************************
 
+        public static void UIA_SetTextByName(AutomationElement uiaWindow, Window window, string name, string value)
+        {
+            try
+            {
+                PropertyCondition textCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit);
+                AutomationElementCollection textBoxes = uiaWindow.FindAll(TreeScope.Descendants, textCondition);
+                foreach(AutomationElement e in textBoxes)
+                {
+                    if (e.Current.Name.Equals(name))
+                    {
+                        TestStack.White.UIItems.TextBox t = new TestStack.White.UIItems.TextBox(e, window.ActionListener);
+                        t.Text = value;
+                    }
+                }
+                Thread.Sleep(int.Parse(Execution_Speed));
+                Logger.logMessage("UIA_SetTextByName " + uiaWindow + "->" + window + "->" + name + "->" + value + "->" + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("UIA_SetTextByName " + uiaWindow + "->" + window + "->" + name + "->" + value + "->" + " - Successful");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
+
+        public static void UIA_SetTextByAutomationID(AutomationElement uiaWindow, Window window, string automationID, string value)
+        {
+            try
+            {
+                PropertyCondition textCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit);
+                AutomationElementCollection textBoxes = uiaWindow.FindAll(TreeScope.Descendants, textCondition);
+                foreach (AutomationElement e in textBoxes)
+                {
+                    if (e.Current.AutomationId.Equals(automationID))
+                    {
+                        TestStack.White.UIItems.TextBox t = new TestStack.White.UIItems.TextBox(e, window.ActionListener);
+                        t.Text = value;
+                    }
+                }
+                Thread.Sleep(int.Parse(Execution_Speed));
+                Logger.logMessage("UIA_SetTextByAutomationID " + uiaWindow + "->" + window + "->" + automationID + "->" + value + "->" + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("UIA_SetTextByAutomationID " + uiaWindow + "->" + window + "->" + automationID + "->" + value + "->" + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+//**************************************************************************************************************************************************************
+
+
         public static AutomationElement UIA_GetAppWindow(string windowName)
         {
             try
@@ -1342,6 +1410,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                     {
                         try
                         {
+                            Logger.logMessage("---------------Try-Catch Block------------------------");
                             Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
                             Thread.Sleep(int.Parse(Execution_Speed));
                         }
@@ -1349,6 +1418,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
                         try
                         {
+                            Logger.logMessage("---------------Try-Catch Block------------------------");
                             Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
                             Thread.Sleep(int.Parse(Execution_Speed));
                         }
@@ -1358,6 +1428,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                         if (w.Name.Equals(childWindowName) || w.Name.Contains(childWindowName))
                         {
                             windowFound = true;
+                            w.WaitWhileBusy();
                             break;
                         }
                     }
@@ -1384,6 +1455,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         public static bool WaitForAnyChildWindow(Window mainWindow, string currentWindowName, long timeOut)
         {
             Logger.logMessage("WaitForAnyChildWindow " + mainWindow + "->" + currentWindowName + " - Begin Sync");
+            
             bool windowFound = false;
             long elapsedTime = 0;
             var stopwatch = Stopwatch.StartNew();
@@ -1403,6 +1475,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                     {
                         try
                         {
+                            Logger.logMessage("---------------Try-Catch Block------------------------");
                             Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
                             Thread.Sleep(int.Parse(Execution_Speed));
                         }
@@ -1410,6 +1483,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
                         try
                         {
+                            Logger.logMessage("---------------Try-Catch Block------------------------");
                             Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
                             Thread.Sleep(int.Parse(Execution_Speed));
                         }
@@ -1419,6 +1493,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                         if (!w.Name.Equals(currentWindowName) || !w.Name.Contains(currentWindowName))
                         {
                             windowFound = true;
+                            w.WaitWhileBusy();
                             break;
                         }
                     }
@@ -1467,6 +1542,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                     {
                         try
                         {
+                            Logger.logMessage("---------------Try-Catch Block------------------------");
                             Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
                             Thread.Sleep(int.Parse(Execution_Speed));
                         }
@@ -1474,6 +1550,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
                         try
                         {
+                            Logger.logMessage("---------------Try-Catch Block------------------------");
                             Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
                             Thread.Sleep(int.Parse(Execution_Speed));
                         }
@@ -1483,6 +1560,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                         if (w.Name.Equals(appWindowName) || w.Name.Contains(appWindowName))
                         {
                             windowFound = true;
+                            w.WaitWhileBusy();
                             Thread.Sleep(int.Parse(Execution_Speed));
                             break;
                         }

@@ -37,6 +37,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
         public static TestStack.White.Application Initialize(String exePath)
         {
+            Logger.logMessage("Initialize " + exePath);
+
             int processID = 0;
             TestStack.White.Application app = null;
 
@@ -55,17 +57,22 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 app = TestStack.White.Application.Attach(processID);
                                 app.WaitWhileBusy();
                                 Actions.WaitForAppWindow("QuickBooks", int.Parse(Sync_Timeout));
+                                Logger.logMessage("Existing QB instance found..!!");
                                 return app;
                             }
                         }
                     }
                 }
 
+                Logger.logMessage("No existing QB instance, so launching - " + exePath);
                 Process proc = new Process();
                 proc.StartInfo.FileName = exePath;
                 proc.Start();
                 Thread.Sleep(7500);
-                try { Actions.WaitForAppWindow("QuickBooks", int.Parse(Sync_Timeout)); }
+                try
+                {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
+                    Actions.WaitForAppWindow("QuickBooks", int.Parse(Sync_Timeout)); }
                 catch (Exception) { }
                 Thread.Sleep(int.Parse(Execution_Speed));
                 foreach (Process p in Process.GetProcesses("."))
@@ -78,10 +85,18 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 app = TestStack.White.Application.Attach(processID);
                 app.WaitWhileBusy();
                 Thread.Sleep(int.Parse(Execution_Speed));
+
+                Logger.logMessage("Initialize " + exePath + " - Sucessful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
                 return app;
             }
             catch (Exception e)
             {
+                Logger.logMessage("Initialize " + exePath + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+
                 String sMessage = e.Message;
                 LastException.SetLastError(sMessage);
                 throw new Exception(sMessage);
@@ -107,11 +122,19 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     }
                 }
 
+                Logger.logMessage("PrepareBaseState " + app + " - Sucessful");
+                Logger.logMessage(qbWin.Title);
+                Logger.logMessage("------------------------------------------------------------------------------");
+
                 return qbWin;
 
             }
             catch (Exception e)
             {
+                Logger.logMessage("PrepareBaseState " + app + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+
                 String sMessage = e.Message;
                 LastException.SetLastError(sMessage);
                 throw new Exception(sMessage);
@@ -131,6 +154,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                 try
                 {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
                     Actions.ClickElementByAutomationID(invoiceWindow, FrameworkLibraries.ObjMaps.QBDT.WhiteAPI.Invoice.Objects.MaximizeWindow_Button_AutoID);
                     Thread.Sleep(int.Parse(Execution_Speed));
                 }
@@ -177,16 +201,21 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                 try
                 {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Recording Transaction"), "Yes");
                     Thread.Sleep(int.Parse(Execution_Speed));
                 }
                 catch { }
 
-                try { Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Enter Memorized Transactions Later"), "Ok"); }
+                try {
+                    Logger.logMessage("---------------Try-Catch Block------------------------"); 
+                    Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Enter Memorized Transactions Later"), "Ok");
+                }
                 catch { }
 
                 try
                 {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Information Changed"), "No");
                     Thread.Sleep(int.Parse(Execution_Speed));
                 }
@@ -194,6 +223,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                 try
                 {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Past Transactions"), "No");
                     Thread.Sleep(int.Parse(Execution_Speed));
                 }
@@ -201,6 +231,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                 try
                 {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Available Credits"), "No");
                     Thread.Sleep(int.Parse(Execution_Speed));
                 }
@@ -208,6 +239,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                 try
                 {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Transaction Cleared"), "No");
                     Thread.Sleep(int.Parse(Execution_Speed));
                 }
@@ -314,6 +346,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     
                     try
                     {
+                        Logger.logMessage("---------------Try-Catch Block------------------------");
                         Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Open Backup Copy"), "File name:", companyFilePath);
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open Backup Copy"), "Open");
                         Actions.WaitForChildWindow(qbWindow, "Open or Restore Company", int.Parse(Sync_Timeout));
@@ -322,6 +355,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                     try
                     {
+                        Logger.logMessage("---------------Try-Catch Block------------------------");
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Next");
                         Thread.Sleep(int.Parse(Execution_Speed));
                     }
@@ -329,6 +363,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                     try
                     {
+
+                        Logger.logMessage("---------------Try-Catch Block------------------------");
                         Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "File name:", Utils.StringFunctions.RandomString(5));
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "Save");
                         Actions.WaitForAnyChildWindow(qbWindow, "Save Company File as", int.Parse(Sync_Timeout));
@@ -344,6 +380,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     
                     try
                     {
+                        Logger.logMessage("---------------Try-Catch Block------------------------");
                         Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Open Portable Company File"), "File name:", companyFilePath);
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open Portable Company File"), "Open");
                         Actions.WaitForChildWindow(qbWindow, "Open or Restore Company", int.Parse(Sync_Timeout));
@@ -352,6 +389,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                     try
                     {
+                        Logger.logMessage("---------------Try-Catch Block------------------------");
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Open or Restore Company"), "Next");
                         Thread.Sleep(int.Parse(Execution_Speed));
                     }
@@ -359,6 +397,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                     try
                     {
+                        Logger.logMessage("---------------Try-Catch Block------------------------");
                         Actions.SetTextOnElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "File name:", Utils.StringFunctions.RandomString(5));
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Save Company File as"), "Save");
                         Actions.WaitForAnyChildWindow(qbWindow, "Save Company File as", int.Parse(Sync_Timeout));
@@ -394,6 +433,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.SetFocusOnWindow(item);
                                     Actions.SendBCKSPACEToWindow(item);
                                     Actions.SetTextByAutomationID(item, "15922", UserName);
@@ -410,6 +450,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "Remind Me Later");
                                     Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                 }
@@ -421,11 +462,15 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "I understand that my company file will be updated to this new version of QuickBooks.");
                                 }
                                 catch (Exception) { }
                                 try
                                 {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "Update Now");
                                     Actions.WaitForAnyChildWindow(qbWindow, "Update Company File", int.Parse(Sync_Timeout));
                                 }
@@ -437,6 +482,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "OK");
                                     Actions.WaitForChildWindow(qbWindow, "Backup", int.Parse(Sync_Timeout));
                                 }
@@ -444,6 +491,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                 try
                                 {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Backup"), "Yes");
                                     Actions.WaitForAnyChildWindow(qbWindow, "Backup", int.Parse(Sync_Timeout));
                                 }
@@ -451,6 +500,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                 try
                                 {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Backup Incompatible"), "OK");
                                     Thread.Sleep(int.Parse(Execution_Speed));
                                 }
@@ -463,6 +514,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "OK");
                                 }
                                 catch (Exception) { }
@@ -473,6 +526,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "Continue");
                                     Actions.WaitForAnyChildWindow(qbWindow, "Sync Company File", int.Parse(Sync_Timeout));
                                 }
@@ -484,6 +539,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "OK");
                                     Actions.WaitForAnyChildWindow(qbWindow, "QuickBooks Information", int.Parse(Sync_Timeout));
                                 }
@@ -495,6 +552,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "Next");
                                     Thread.Sleep(int.Parse(Execution_Speed));
                                 }
@@ -506,24 +564,30 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.SetTextByAutomationID(item, "2002", TestDataLocalDirectory);
                                 }
 
                                 catch (Exception) { }
                                 try
                                 {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "OK");
                                 }
                                 catch (Exception) { }
 
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "QuickBooks"), "Use this Location");
                                 }
                                 catch (Exception) { }
 
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Save Backup Copy"), "Save");
                                     Actions.WaitForAnyChildWindow(qbWindow, "Save Backup Copy", int.Parse(Sync_Timeout));
                                 }
@@ -535,6 +599,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "QuickBooks"), "Use this Location");
                                     Actions.WaitForAnyChildWindow(qbWindow, "QuickBooks", int.Parse(Sync_Timeout));
                                 }
@@ -548,6 +613,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Save Backup Copy"), "Save");
                                     Actions.WaitForAnyChildWindow(qbWindow, "Save Backup Copy", int.Parse(Sync_Timeout));
                                 }
@@ -555,6 +621,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                 try
                                 {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Update Company"), "Yes");
                                     Actions.WaitForAnyChildWindow(qbWindow, "Update Company", int.Parse(Sync_Timeout));
                                 }
@@ -566,6 +634,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "Yes");
                                     Actions.WaitForAnyChildWindow(qbWindow, "Update Company", int.Parse(Sync_Timeout));
                                 }
@@ -573,6 +642,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "Continue");
                                     Actions.WaitForAnyChildWindow(qbWindow, "Update Company", int.Parse(Sync_Timeout));
                                 }
@@ -584,12 +654,16 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Encountered a Problem"), "Skip");
                                 }
                                 catch (Exception) { }
 
                                 try
                                 {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "Close");
                                 }
                                 catch (Exception) { }
@@ -599,6 +673,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "Skip");
                                 }
                                 catch (Exception) { }
@@ -610,6 +685,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "OK");
                                     Actions.WaitForAnyChildWindow(qbWindow, "Warning", int.Parse(Sync_Timeout));
                                 }
@@ -617,6 +694,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "Continue");
                                     Actions.WaitForAnyChildWindow(qbWindow, "Warning", int.Parse(Sync_Timeout));
                                 }
@@ -624,6 +702,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "Start");
                                     Actions.WaitForAnyChildWindow(qbWindow, "Warning", int.Parse(Sync_Timeout));
                                 }
@@ -631,6 +710,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "QuickBooks File Doctor"), "Continue");
                                 }
                                 catch (Exception) { }
@@ -642,6 +722,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "Continue");
                                     Actions.WaitForAnyChildWindow(qbWindow, "QuickBooks File Doctor", int.Parse(Sync_Timeout));
                                 }
@@ -652,7 +733,9 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             //Home window handler
                             else if (item.Name.Contains("Home"))
                             {
-                                try { Actions.ClickElementByName(item, "Close");
+                                try {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
+                                    Actions.ClickElementByName(item, "Close");
                                 Thread.Sleep(int.Parse(Execution_Speed));}
                                 catch (Exception) { }
                             }
@@ -662,6 +745,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "Enter All Later");
                                     Thread.Sleep(int.Parse(Execution_Speed));
                                 }
@@ -669,6 +753,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "OK");
                                     Thread.Sleep(int.Parse(Execution_Speed));
                                 }
@@ -680,6 +765,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "OK");
                                     Thread.Sleep(int.Parse(Execution_Speed));
                                 }
@@ -691,6 +777,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "OK");
                                     Thread.Sleep(int.Parse(Execution_Speed));
                                 }
@@ -702,6 +789,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             {
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
                                     Thread.Sleep(int.Parse(Execution_Speed));
                                 }
@@ -709,6 +797,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                 try
                                 {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
                                     Thread.Sleep(int.Parse(Execution_Speed));
                                 }
@@ -779,6 +868,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     //Alert window handler
                                     try
                                     {
+                                        Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                     }
@@ -786,6 +876,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                     try
                                     {
+                                        Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                     }
@@ -797,6 +888,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     {
                                         try
                                         {
+
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "Remind Me Later");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -808,6 +901,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     {
                                         try
                                         {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             QuickBooks.OpenOrUpgradeCompanyFile(PathBuilder.GetPath("DefaultCompanyFile.qbw"), qbApp, qbWin, false, false);
                                         }
                                         catch { }
@@ -818,6 +912,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     {
                                         try
                                         {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "Close");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -829,6 +924,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     {
                                         try
                                         {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "Cancel");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -836,6 +932,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                         try
                                         {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "OK");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -848,6 +945,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     {
                                         try
                                         {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "OK");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -859,6 +957,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     {
                                         try
                                         {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "Cancel");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -870,6 +969,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     {
                                         try
                                         {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "OK");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -881,6 +981,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     {
                                         try
                                         {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "OK");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -892,6 +993,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     {
                                         try
                                         {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Enter Memorized Transactions"), "Enter All Later");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -899,6 +1001,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                         try
                                         {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Enter Memorized Transactions"), "OK");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -910,6 +1013,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     {
                                         try
                                         {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "No");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -943,6 +1047,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     {
                                         try
                                         {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "Close");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -951,6 +1056,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                         try
                                         {
+
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "Yes");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -964,6 +1071,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     {
                                         try
                                         {
+
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "OK");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -975,11 +1084,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     {
                                         item.Focus();
 
-                                        try { Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Recording Transaction"), "No"); }
+                                        try {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
+                                            Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Recording Transaction"), "No"); }
                                         catch { }
 
                                         try
                                         {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "Close");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -987,6 +1099,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                         try
                                         {
+
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "No");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -995,6 +1109,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                         try
                                         {
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             item.Close();
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -1002,6 +1117,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                         try
                                         {
+
+                                            Logger.logMessage("---------------Try-Catch Block------------------------");
                                             Actions.ClickElementByName(item, "OK");
                                             Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                         }
@@ -1057,10 +1174,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     Actions.ClickElementByAutomationID(QBSetupWindow, "btn_Next");
                     try
                     {
+                        Logger.logMessage("---------------Try-Catch Block------------------------");
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Encountered a Problem"), "Skip");
                     }
                     catch (Exception) { }
-                    try { Actions.ClickElementByAutomationID(QBSetupWindow, "btn_Continue"); }
+                    try
+                    {
+                        Logger.logMessage("---------------Try-Catch Block------------------------"); 
+                        Actions.ClickElementByAutomationID(QBSetupWindow, "btn_Continue"); }
                     catch (Exception) { }
                 }
 
