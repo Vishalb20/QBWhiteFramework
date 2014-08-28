@@ -146,6 +146,7 @@
     <Compile Include="Utils\KeyStrokeSimulator.cs" />
     <Compile Include="Utils\LastException.cs" />
     <Compile Include="Utils\Logger.cs" />
+    <Compile Include="Utils\OSOperations.cs" />
     <Compile Include="Utils\PathBuilder.cs" />
     <Compile Include="Utils\Properties.cs" />
     <Compile Include="Utils\StringFunctions.cs" />

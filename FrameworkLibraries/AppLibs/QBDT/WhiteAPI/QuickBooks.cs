@@ -32,12 +32,23 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         public static string DefaultCompanyFilePath = DefaultCompanyFile;
         public static string TestDataSourceDirectory = conf.get("TestDataSourceDirectory");
         public static string TestDataLocalDirectory = conf.get("TestDataLocalDirectory");
+        public static string QbwINI = conf.get("QBW.ini");
 
         //**************************************************************************************************************************************************************
 
         public static TestStack.White.Application Initialize(String exePath)
         {
             Logger.logMessage("Initialize " + exePath);
+
+            var accessiblity = FrameworkLibraries.Utils.FileOperations.CheckForStringInFile(QbwINI, "QBACCESSIBILITY=1");
+            if(!accessiblity)
+            {
+                Logger.logMessage("QBAccessiblity settings not availble in - " + QbwINI);
+                Logger.logMessage("Trying to set QBACCESSIBILITY=1 and kill any existing QBW32 process..");
+                FileOperations.AppendStringToFile(QbwINI, "[ACCESSIBILITY]");
+                FileOperations.AppendStringToFile(QbwINI, "QBACCESSIBILITY=1");
+                OSOperations.KillProcess("QBW32");
+            }
 
             int processID = 0;
             TestStack.White.Application app = null;
@@ -848,8 +859,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     try { Actions.SelectMenu(qbApp, qbWin, "Window", "Close All"); }
                     catch (Exception) { }
 
-                    if (!Actions.CheckMenuEnabled(qbApp, qbWin, "File"))
-                    {
                         do
                         {
                             if (iteration <= 10)
@@ -859,11 +868,17 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                 foreach (Window item in modalWin)
                                 {
-                                    if (Actions.CheckMenuEnabled(qbApp, qbWin, "File"))
+                                    try
                                     {
-                                        menuEnabled = true;
-                                        break;
+                                        Logger.logMessage("---------------Try-Catch Block------------------------");
+                                        if (Actions.CheckMenuEnabled(qbApp, qbWin, "File"))
+                                        {
+                                            menuEnabled = true;
+                                            break;
+                                        }
                                     }
+                                    catch (Exception)
+                                    { }
 
                                     //Alert window handler
                                     try
@@ -1134,7 +1149,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                         }
                         while (modalWin.Count != 0 && menuEnabled.Equals(false));
                         Thread.Sleep(int.Parse(Execution_Speed));
-                    }
                 }
                 while (!Actions.CheckMenuEnabled(qbApp, qbWin, "File"));
 

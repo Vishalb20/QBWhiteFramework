@@ -91,5 +91,21 @@ namespace FrameworkLibraries.Utils
             }
         }
 
+        public static bool CheckForStringInFile(string filePath, string searchString)
+        {
+            if (File.ReadLines(filePath).Any(line => line.Contains(searchString)))
+                return true;
+            else
+                return false;
+        }
+
+        public static void AppendStringToFile(string filePath, string appendString)
+        {
+            using (StreamWriter w = File.AppendText(filePath))
+            {
+                w.WriteLine(appendString);
+                w.Close();
+            }
+        }
     }
 }
