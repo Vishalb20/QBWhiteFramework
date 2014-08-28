@@ -1184,18 +1184,26 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                 if (Actions.CheckElementExistsByAutomationID(QBSetupWindow, "txt_LoginEmail"))
                 {
-                    Actions.SetTextByAutomationID(QBSetupWindow, "txt_LoginEmail", "test@gmail.com");
+                    Actions.SetTextByAutomationID(QBSetupWindow, "txt_LoginEmail", businessName+"@hotmail.com");
                     Actions.ClickElementByAutomationID(QBSetupWindow, "btn_Next");
+                    Actions.SetTextByAutomationID(QBSetupWindow, "pwd_NewPwd", "Intuit01");
+                    Actions.SetTextByAutomationID(QBSetupWindow, "pwd_NewConfirm", "Intuit01");
+                    Actions.SetTextByAutomationID(QBSetupWindow, "txt_FirstName", businessName);
+                    Actions.SetTextByAutomationID(QBSetupWindow, "txt_LastName", "Test");
+                    var uiaWindow = Actions.UIA_GetAppWindow(qbWindow.Name);
+                    Actions.SetFocusOnElementByAutomationID(QBSetupWindow, "btn_Continue");
+                    Actions.SendTABToWindow(QBSetupWindow);
+                    Actions.SendTABToWindow(QBSetupWindow);
+                    Actions.SendTABToWindow(QBSetupWindow);
+                    Actions.SendTABToWindow(QBSetupWindow);
+                    Actions.SendTABToWindow(QBSetupWindow);
+                    Actions.SendTABToWindow(QBSetupWindow);
+                    Actions.SendENTERoWindow(QBSetupWindow);
                     try
                     {
                         Logger.logMessage("---------------Try-Catch Block------------------------");
                         Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Encountered a Problem"), "Skip");
                     }
-                    catch (Exception) { }
-                    try
-                    {
-                        Logger.logMessage("---------------Try-Catch Block------------------------"); 
-                        Actions.ClickElementByAutomationID(QBSetupWindow, "btn_Continue"); }
                     catch (Exception) { }
                 }
 

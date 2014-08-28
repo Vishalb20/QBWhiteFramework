@@ -1645,6 +1645,33 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
 
 //**************************************************************************************************************************************************************
+        
+        public static void SendENTERoWindow(Window window)
+        {
+            try
+            {
+                TestStack.White.InputDevices.AttachedKeyboard kb = window.Keyboard;
+                kb.PressSpecialKey(TestStack.White.WindowsAPI.KeyboardInput.SpecialKeys.RETURN);
+                Thread.Sleep(int.Parse(Execution_Speed));
+                Logger.logMessage("SendENTERoWindow " + window + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("SendENTERoWindow " + window + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+
+//**************************************************************************************************************************************************************
+
 
         public static void SelectComboBoxItemByText(Window win, String comboBoxAutoID, String matchText)
         {
