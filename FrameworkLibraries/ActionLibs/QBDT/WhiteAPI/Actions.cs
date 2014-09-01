@@ -16,6 +16,7 @@ using TestStack.White.UIItems.MenuItems;
 using TestStack.White;
 using System.Diagnostics;
 using Xunit;
+using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
 
 namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 {
@@ -24,12 +25,13 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         public static Property conf = Property.GetPropertyInstance();
         public static string Execution_Speed = conf.get("ExecutionSpeed");
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static bool SelectMenu(TestStack.White.Application app, Window win, string level1, string level2)
         {
             try
             {
+                Logger.logMessage("Function call @ :" + DateTime.Now);
                 MenuBar qbMenu = app.GetWindow(win.Name).MenuBar;
                 qbMenu.MenuItem(level1, level2).Click();
                 Thread.Sleep(int.Parse(Execution_Speed));
@@ -48,12 +50,13 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             }
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static bool CheckMenuEnabled(TestStack.White.Application app, Window win, string level1)
         {
             try
             {
+                Logger.logMessage("Function call @ :" + DateTime.Now);
                 MenuBar qbMenu = app.GetWindow(win.Name).MenuBar;
                 var status = qbMenu.MenuItem(level1).Enabled;
                 Logger.logMessage("CheckMenuEnabled " + level1 + "->" + " - Successful");
@@ -72,12 +75,13 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static bool SelectMenu(TestStack.White.Application app, Window win, string level1, string level2, string level3)
         {
             try
             {
+                Logger.logMessage("Function call @ :" + DateTime.Now);
                 MenuBar qbMenu = app.GetWindow(win.Name).MenuBar;
                 TestStack.White.UIItems.MenuItems.Menu m1 = qbMenu.MenuItem(level1);
                 m1.SubMenu(level2).SubMenu(level3).Click();
@@ -97,12 +101,13 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             }
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static bool SelectMenu(TestStack.White.Application app, Window win, String[] args)
         {
             try
             {
+                Logger.logMessage("Function call @ :" + DateTime.Now);
                 MenuBar qbMenu = app.GetWindow(win.Name).MenuBar;
 
                 foreach (String item in args)
@@ -121,10 +126,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static Window GetWindow(Window win, String winName)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             Window window = null;
 
             try
@@ -134,7 +140,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 {
                     Logger.logMessage(item.Name);
 
-                    if(item.Name.Equals(winName) || item.Name.Contains(winName))
+                    if (item.Name.Equals(winName) || item.Name.Contains(winName))
                     {
                         window = item;
                         window.Focus();
@@ -145,7 +151,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 Logger.logMessage("GetWindow " + winName + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
                 return window;
-                  
+
             }
             catch (Exception e)
             {
@@ -159,16 +165,17 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static UIItemCollection GetWindowItems(Window win)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             UIItemCollection items = null;
 
             try
             {
                 items = win.Items;
-                foreach(var item in items)
+                foreach (var item in items)
                 {
                     Logger.logMessage(item.ToString());
                 }
@@ -190,10 +197,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void HighLightWindowElements(UIItemCollection collection)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 foreach (IUIItem item in collection)
@@ -223,10 +231,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void ClickWPFButton(Window win, UIItemCollection collection, String text)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
@@ -262,10 +271,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static bool ClickButtonByOrientation(UIItemCollection item, String identifier)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             AutomationProperty p = AutomationElementIdentifiers.OrientationProperty;
             try
             {
@@ -292,10 +302,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void HighLightAndShowProperties(UIItemCollection item, String elementType)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             String spy = null;
 
             try
@@ -338,10 +349,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void ShowWindowElementTypes(Window win)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             String spy = null;
             SortedSet<String> Types = new SortedSet<string>();
 
@@ -370,10 +382,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void GetCurrsorToFirstTextBox(Window win)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
@@ -381,7 +394,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
                 foreach (var element in allElements)
                 {
-                    if(element.GetType().Name.Equals("TextBox"))
+                    if (element.GetType().Name.Equals("TextBox"))
                     {
                         element.Focus();
                         element.Click();
@@ -405,10 +418,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void ClickElementByAutomationID(Window win, String automationID)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
@@ -428,10 +442,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             }
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static bool CheckElementExistsByAutomationID(Window win, String automationID)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             bool exists = false;
 
             try
@@ -454,10 +469,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void ShowWindowElementAutomationIDs(Window win)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             String spy = null;
 
             try
@@ -480,10 +496,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SetFocusOnWindow(Window win)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
@@ -506,10 +523,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void ClickElementByName(Window win, String name)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
@@ -532,17 +550,18 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void ClickElementByMatchingName(Window win, String matchingName)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
                 UIItemCollection allItems = win.Items;
                 foreach (IUIItem item in allItems)
                 {
-                    if(item.Name.Contains(matchingName))
+                    if (item.Name.Contains(matchingName))
                     {
                         item.Click();
                     }
@@ -565,10 +584,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SetTextOnElementByName(Window win, String name, String value)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
@@ -591,14 +611,15 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void ClickButtonByAutomationID(Window win, String automationID)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
-                TestStack.White.UIItems.Button b = (TestStack.White.UIItems.Button) win.Get(SearchCriteria.ByAutomationId(automationID));
+                TestStack.White.UIItems.Button b = (TestStack.White.UIItems.Button)win.Get(SearchCriteria.ByAutomationId(automationID));
                 b.Click();
                 Thread.Sleep(int.Parse(Execution_Speed));
                 Logger.logMessage("ClickButtonByAutomationID " + win + "->" + automationID + " - Successful");
@@ -617,10 +638,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void ClickMenuItemByName(Window win, String name)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
@@ -644,11 +666,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
 
         public static void SetTextByAutomationID(Window win, String automationID, String value)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
@@ -670,10 +693,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SetTextByName(Window win, String name, String value)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
@@ -697,10 +721,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void FileOutAutomationIDs(UIItemCollection collection, String fileName)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
@@ -739,10 +764,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SendTABToWindow(Window window)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 TestStack.White.InputDevices.AttachedKeyboard kb = window.Keyboard;
@@ -764,10 +790,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SendKeysToWindow(Window window, String key)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 TestStack.White.InputDevices.AttachedKeyboard kb = window.Keyboard;
@@ -793,10 +820,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SendSHIFT_TABToWindow(Window window)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 TestStack.White.InputDevices.AttachedKeyboard kb = window.Keyboard;
@@ -820,16 +848,17 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SendNumbersToWindow(Window window, int input)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 TestStack.White.InputDevices.AttachedKeyboard kb = window.Keyboard;
                 foreach (var c in input.ToString())
                 {
-                    kb.Enter(""+Int32.Parse(c.ToString())+"");
+                    kb.Enter("" + Int32.Parse(c.ToString()) + "");
                 }
                 Thread.Sleep(int.Parse(Execution_Speed));
                 Logger.logMessage("SendNumbersToWindow " + window + "->" + input + " - Successful");
@@ -848,10 +877,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SendBCKSPACEToWindow(Window window)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 TestStack.White.InputDevices.AttachedKeyboard kb = window.Keyboard;
@@ -874,10 +904,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void CloseAllChildWindows(Window window)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 List<Window> modalWindows = window.ModalWindows();
@@ -907,10 +938,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void ClickButtonByName(Window win, String name)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
@@ -934,11 +966,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void HighLightWindowElementsAndShowType(Window win)
         {
-            
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
             try
             {
                 UIItemCollection allElements = win.Items;
@@ -959,10 +992,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static List<IUIItem> GetAllGroupBoxes(UIItemCollection collection)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             List<IUIItem> groupBoxes = new List<IUIItem>();
 
             try
@@ -991,10 +1025,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static List<IUIItem> GetAllListItems(UIItemCollection collection)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             List<IUIItem> listItems = new List<IUIItem>();
 
             try
@@ -1023,10 +1058,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SelectListBoxItemByText(Window win, String listBoxElementAutoID, String matchText)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 TestStack.White.UIItems.ListBoxItems.ListBox l = win.Get<TestStack.White.UIItems.ListBoxItems.ListBox>(SearchCriteria.ByAutomationId(listBoxElementAutoID));
@@ -1057,10 +1093,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void GetElementCountOfType(Window win, String type)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             int count = 0;
             SortedSet<String> Types = new SortedSet<string>();
 
@@ -1086,10 +1123,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static List<IUIItem> GetAllTextBoxes(UIItemCollection collection)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             List<IUIItem> textBoxes = new List<IUIItem>();
 
             try
@@ -1098,7 +1136,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 {
                     if (element.GetType().Name.Contains("Text") || element.GetType().Equals("Text"))
                     {
-                        TestStack.White.UIItems.TextBox x = (TestStack.White.UIItems.TextBox) element;
+                        TestStack.White.UIItems.TextBox x = (TestStack.White.UIItems.TextBox)element;
                         textBoxes.Add(x);
                     }
                 }
@@ -1119,10 +1157,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static List<IUIItem> GetAllPanels(UIItemCollection collection)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             List<IUIItem> panels = new List<IUIItem>();
 
             try
@@ -1152,10 +1191,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static List<IUIItem> GetAllCheckboxes(UIItemCollection collection)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             List<IUIItem> checkBoxes = new List<IUIItem>();
 
             try
@@ -1186,10 +1226,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void UIA_SetFocusOfFirstTextBox(AutomationElement uiaWindow, Window window)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 PropertyCondition textCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Text);
@@ -1218,15 +1259,16 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void UIA_SetTextByName(AutomationElement uiaWindow, Window window, string name, string value)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 PropertyCondition textCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit);
                 AutomationElementCollection textBoxes = uiaWindow.FindAll(TreeScope.Descendants, textCondition);
-                foreach(AutomationElement e in textBoxes)
+                foreach (AutomationElement e in textBoxes)
                 {
                     if (e.Current.Name.Equals(name))
                     {
@@ -1251,9 +1293,10 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
         public static void UIA_ClickTextByName(AutomationElement uiaWindow, Window window, string name)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 PropertyCondition textCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Text);
@@ -1283,12 +1326,13 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
 
 
         public static void UIA_SetTextByAutomationID(AutomationElement uiaWindow, Window window, string automationID, string value)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 PropertyCondition textCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit);
@@ -1318,11 +1362,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
 
         public static AutomationElement UIA_GetAppWindow(string windowName)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 PropertyCondition windowTypeCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Window);
@@ -1346,10 +1391,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static AutomationElement UIA_GetChildWindow(AutomationElement appWindow, string childWindowName)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             AutomationElement childWindow = null;
 
             try
@@ -1386,9 +1432,10 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
         public static Window GetChildWindow(Window mainWindow, string childWindowName)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             Window childWindow = null;
 
             try
@@ -1419,10 +1466,14 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static bool WaitForChildWindow(Window mainWindow, string childWindowName, long timeOut)
         {
+            var qbApp = QuickBooks.GetApp("QuickBooks");
+            var qbWindow = QuickBooks.GetAppWindow(qbApp, "QuickBooks");
+
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             Logger.logMessage("WaitForChildWindow " + mainWindow + "->" + childWindowName + " - Begin Sync");
             bool windowFound = false;
             long elapsedTime = 0;
@@ -1432,6 +1483,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             {
                 do
                 {
+                    Actions.CheckForAlertAndClose("Alert");
+
+                    try { Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Warning"), "OK"); }
+                    catch (Exception) { }
+
                     if (windowFound)
                         break;
 
@@ -1441,22 +1497,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
                     foreach (Window w in allChildWindows)
                     {
-                        try
-                        {
-                            Logger.logMessage("---------------Try-Catch Block------------------------");
-                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
-                            Thread.Sleep(int.Parse(Execution_Speed));
-                        }
-                        catch (Exception) { }
 
-                        try
-                        {
-                            Logger.logMessage("---------------Try-Catch Block------------------------");
-                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
-                            Thread.Sleep(int.Parse(Execution_Speed));
-                        }
-                        catch (Exception) { }
+                        Actions.CheckForAlertAndClose("Alert");
 
+                        try { Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Warning"), "OK"); }
+                        catch (Exception) { }
 
                         if (w.Name.Equals(childWindowName) || w.Name.Contains(childWindowName))
                         {
@@ -1466,7 +1511,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                         }
                     }
                 }
-                while (elapsedTime<=timeOut);
+                while (elapsedTime <= timeOut);
                 Logger.logMessage("WaitForChildWindow " + mainWindow + "->" + childWindowName + " - End Sync");
                 Logger.logMessage("------------------------------------------------------------------------------");
                 return windowFound;
@@ -1483,12 +1528,16 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static bool WaitForAnyChildWindow(Window mainWindow, string currentWindowName, long timeOut)
         {
+            var qbApp = QuickBooks.GetApp("QuickBooks");
+            var qbWindow = QuickBooks.GetAppWindow(qbApp, "QuickBooks");
+
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             Logger.logMessage("WaitForAnyChildWindow " + mainWindow + "->" + currentWindowName + " - Begin Sync");
-            
+
             bool windowFound = false;
             long elapsedTime = 0;
             var stopwatch = Stopwatch.StartNew();
@@ -1497,6 +1546,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             {
                 do
                 {
+                    Actions.CheckForAlertAndClose("Alert");
+
+                    try { Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Warning"), "OK"); }
+                    catch (Exception) { }
+
                     if (windowFound)
                         break;
 
@@ -1506,20 +1560,10 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
                     foreach (Window w in allChildWindows)
                     {
-                        try
-                        {
-                            Logger.logMessage("---------------Try-Catch Block------------------------");
-                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
-                            Thread.Sleep(int.Parse(Execution_Speed));
-                        }
-                        catch (Exception) { }
 
-                        try
-                        {
-                            Logger.logMessage("---------------Try-Catch Block------------------------");
-                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
-                            Thread.Sleep(int.Parse(Execution_Speed));
-                        }
+                        Actions.CheckForAlertAndClose("Alert");
+
+                        try { Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Warning"), "OK"); }
                         catch (Exception) { }
 
 
@@ -1550,10 +1594,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static bool WaitForAppWindow(string appWindowName, long timeOut)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             Logger.logMessage("WaitForAppWindow " + appWindowName + "->" + " - Begin Sync");
 
             bool windowFound = false;
@@ -1617,10 +1662,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SendSHIFT_ENDToWindow(Window window)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 TestStack.White.InputDevices.AttachedKeyboard kb = window.Keyboard;
@@ -1644,10 +1690,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
-        
+        //**************************************************************************************************************************************************************
+
         public static void SendENTERoWindow(Window window)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 TestStack.White.InputDevices.AttachedKeyboard kb = window.Keyboard;
@@ -1670,11 +1717,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
 
         public static void SelectComboBoxItemByText(Window win, String comboBoxAutoID, String matchText)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 TestStack.White.UIItems.ListBoxItems.ComboBox c = win.Get<TestStack.White.UIItems.ListBoxItems.ComboBox>(SearchCriteria.ByAutomationId(comboBoxAutoID));
@@ -1688,7 +1736,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                         Thread.Sleep(int.Parse(Execution_Speed));
                     }
                 }
-                Logger.logMessage("SelectComboBoxItemByText " + win +  "->" + comboBoxAutoID + "->" + matchText + " - Sucessful");
+                Logger.logMessage("SelectComboBoxItemByText " + win + "->" + comboBoxAutoID + "->" + matchText + " - Sucessful");
                 Logger.logMessage("------------------------------------------------------------------------------");
 
             }
@@ -1703,14 +1751,15 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             }
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SelectCheckBox(Window win, String checkBoxAutoID, bool state)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 TestStack.White.UIItems.CheckBox c = win.Get<TestStack.White.UIItems.CheckBox>(SearchCriteria.ByAutomationId(checkBoxAutoID));
-                if(state)
+                if (state)
                 {
                     c.Select();
                     Thread.Sleep(int.Parse(Execution_Speed));
@@ -1735,10 +1784,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SelectCheckBoxByName(Window win, String checkBoxName, bool state)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 AutomationProperty p = AutomationElementIdentifiers.NameProperty;
@@ -1769,10 +1819,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SelectRadioButtonByName(Window win, String radioButtonName)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 AutomationProperty p = AutomationElementIdentifiers.NameProperty;
@@ -1795,10 +1846,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SelectRadioButton(Window win, String radioButtonAutoID)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             try
             {
                 TestStack.White.UIItems.RadioButton r = win.Get<TestStack.White.UIItems.RadioButton>(SearchCriteria.ByAutomationId(radioButtonAutoID));
@@ -1820,11 +1872,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
 
         public static void SetTextOnElementByAutomationID(Window win, String automationID, String value)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
@@ -1845,11 +1898,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
 
         public static bool CheckWindowExists(Window mainWindow, string childWindowName)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
             bool window = false;
 
             try
@@ -1882,10 +1936,11 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void SetFocusOnElementByAutomationID(Window win, String automationID)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
 
             try
             {
@@ -1906,10 +1961,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static List<IUIItem> GetAllButtons(UIItemCollection collection)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
             List<IUIItem> buttons = new List<IUIItem>();
 
             try
@@ -1938,10 +1995,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static List<IUIItem> GetAllCustomControls(UIItemCollection collection)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
             List<IUIItem> customControls = new List<IUIItem>();
 
             try
@@ -1971,11 +2030,13 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
 
         public static void UIA_ClickOnPaneItem(AutomationElement uiaWindow, Window window, int index)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
             try
             {
                 PropertyCondition paneCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Pane);
@@ -2001,10 +2062,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void UIA_ClickMenuItem(AutomationElement uiaWindow, Window window, string name)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
             try
             {
                 PropertyCondition condition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.MenuItem);
@@ -2031,10 +2094,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void UIA_ClickItemByName(AutomationElement uiaWindow, Window window, string name)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
             try
             {
                 AutomationProperty p = AutomationElementIdentifiers.NameProperty;
@@ -2061,10 +2126,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void UIA_ClickItemByAutomationID(AutomationElement uiaWindow, Window window, string automationID)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
             try
             {
                 AutomationProperty p = AutomationElementIdentifiers.AutomationIdProperty;
@@ -2090,10 +2157,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
-        
+        //**************************************************************************************************************************************************************
+
         public static void DesktopInstance_ClickElementByName(string name)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
             try
             {
                 AutomationProperty p = AutomationElementIdentifiers.NameProperty;
@@ -2118,10 +2187,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static void DesktopInstance_ClickElementByAutomationID(string automationID)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
             try
             {
                 AutomationProperty p = AutomationElementIdentifiers.AutomationIdProperty;
@@ -2146,11 +2217,13 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
 
         public static bool DesktopInstance_CheckElementExistsByName(string name)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
             try
             {
                 AutomationProperty p = AutomationElementIdentifiers.NameProperty;
@@ -2172,10 +2245,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             }
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static bool DesktopInstance_CheckElementExistsByAutomationID(string automationID)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
             try
             {
                 AutomationProperty p = AutomationElementIdentifiers.AutomationIdProperty;
@@ -2197,10 +2272,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             }
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
         public static Window GetAlertWindow(string alertWindowName)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
             Window alertWindow = null;
             string alertText = null;
 
@@ -2244,10 +2321,64 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
+
+        public static void CloseAlertWindow(string alertWindowName)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
+            Window alertWindow = null;
+            string alertText = null;
+
+            try
+            {
+                List<Window> allChildWindows = Desktop.Instance.Windows();
+
+                foreach (Window w in allChildWindows)
+                {
+                    if (w.Name.Equals(alertWindowName) || w.Name.Contains(alertWindowName))
+                    {
+                        alertWindow = w;
+
+                        var elements = alertWindow.Items;
+
+                        foreach (var item in elements)
+                        {
+                            if (item.GetType().Name.Equals("Label"))
+                            {
+                                alertText = item.Name;
+                            }
+                        }
+
+                        alertWindow.Close();
+
+                        Logger.logMessage("CloseAlertWindow " + alertWindowName + " - Sucessful");
+                        Logger.logMessage(alertText);
+                        Logger.logMessage("------------------------------------------------------------------------------");
+                        break;
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("CloseAlertWindow " + alertWindowName + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+        //**************************************************************************************************************************************************************
+
 
         public static bool XunitAssertEuqals(string obj1, string obj2)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
             try
             {
                 Assert.Equal(obj1, obj2);
@@ -2267,9 +2398,12 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
+
         public static bool XunitAssertContains(string obj1, string obj2)
         {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
             try
             {
                 Assert.Contains(obj1, obj2);
@@ -2289,9 +2423,77 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         }
 
-//**************************************************************************************************************************************************************
+        //**************************************************************************************************************************************************************
 
+        public static void CheckForAlertAndClose(string alertWindowName)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            string alertText = null;
+            List<Window> allChildWindows = null;
+            int iteration = 0;
 
+            try
+            {
+                do
+                {
+
+                    iteration = iteration + 1;
+
+                    if (iteration > 10)
+                        break;
+
+                    allChildWindows = Desktop.Instance.Windows();
+
+                    foreach (Window w in allChildWindows)
+                    {
+                        if (w.Name.Equals(alertWindowName) || w.Name.Contains(alertWindowName))
+                        {
+                            var elements = w.Items;
+
+                            foreach (var item in elements)
+                            {
+                                if (item.GetType().Name.Equals("Label"))
+                                {
+                                    alertText = item.Name;
+                                }
+                            }
+                            Logger.logMessage(alertText);
+                            Logger.logMessage("------------------------------------------------------------------------------");
+
+                            try
+                            {
+                                Logger.logMessage("---------------Try-Catch Block------------------------");
+                                Actions.ClickElementByName(w, "OK");
+                                Thread.Sleep(int.Parse(Execution_Speed));
+                            }
+                            catch (Exception) { }
+
+                            try
+                            {
+                                Logger.logMessage("---------------Try-Catch Block------------------------");
+                                Actions.CloseAlertWindow("Alert");
+                                Actions.ClickElementByName(w, "No");
+                                Thread.Sleep(int.Parse(Execution_Speed));
+                            }
+                            catch (Exception) { }
+                        }
+                    }
+                }
+                while (!allChildWindows.Contains(Actions.GetAlertWindow("Alert")));
+                Logger.logMessage("CheckForAlertAndClose - Successful");
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("CheckForAlertAndClose - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+        //**************************************************************************************************************************************************************
 
     }
 }
