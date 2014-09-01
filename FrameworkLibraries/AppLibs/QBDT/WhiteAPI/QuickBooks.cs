@@ -723,6 +723,14 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 try
                                 {
                                     Logger.logMessage("---------------Try-Catch Block------------------------");
+                                    Actions.ClickElementByName(item, "Cancel");
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Warning", int.Parse(Sync_Timeout));
+                                }
+                                catch (Exception) { }
+
+                                try
+                                {
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
                                     Actions.ClickElementByName(item, "Start");
                                     Actions.WaitForAnyChildWindow(qbWindow, "Warning", int.Parse(Sync_Timeout));
                                 }
@@ -809,21 +817,8 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             //Alert window handler
                             else
                             {
-                                try
-                                {
-                                    Logger.logMessage("---------------Try-Catch Block------------------------");
-                                    Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
-                                    Thread.Sleep(int.Parse(Execution_Speed));
-                                }
-                                catch (Exception) { }
-
-                                try
-                                {
-                                    Logger.logMessage("---------------Try-Catch Block------------------------");
-                                    Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
-                                    Thread.Sleep(int.Parse(Execution_Speed));
-                                }
-                                catch (Exception) { }
+                                if (Actions.CheckAlertExists("Alert"))
+                                    Actions.CheckForAlertAndClose("Alert");
                             }
                         }
                     }
@@ -872,6 +867,10 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                     do
                     {
+                        //Alert window handler
+                        if (Actions.CheckAlertExists("Alert"))
+                            Actions.CheckForAlertAndClose("Alert");
+
                         if (iteration <= 10)
                         {
                             iteration = iteration + 1;
@@ -879,6 +878,9 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                             foreach (Window item in modalWin)
                             {
+                                //Alert window handler
+                                Actions.CheckForAlertAndClose("Alert");    
+
                                 try
                                 {
                                     Logger.logMessage("---------------Try-Catch Block------------------------");
@@ -890,24 +892,6 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                 }
                                 catch (Exception)
                                 { }
-
-                                //Alert window handler
-                                try
-                                {
-                                    Logger.logMessage("---------------Try-Catch Block------------------------");
-                                    Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch (Exception) { }
-
-                                try
-                                {
-                                    Logger.logMessage("---------------Try-Catch Block------------------------");
-                                    Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
-                                    Thread.Sleep(int.Parse(ResetWindow_Timeout));
-                                }
-                                catch (Exception) { }
-
 
                                 //Register QB window handler
                                 if (item.Name.Contains("Register QuickBooks"))

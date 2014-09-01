@@ -1546,7 +1546,8 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             {
                 do
                 {
-                    Actions.CheckForAlertAndClose("Alert");
+                    if (Actions.CheckAlertExists("Alert"))
+                        Actions.CheckForAlertAndClose("Alert");
 
                     try { Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Warning"), "OK"); }
                     catch (Exception) { }
@@ -1561,7 +1562,8 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                     foreach (Window w in allChildWindows)
                     {
 
-                        Actions.CheckForAlertAndClose("Alert");
+                        if(Actions.CheckAlertExists("Alert"))
+                            Actions.CheckForAlertAndClose("Alert");
 
                         try { Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Warning"), "OK"); }
                         catch (Exception) { }
@@ -2471,7 +2473,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                             try
                             {
                                 Logger.logMessage("---------------Try-Catch Block------------------------");
-                                Actions.CloseAlertWindow("Alert");
+                                w.Close();
                                 Actions.ClickElementByName(w, "No");
                                 Thread.Sleep(int.Parse(Execution_Speed));
                             }
@@ -2494,6 +2496,41 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
         //**************************************************************************************************************************************************************
+
+        public static bool CheckAlertExists(string alertWindowName)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            bool exists = false;
+            List<Window> allChildWindows = null;
+            
+            try
+            {
+                    allChildWindows = Desktop.Instance.Windows();
+                    foreach (Window w in allChildWindows)
+                    {
+                        if (w.Name.Equals(alertWindowName) || w.Name.Contains(alertWindowName))
+                        {
+                            exists = true;
+                            break;
+                        }
+                    }
+                    Logger.logMessage("CheckAlertExists - Successful");
+                    Logger.logMessage("------------------------------------------------------------------------------");
+                    return exists;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("CheckForAlertAndClose - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+        //**************************************************************************************************************************************************************
+
 
     }
 }
