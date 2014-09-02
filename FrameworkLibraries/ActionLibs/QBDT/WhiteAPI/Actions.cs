@@ -792,6 +792,33 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
+        public static void SendDOWNToWindow(Window window)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            try
+            {
+                TestStack.White.InputDevices.AttachedKeyboard kb = window.Keyboard;
+                kb.PressSpecialKey(TestStack.White.WindowsAPI.KeyboardInput.SpecialKeys.DOWN);
+                Thread.Sleep(int.Parse(Execution_Speed));
+                Logger.logMessage("SendDOWNToWindow " + window + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("SendDOWNToWindow " + window + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+
+        //**************************************************************************************************************************************************************
+
+
         public static void SendKeysToWindow(Window window, String key)
         {
             Logger.logMessage("Function call @ :" + DateTime.Now);
@@ -1546,11 +1573,19 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             {
                 do
                 {
-                    if (Actions.CheckAlertExists("Alert"))
+                    //Alert window handler
+                    if (Actions.CheckDesktopWindowExists("Alert"))
                         Actions.CheckForAlertAndClose("Alert");
 
                     try { Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Warning"), "OK"); }
                     catch (Exception) { }
+
+                    //Crash handler
+                    if (Actions.CheckDesktopWindowExists("QuickBooks - Unrecoverable Error"))
+                    {
+                        Actions.QBCrashHandler();
+                        break;
+                    }
 
                     if (windowFound)
                         break;
@@ -1562,12 +1597,18 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                     foreach (Window w in allChildWindows)
                     {
 
-                        if(Actions.CheckAlertExists("Alert"))
+                        if (Actions.CheckDesktopWindowExists("Alert"))
                             Actions.CheckForAlertAndClose("Alert");
 
                         try { Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Warning"), "OK"); }
                         catch (Exception) { }
 
+                        //Crash handler
+                        if (Actions.CheckDesktopWindowExists("QuickBooks - Unrecoverable Error"))
+                        {
+                            Actions.QBCrashHandler();
+                            break;
+                        }
 
                         if (!w.Name.Equals(currentWindowName) || !w.Name.Contains(currentWindowName))
                         {
@@ -2325,6 +2366,116 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
+        public static Window GetDesktopWindow(string windowName)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
+            Window win = null;
+
+            try
+            {
+                List<Window> allChildWindows = Desktop.Instance.Windows();
+
+                foreach (Window w in allChildWindows)
+                {
+                    if (w.Name.Equals(windowName) || w.Name.Contains(windowName))
+                    {
+                        win = w;
+                        break;
+                    }
+                }
+                Logger.logMessage("GetDesktopWindow " + windowName + " - Sucessful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+                return win;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("GetDesktopWindow " + windowName + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+        //**************************************************************************************************************************************************************
+
+        public static void QBCrashHandler()
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
+            Window crashWindow = null;
+            Window reportWindow = null;
+
+            try
+            {
+                crashWindow = Actions.GetDesktopWindow("QuickBooks - Unrecoverable Error");
+                Actions.ClickElementByName(crashWindow, "View report.");
+
+                reportWindow = Actions.GetDesktopWindow("View Error Report");
+                Actions.ClickElementByName(reportWindow, "QBWin");
+
+                var elements = reportWindow.Items;
+                foreach (var item in elements)
+                {
+                    if (item.GetType().Name.Equals("TextBox"))
+                    {
+                        var text = item.Name;
+                        Logger.logMessage("---------------QBW32 C++ Log-----------------------");
+                        Logger.logMessage(text);
+                        break;
+                    }
+                }
+
+                Actions.SendDOWNToWindow(reportWindow);
+                Actions.SendDOWNToWindow(reportWindow);
+                Actions.SendDOWNToWindow(reportWindow);
+                Actions.SendDOWNToWindow(reportWindow);
+                Actions.SendDOWNToWindow(reportWindow);
+                Actions.SendDOWNToWindow(reportWindow);
+
+                Actions.ClickElementByName(reportWindow, "qbw32DOTNET");
+                var elements_2 = reportWindow.Items;
+                foreach (var item in elements_2)
+                {
+                    if (item.GetType().Name.Equals("TextBox"))
+                    {
+                        var text = item.Name;
+                        Logger.logMessage("---------------QBW32 DOT NET Log-----------------------");
+                        Logger.logMessage(text);
+                        break;
+                    }
+                }
+                Actions.ClickElementByName(reportWindow, "Close");
+                crashWindow = Actions.GetDesktopWindow("QuickBooks - Unrecoverable Error");
+                Actions.ClickElementByName(crashWindow, "Send");
+
+                try
+                {
+                    Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks"), "Close the program");
+                }
+                catch (Exception)
+                { }
+
+                Logger.logMessage("QBCrashHandler - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("QBCrashHandler - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+        //**************************************************************************************************************************************************************
+
         public static void CloseAlertWindow(string alertWindowName)
         {
             Logger.logMessage("Function call @ :" + DateTime.Now);
@@ -2497,26 +2648,26 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
-        public static bool CheckAlertExists(string alertWindowName)
+        public static bool CheckDesktopWindowExists(string alertWindowName)
         {
             Logger.logMessage("Function call @ :" + DateTime.Now);
             bool exists = false;
             List<Window> allChildWindows = null;
-            
+
             try
             {
-                    allChildWindows = Desktop.Instance.Windows();
-                    foreach (Window w in allChildWindows)
+                allChildWindows = Desktop.Instance.Windows();
+                foreach (Window w in allChildWindows)
+                {
+                    if (w.Name.Equals(alertWindowName) || w.Name.Contains(alertWindowName))
                     {
-                        if (w.Name.Equals(alertWindowName) || w.Name.Contains(alertWindowName))
-                        {
-                            exists = true;
-                            break;
-                        }
+                        exists = true;
+                        break;
                     }
-                    Logger.logMessage("CheckAlertExists - Successful");
-                    Logger.logMessage("------------------------------------------------------------------------------");
-                    return exists;
+                }
+                Logger.logMessage("CheckAlertExists - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+                return exists;
             }
             catch (Exception e)
             {

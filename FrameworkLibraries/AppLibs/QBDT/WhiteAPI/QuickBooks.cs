@@ -817,8 +817,16 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             //Alert window handler
                             else
                             {
-                                if (Actions.CheckAlertExists("Alert"))
+                                //Alert window handler
+                                if (Actions.CheckDesktopWindowExists("Alert"))
                                     Actions.CheckForAlertAndClose("Alert");
+
+                                //Crash handler
+                                if (Actions.CheckDesktopWindowExists("QuickBooks - Unrecoverable Error"))
+                                {
+                                    Actions.QBCrashHandler();
+                                    break;
+                                }
                             }
                         }
                     }
@@ -868,8 +876,15 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                     do
                     {
                         //Alert window handler
-                        if (Actions.CheckAlertExists("Alert"))
+                        if (Actions.CheckDesktopWindowExists("Alert"))
                             Actions.CheckForAlertAndClose("Alert");
+
+                        //Crash handler
+                        if (Actions.CheckDesktopWindowExists("QuickBooks - Unrecoverable Error"))
+                        {
+                            Actions.QBCrashHandler();
+                            break;
+                        }
 
                         if (iteration <= 10)
                         {
