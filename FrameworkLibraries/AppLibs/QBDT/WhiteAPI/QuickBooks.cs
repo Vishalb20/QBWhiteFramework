@@ -80,6 +80,15 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 proc.StartInfo.FileName = exePath;
                 proc.Start();
                 Thread.Sleep(7500);
+
+                //Alert window handler
+                if (Actions.CheckDesktopWindowExists("Alert"))
+                    Actions.CheckForAlertAndClose("Alert");
+
+                //Crash handler
+                if (Actions.CheckDesktopWindowExists("QuickBooks - Unrecoverable Error"))
+                    Actions.QBCrashHandler();
+                
                 try
                 {
                     Logger.logMessage("---------------Try-Catch Block------------------------");
