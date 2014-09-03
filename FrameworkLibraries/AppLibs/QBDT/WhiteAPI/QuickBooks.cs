@@ -869,7 +869,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
         public static void ResetQBWindows(TestStack.White.Application qbApp, Window qbWin, bool openFileOnNoCompany)
         {
 
-            Logger.logMessage("ResetQBWindows " + " - Begin");
+            Logger.logMessage("                 ResetQBWindows " + " - Begin");
 
             List<Window> modalWin = null;
             int iteration = 0;
@@ -879,7 +879,11 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
             {
                 do
                 {
-                    try { Actions.SelectMenu(qbApp, qbWin, "Window", "Close All"); }
+                    try
+                    {
+                        Logger.logMessage("---------------Try-Catch Block------------------------"); 
+                        Actions.SelectMenu(qbApp, qbWin, "Window", "Close All"); 
+                    }
                     catch (Exception) { }
 
                     do
@@ -903,7 +907,15 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             foreach (Window item in modalWin)
                             {
                                 //Alert window handler
-                                Actions.CheckForAlertAndClose("Alert");    
+                                if (Actions.CheckDesktopWindowExists("Alert"))
+                                    Actions.CheckForAlertAndClose("Alert");
+
+                                //Crash handler
+                                if (Actions.CheckDesktopWindowExists("QuickBooks - Unrecoverable Error"))
+                                {
+                                    Actions.QBCrashHandler();
+                                    break;
+                                }
 
                                 try
                                 {
@@ -925,6 +937,18 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                                         Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(item, "Remind Me Later");
+                                        Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                    }
+                                    catch { }
+                                }
+
+                                //Admin permission needed window handler
+                                if (item.Name.Contains("Administrator Permissions Needed"))
+                                {
+                                    try
+                                    {
+                                        Logger.logMessage("---------------Try-Catch Block------------------------");
+                                        Actions.ClickElementByName(item, "Continue");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
                                     }
                                     catch { }
@@ -1182,7 +1206,7 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                 }
                 while (!Actions.CheckMenuEnabled(qbApp, qbWin, "File"));
 
-                Logger.logMessage("ResetQBWindows " + " - End");
+                Logger.logMessage("                 ResetQBWindows " + " - End");
                 Logger.logMessage("------------------------------------------------------------------------------");
             }
 

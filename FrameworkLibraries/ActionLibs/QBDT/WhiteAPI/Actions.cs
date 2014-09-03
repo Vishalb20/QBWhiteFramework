@@ -59,7 +59,10 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 Logger.logMessage("Function call @ :" + DateTime.Now);
                 MenuBar qbMenu = app.GetWindow(win.Name).MenuBar;
                 var status = qbMenu.MenuItem(level1).Enabled;
-                Logger.logMessage("CheckMenuEnabled " + level1 + "->" + " - Successful");
+                if(status)
+                    Logger.logMessage("CheckMenuEnabled " + level1 + "->" + " - Enabled");
+                else
+                    Logger.logMessage("CheckMenuEnabled " + level1 + "->" + " - Disabled");    
                 Logger.logMessage("------------------------------------------------------------------------------");
                 return status;
             }
@@ -528,18 +531,20 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         public static void ClickElementByName(Window win, String name)
         {
             Logger.logMessage("Function call @ :" + DateTime.Now);
+            string windowName = null;
 
             try
             {
+                windowName = win.Name;
                 AutomationProperty p = AutomationElementIdentifiers.NameProperty;
                 win.Get(SearchCriteria.ByNativeProperty(p, name)).Click();
-                Logger.logMessage("ClickElementByName " + name + " - Successful");
+                Logger.logMessage("ClickElementByName " + windowName + "->" + name + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
                 Thread.Sleep(int.Parse(Execution_Speed));
             }
             catch (Exception e)
             {
-                Logger.logMessage("ClickElementByName " + win + "->" + name + " - Failed");
+                Logger.logMessage("ClickElementByName " + windowName + "->" + name + " - Failed");
                 Logger.logMessage(e.Message);
                 Logger.logMessage("------------------------------------------------------------------------------");
 
@@ -1501,7 +1506,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             var qbWindow = QuickBooks.GetAppWindow(qbApp, "QuickBooks");
 
             Logger.logMessage("Function call @ :" + DateTime.Now);
-            Logger.logMessage("WaitForChildWindow " + mainWindow + "->" + childWindowName + " - Begin Sync");
+            Logger.logMessage("                 WaitForChildWindow " + mainWindow + "->" + childWindowName + " - Begin Sync");
             bool windowFound = false;
             long elapsedTime = 0;
             var stopwatch = Stopwatch.StartNew();
@@ -1510,10 +1515,18 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             {
                 do
                 {
-                    Actions.CheckForAlertAndClose("Alert");
+                    if (Actions.CheckDesktopWindowExists("Alert"))
+                        Actions.CheckForAlertAndClose("Alert");
 
                     try { Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Warning"), "OK"); }
                     catch (Exception) { }
+
+                    //Crash handler
+                    if (Actions.CheckDesktopWindowExists("QuickBooks - Unrecoverable Error"))
+                    {
+                        Actions.QBCrashHandler();
+                        break;
+                    }
 
                     if (windowFound)
                         break;
@@ -1525,10 +1538,19 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                     foreach (Window w in allChildWindows)
                     {
 
-                        Actions.CheckForAlertAndClose("Alert");
+                        if (Actions.CheckDesktopWindowExists("Alert"))
+                            Actions.CheckForAlertAndClose("Alert");
 
                         try { Actions.ClickElementByName(Actions.GetChildWindow(qbWindow, "Warning"), "OK"); }
                         catch (Exception) { }
+
+                        //Crash handler
+                        if (Actions.CheckDesktopWindowExists("QuickBooks - Unrecoverable Error"))
+                        {
+                            Actions.QBCrashHandler();
+                            break;
+                        }
+
 
                         if (w.Name.Equals(childWindowName) || w.Name.Contains(childWindowName))
                         {
@@ -1539,7 +1561,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                     }
                 }
                 while (elapsedTime <= timeOut);
-                Logger.logMessage("WaitForChildWindow " + mainWindow + "->" + childWindowName + " - End Sync");
+                Logger.logMessage("                 WaitForChildWindow " + mainWindow + "->" + childWindowName + " - End Sync");
                 Logger.logMessage("------------------------------------------------------------------------------");
                 return windowFound;
             }
@@ -1563,7 +1585,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             var qbWindow = QuickBooks.GetAppWindow(qbApp, "QuickBooks");
 
             Logger.logMessage("Function call @ :" + DateTime.Now);
-            Logger.logMessage("WaitForAnyChildWindow " + mainWindow + "->" + currentWindowName + " - Begin Sync");
+            Logger.logMessage("                 WaitForAnyChildWindow " + mainWindow + "->" + currentWindowName + " - Begin Sync");
 
             bool windowFound = false;
             long elapsedTime = 0;
@@ -1619,7 +1641,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                     }
                 }
                 while (elapsedTime <= timeOut);
-                Logger.logMessage("WaitForAnyChildWindow " + mainWindow + "->" + currentWindowName + " - End Sync");
+                Logger.logMessage("                 WaitForAnyChildWindow " + mainWindow + "->" + currentWindowName + " - End Sync");
                 Logger.logMessage("------------------------------------------------------------------------------");
 
                 return windowFound;
@@ -1642,7 +1664,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         public static bool WaitForAppWindow(string appWindowName, long timeOut)
         {
             Logger.logMessage("Function call @ :" + DateTime.Now);
-            Logger.logMessage("WaitForAppWindow " + appWindowName + "->" + " - Begin Sync");
+            Logger.logMessage("                 WaitForAppWindow " + appWindowName + "->" + " - Begin Sync");
 
             bool windowFound = false;
             long elapsedTime = 0;
@@ -1661,22 +1683,15 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
                     foreach (Window w in allChildWindows)
                     {
-                        try
-                        {
-                            Logger.logMessage("---------------Try-Catch Block------------------------");
-                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "OK");
-                            Thread.Sleep(int.Parse(Execution_Speed));
-                        }
-                        catch (Exception) { }
+                        if (Actions.CheckDesktopWindowExists("Alert"))
+                            Actions.CheckForAlertAndClose("Alert");
 
-                        try
+                        //Crash handler
+                        if (Actions.CheckDesktopWindowExists("QuickBooks - Unrecoverable Error"))
                         {
-                            Logger.logMessage("---------------Try-Catch Block------------------------");
-                            Actions.ClickElementByName(Actions.GetAlertWindow("Alert"), "No");
-                            Thread.Sleep(int.Parse(Execution_Speed));
+                            Actions.QBCrashHandler();
+                            break;
                         }
-                        catch (Exception) { }
-
 
                         if (w.Name.Equals(appWindowName) || w.Name.Contains(appWindowName))
                         {
@@ -1689,7 +1704,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 }
                 while (elapsedTime <= timeOut);
 
-                Logger.logMessage("WaitForAppWindow " + appWindowName + "->" + " - End Sync");
+                Logger.logMessage("                 WaitForAppWindow " + appWindowName + "->" + " - End Sync");
                 Logger.logMessage("------------------------------------------------------------------------------");
                 return windowFound;
             }
@@ -1717,7 +1732,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 kb.PressSpecialKey(TestStack.White.WindowsAPI.KeyboardInput.SpecialKeys.END);
                 kb.LeaveKey(TestStack.White.WindowsAPI.KeyboardInput.SpecialKeys.SHIFT);
                 Thread.Sleep(200);
-                Logger.logMessage("SendSHIFT_ENDToWindow " + window + " - Sucessful");
+                Logger.logMessage("SendSHIFT_ENDToWindow " + window + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
 
             }
@@ -1779,7 +1794,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                         Thread.Sleep(int.Parse(Execution_Speed));
                     }
                 }
-                Logger.logMessage("SelectComboBoxItemByText " + win + "->" + comboBoxAutoID + "->" + matchText + " - Sucessful");
+                Logger.logMessage("SelectComboBoxItemByText " + win + "->" + comboBoxAutoID + "->" + matchText + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
 
             }
@@ -1812,7 +1827,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                     c.UnSelect();
                     Thread.Sleep(int.Parse(Execution_Speed));
                 }
-                Logger.logMessage("SelectCheckBox " + win + "->" + checkBoxAutoID + "->" + state + " - Sucessful");
+                Logger.logMessage("SelectCheckBox " + win + "->" + checkBoxAutoID + "->" + state + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
             }
             catch (Exception e)
@@ -1846,7 +1861,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                     c.UnSelect();
                     Thread.Sleep(int.Parse(Execution_Speed));
                 }
-                Logger.logMessage("SelectCheckBoxByName " + win + "->" + checkBoxName + "->" + state + " - Sucessful");
+                Logger.logMessage("SelectCheckBoxByName " + win + "->" + checkBoxName + "->" + state + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
 
             }
@@ -1873,7 +1888,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 TestStack.White.UIItems.RadioButton r = win.Get<TestStack.White.UIItems.RadioButton>(SearchCriteria.ByNativeProperty(p, radioButtonName));
                 r.Select();
                 Thread.Sleep(int.Parse(Execution_Speed));
-                Logger.logMessage("SelectRadioButtonByName " + win + "->" + radioButtonName + " - Sucessful");
+                Logger.logMessage("SelectRadioButtonByName " + win + "->" + radioButtonName + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
 
             }
@@ -1899,7 +1914,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 TestStack.White.UIItems.RadioButton r = win.Get<TestStack.White.UIItems.RadioButton>(SearchCriteria.ByAutomationId(radioButtonAutoID));
                 r.Select();
                 Thread.Sleep(int.Parse(Execution_Speed));
-                Logger.logMessage("SelectRadioButton " + win + "->" + radioButtonAutoID + " - Sucessful");
+                Logger.logMessage("SelectRadioButton " + win + "->" + radioButtonAutoID + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
 
             }
@@ -1926,7 +1941,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             {
                 win.Get(SearchCriteria.ByAutomationId(automationID)).Enter(value);
                 Thread.Sleep(int.Parse(Execution_Speed));
-                Logger.logMessage("SetTextOnElementByAutomationID " + win + "->" + automationID + "->" + value + " - Sucessful");
+                Logger.logMessage("SetTextOnElementByAutomationID " + win + "->" + automationID + "->" + value + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
             }
             catch (Exception e)
@@ -1962,7 +1977,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                         break;
                     }
                 }
-                Logger.logMessage("CheckWindowExists " + mainWindow + "->" + childWindowName + " - Sucessful");
+                Logger.logMessage("CheckWindowExists " + mainWindow + "->" + childWindowName + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
                 return window;
             }
@@ -1989,7 +2004,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             {
                 win.Get(SearchCriteria.ByAutomationId(automationID)).Focus();
                 Thread.Sleep(int.Parse(Execution_Speed));
-                Logger.logMessage("SetFocusOnElementByAutomationID " + win + "->" + automationID + " - Sucessful");
+                Logger.logMessage("SetFocusOnElementByAutomationID " + win + "->" + automationID + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
             }
             catch (Exception e)
@@ -2022,7 +2037,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                         buttons.Add(x);
                     }
                 }
-                Logger.logMessage("GetAllButtons " + collection + " - Sucessful");
+                Logger.logMessage("GetAllButtons " + collection + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
                 return buttons;
             }
@@ -2056,14 +2071,14 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                         customControls.Add(x);
                     }
                 }
-                Logger.logMessage("GetAllCustomControls " + collection + " - Sucessful");
+                Logger.logMessage("GetAllCustomControls " + collection + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
 
                 return customControls;
             }
             catch (Exception e)
             {
-                Logger.logMessage("GetAllCustomControls " + collection + " - Sucessful");
+                Logger.logMessage("GetAllCustomControls " + collection + " - Successful");
                 Logger.logMessage(e.Message);
                 Logger.logMessage("------------------------------------------------------------------------------");
                 String sMessage = e.Message;
@@ -2089,7 +2104,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 p.Focus();
                 p.Click();
                 Thread.Sleep(int.Parse(Execution_Speed));
-                Logger.logMessage("UIA_ClickOnPaneItem " + uiaWindow + "->" + window + "->" + index + " - Sucessful");
+                Logger.logMessage("UIA_ClickOnPaneItem " + uiaWindow + "->" + window + "->" + index + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
 
             }
@@ -2121,7 +2136,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 p.Focus();
                 p.Click();
                 Thread.Sleep(int.Parse(Execution_Speed));
-                Logger.logMessage("UIA_ClickMenuItem " + uiaWindow + "->" + window + "->" + name + " - Sucessful");
+                Logger.logMessage("UIA_ClickMenuItem " + uiaWindow + "->" + window + "->" + name + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
 
             }
@@ -2153,7 +2168,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 e.Focus();
                 e.Click();
                 Thread.Sleep(int.Parse(Execution_Speed));
-                Logger.logMessage("UIA_ClickItemByName " + uiaWindow + "->" + window + "->" + name + " - Sucessful");
+                Logger.logMessage("UIA_ClickItemByName " + uiaWindow + "->" + window + "->" + name + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
 
             }
@@ -2185,7 +2200,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 e.Focus();
                 e.Click();
                 Thread.Sleep(int.Parse(Execution_Speed));
-                Logger.logMessage("UIA_ClickItemByAutomationID " + uiaWindow + "->" + window + "->" + automationID + " - Sucessful");
+                Logger.logMessage("UIA_ClickItemByAutomationID " + uiaWindow + "->" + window + "->" + automationID + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
             }
             catch (Exception e)
@@ -2213,7 +2228,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 var e = TestStack.White.Desktop.Instance.Get(x);
                 e.Click();
                 Thread.Sleep(int.Parse(Execution_Speed));
-                Logger.logMessage("DesktopInstance_ClickElementByName " + name + " - Sucessful");
+                Logger.logMessage("DesktopInstance_ClickElementByName " + name + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
 
             }
@@ -2243,7 +2258,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 var e = TestStack.White.Desktop.Instance.Get(x);
                 e.Click();
                 Thread.Sleep(int.Parse(Execution_Speed));
-                Logger.logMessage("DesktopInstance_ClickElementByAutomationID " + automationID + " - Sucessful");
+                Logger.logMessage("DesktopInstance_ClickElementByAutomationID " + automationID + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
 
             }
@@ -2272,7 +2287,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 AutomationProperty p = AutomationElementIdentifiers.NameProperty;
                 SearchCriteria x = SearchCriteria.ByNativeProperty(p, name);
                 Thread.Sleep(int.Parse(Execution_Speed));
-                Logger.logMessage("DesktopInstance_CheckElementExistsByName " + name + " - Sucessful");
+                Logger.logMessage("DesktopInstance_CheckElementExistsByName " + name + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
                 return TestStack.White.Desktop.Instance.Exists(x);
             }
@@ -2299,7 +2314,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 AutomationProperty p = AutomationElementIdentifiers.AutomationIdProperty;
                 SearchCriteria x = SearchCriteria.ByAutomationId(automationID);
                 Thread.Sleep(int.Parse(Execution_Speed));
-                Logger.logMessage("DesktopInstance_CheckElementExistsByAutomationID " + automationID + " - Sucessful");
+                Logger.logMessage("DesktopInstance_CheckElementExistsByAutomationID " + automationID + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
                 return TestStack.White.Desktop.Instance.Exists(x);
             }
@@ -2343,7 +2358,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                                 alertText = item.Name;
                             }
                         }
-                        Logger.logMessage("GetAlertWindow " + alertWindowName + " - Sucessful");
+                        Logger.logMessage("GetAlertWindow " + alertWindowName + " - Successful");
                         Logger.logMessage(alertText);
                         Logger.logMessage("------------------------------------------------------------------------------");
                         break;
@@ -2384,7 +2399,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                         break;
                     }
                 }
-                Logger.logMessage("GetDesktopWindow " + windowName + " - Sucessful");
+                Logger.logMessage("GetDesktopWindow " + windowName + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
                 return win;
             }
@@ -2459,7 +2474,10 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
                 catch (Exception)
                 { }
 
+                Utils.OSOperations.KillProcess("qbw32");
+
                 Logger.logMessage("QBCrashHandler - Successful");
+                Logger.logMessage("Killing QBProcess..");
                 Logger.logMessage("------------------------------------------------------------------------------");
             }
             catch (Exception e)
@@ -2505,7 +2523,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
                         alertWindow.Close();
 
-                        Logger.logMessage("CloseAlertWindow " + alertWindowName + " - Sucessful");
+                        Logger.logMessage("CloseAlertWindow " + alertWindowName + " - Successful");
                         Logger.logMessage(alertText);
                         Logger.logMessage("------------------------------------------------------------------------------");
                         break;
@@ -2535,7 +2553,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             try
             {
                 Assert.Equal(obj1, obj2);
-                Logger.logMessage("XunitAssertEuqals " + obj1 + "->" + obj2 + " - Sucessful");
+                Logger.logMessage("XunitAssertEuqals " + obj1 + "->" + obj2 + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
                 return true;
             }
@@ -2560,7 +2578,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             try
             {
                 Assert.Contains(obj1, obj2);
-                Logger.logMessage("XunitAssertContains " + obj1 + "->" + obj2 + " - Sucessful");
+                Logger.logMessage("XunitAssertContains " + obj1 + "->" + obj2 + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
                 return true;
             }
@@ -2656,22 +2674,23 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
             try
             {
+                Logger.logMessage("CheckDesktopWindowExists - Checking for "+alertWindowName);
                 allChildWindows = Desktop.Instance.Windows();
                 foreach (Window w in allChildWindows)
                 {
                     if (w.Name.Equals(alertWindowName) || w.Name.Contains(alertWindowName))
                     {
                         exists = true;
+                        Logger.logMessage("CheckDesktopWindowExists "+alertWindowName + " - Found");
                         break;
                     }
                 }
-                Logger.logMessage("CheckAlertExists - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
                 return exists;
             }
             catch (Exception e)
             {
-                Logger.logMessage("CheckForAlertAndClose - Failed");
+                Logger.logMessage("CheckDesktopWindowExists - Failed");
                 Logger.logMessage(e.Message);
                 Logger.logMessage("------------------------------------------------------------------------------");
                 String sMessage = e.Message;
