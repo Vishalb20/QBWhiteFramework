@@ -1360,6 +1360,39 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
+        public static void UIA_ClickTextByAutomationID(AutomationElement uiaWindow, Window window, string automationID)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            try
+            {
+                PropertyCondition textCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Text);
+                AutomationElementCollection texts = uiaWindow.FindAll(TreeScope.Descendants, textCondition);
+                foreach (AutomationElement e in texts)
+                {
+                    if (e.Current.AutomationId.Equals(automationID))
+                    {
+                        TestStack.White.UIItems.Label t = new TestStack.White.UIItems.Label(e, window.ActionListener);
+                        t.Click();
+                    }
+                }
+                Thread.Sleep(int.Parse(Execution_Speed));
+                Logger.logMessage("UIA_ClickTextByAutomationID " + uiaWindow + "->" + window + "->" + automationID + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("UIA_ClickTextByAutomationID " + uiaWindow + "->" + window + "->" + automationID + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+        //**************************************************************************************************************************************************************
 
 
         public static void UIA_SetTextByAutomationID(AutomationElement uiaWindow, Window window, string automationID, string value)
@@ -1579,6 +1612,52 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
+        public static bool WaitForWindow(string windowName, long timeOut)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            Logger.logMessage("                 WaitForWindow " + windowName + " - Begin Sync");
+            bool windowFound = false;
+            long elapsedTime = 0;
+            var stopwatch = Stopwatch.StartNew();
+
+            try
+            {
+                do
+                {
+
+                    elapsedTime = stopwatch.ElapsedMilliseconds;
+
+                    List<Window> allChildWindows = Desktop.Instance.Windows();
+
+                    foreach (Window w in allChildWindows)
+                    {
+                        if (w.Name.Equals(windowName) || w.Name.Contains(windowName))
+                        {
+                            windowFound = true;
+                            w.WaitWhileBusy();
+                            break;
+                        }
+                    }
+                }
+                while (elapsedTime <= timeOut && windowFound==false);
+                Logger.logMessage("                 WaitForChildWindow " + windowName + " - End Sync");
+                Logger.logMessage("------------------------------------------------------------------------------");
+                return windowFound;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("                 WaitForChildWindow " + windowName + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+        //**************************************************************************************************************************************************************
+
         public static bool WaitForAnyChildWindow(Window mainWindow, string currentWindowName, long timeOut)
         {
             var qbApp = QuickBooks.GetApp("QuickBooks");
@@ -1649,6 +1728,56 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             catch (Exception e)
             {
                 Logger.logMessage("WaitForAnyChildWindow " + mainWindow + "->" + currentWindowName + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+        //**************************************************************************************************************************************************************
+
+        public static bool WaitForElementEnabled(Window window, string elementName, long timeOut)
+        {
+
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            Logger.logMessage("                 WaitForElementEnabled " + window + "->" + elementName + " - Begin Sync");
+
+            bool enabled = false;
+            long elapsedTime = 0;
+            var stopwatch = Stopwatch.StartNew();
+
+            try
+            {
+                do
+                {
+                    elapsedTime = stopwatch.ElapsedMilliseconds;
+
+                    var elements = window.Items;
+
+                    foreach (var w in elements)
+                    {
+
+                        if (w.Name.Equals(elementName))
+                        {
+                            enabled = w.Enabled;
+                            if(enabled)
+                                break;
+                        }
+                    }
+                }
+                while (elapsedTime <= timeOut && enabled==false);
+                Logger.logMessage("                 WaitForElementEnabled " + window + "->" + elementName + " - End Sync");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                return enabled;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("WaitForElementEnabled " + window + "->" + elementName + " - Failed");
                 Logger.logMessage(e.Message);
                 Logger.logMessage("------------------------------------------------------------------------------");
 

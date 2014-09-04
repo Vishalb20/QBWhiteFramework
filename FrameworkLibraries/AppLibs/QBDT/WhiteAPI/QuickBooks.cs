@@ -712,6 +712,16 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                             //Warning window handler
                             else if (item.Name.Contains("Warning"))
                             {
+
+                                try
+                                {
+
+                                    Logger.logMessage("---------------Try-Catch Block------------------------");
+                                    Actions.ClickElementByName(item, "OK");
+                                    Actions.WaitForAnyChildWindow(qbWindow, "Update Now", int.Parse(Sync_Timeout));
+                                }
+                                catch (Exception) { }
+
                                 try
                                 {
 
