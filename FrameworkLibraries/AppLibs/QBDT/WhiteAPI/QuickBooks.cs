@@ -165,6 +165,118 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
+        public static void UnInstallQB(string qbVersion)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            
+            try
+            {
+                Logger.logMessage("UnInstallQB " + qbVersion + " - Started..");
+
+                FrameworkLibraries.Utils.OSOperations.CommandLineExecute("control appwiz.cpl");
+
+                try {
+                    Logger.logMessage("---------------Try-Catch Block------------------------"); 
+                    Actions.WaitForWindow("Programs and Features", int.Parse(Sync_Timeout));
+                }
+                catch { }
+
+                var controlPanelWindow = Actions.GetDesktopWindow("Programs and Features");
+                var uiaWindow = Actions.UIA_GetAppWindow("Programs and Features");
+
+                Actions.UIA_SetTextByName(uiaWindow, Actions.GetDesktopWindow("Programs and Features"), "Search Box", qbVersion);
+
+                try
+                {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
+                    Actions.WaitForElementEnabled(Actions.GetDesktopWindow("Programs and Features"), qbVersion, int.Parse(Sync_Timeout));
+                }
+                catch { }
+
+                Actions.UIA_ClickEditControlByName(uiaWindow, Actions.GetDesktopWindow("Programs and Features"), qbVersion);
+
+                try
+                {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
+                    Actions.WaitForElementEnabled(Actions.GetDesktopWindow("Programs and Features"), "Uninstall/Change", int.Parse(Sync_Timeout));
+                }
+                catch { }
+
+                Actions.UIA_ClickItemByName(uiaWindow, Actions.GetDesktopWindow("Programs and Features"), "Uninstall/Change");
+
+                try {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
+                    Actions.WaitForWindow("QuickBooks Installation", int.Parse(Sync_Timeout)); }
+                catch { }
+
+                try {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
+                    Actions.WaitForElementEnabled(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >", int.Parse(Sync_Timeout)); }
+                catch { }
+
+                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >");
+                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Repair");
+                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >");
+                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Repair");
+
+                try {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
+                    if (Actions.CheckElementExistsByName(Actions.GetDesktopWindow("QuickBooks Installation"), "OK"))
+                        Actions.WaitForElementEnabled(Actions.GetDesktopWindow("QuickBooks Installation"), "OK", int.Parse(Sync_Timeout)); }
+                catch { }
+
+                try
+                {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
+                    if (Actions.CheckElementExistsByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >"))
+                        Actions.WaitForElementEnabledOrTransformed(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >", "Finish", int.Parse(Sync_Timeout));
+                }
+                catch { }
+
+                try
+                {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
+                    if (Actions.CheckElementExistsByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Files in Use"))
+                    {
+                        Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Do not close applications. (A reboot will be required.)");
+                        Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "OK");
+                    }
+                }
+                catch { }
+
+                try
+                {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
+                    if (Actions.CheckElementExistsByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >"))
+                        Actions.WaitForElementEnabledOrTransformed(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >", "Finish", int.Parse(Sync_Timeout));
+                }
+                catch { }
+
+                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Finish");
+
+
+                if (Actions.CheckDesktopWindowExists("QuickBooks Installation Information"))
+                    Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation Information"), "No");
+
+                Logger.logMessage("UnInstallQB " + qbVersion + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("UnInstallQB " + qbVersion + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+
+        //**************************************************************************************************************************************************************
+
         public static bool CreateInvoice(TestStack.White.Application qbApp, Window qbWindow, String customer, String cls, String account, String template, int invoiceNumber, int poNumber, String terms, String via, String fob, String quatity, String item, String itemDesc, bool markPending)
         {
             try

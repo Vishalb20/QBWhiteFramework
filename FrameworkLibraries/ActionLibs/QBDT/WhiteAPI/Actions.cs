@@ -474,6 +474,34 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
+        public static bool CheckElementExistsByName(Window win, String name)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            bool exists = false;
+
+            try
+            {
+                AutomationProperty p = AutomationElementIdentifiers.NameProperty;
+                exists = win.Get(SearchCriteria.ByNativeProperty(p, name)).Visible;
+                Thread.Sleep(int.Parse(Execution_Speed));
+                Logger.logMessage("CheckElementExistsByName " + win + "->" + name + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+                return exists;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("CheckElementExistsByName " + win + "->" + name + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+        //**************************************************************************************************************************************************************
+
         public static void ShowWindowElementAutomationIDs(Window win)
         {
             Logger.logMessage("Function call @ :" + DateTime.Now);
@@ -1360,6 +1388,41 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
+        public static void UIA_ClickEditControlByName(AutomationElement uiaWindow, Window window, string name)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            try
+            {
+                PropertyCondition textCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit);
+                AutomationElementCollection texts = uiaWindow.FindAll(TreeScope.Descendants, textCondition);
+                foreach (AutomationElement e in texts)
+                {
+                    if (e.Current.Name.Equals(name))
+                    {
+                        TestStack.White.UIItems.TextBox t = new TestStack.White.UIItems.TextBox(e, window.ActionListener);
+                        t.Click();
+                    }
+                }
+                Thread.Sleep(int.Parse(Execution_Speed));
+                Logger.logMessage("UIA_ClickTextByName " + uiaWindow + "->" + window + "->" + name + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("UIA_ClickTextByName " + uiaWindow + "->" + window + "->" + name + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+        //**************************************************************************************************************************************************************
+
+
         public static void UIA_ClickTextByAutomationID(AutomationElement uiaWindow, Window window, string automationID)
         {
             Logger.logMessage("Function call @ :" + DateTime.Now);
@@ -1728,6 +1791,60 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             catch (Exception e)
             {
                 Logger.logMessage("WaitForAnyChildWindow " + mainWindow + "->" + currentWindowName + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+        //**************************************************************************************************************************************************************
+
+        public static bool WaitForElementEnabledOrTransformed(Window window, string elementName, string transformName, long timeOut)
+        {
+
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            Logger.logMessage("                 WaitForElementEnabledOrTransformed " + window + "->" + elementName + "->"+ transformName + " - Begin Sync");
+
+            bool enabled = false;
+            long elapsedTime = 0;
+            var stopwatch = Stopwatch.StartNew();
+
+            try
+            {
+                do
+                {
+                    elapsedTime = stopwatch.ElapsedMilliseconds;
+
+                    var elements = window.Items;
+
+                    foreach (var w in elements)
+                    {
+
+                        if (w.Name.Equals(elementName))
+                        {
+                            enabled = w.Enabled;
+                            try
+                            {
+                                if (enabled || Actions.CheckElementExistsByName(window, transformName))
+                                    break;
+                            }
+                            catch { }
+                        }
+                    }
+                }
+                while (elapsedTime <= timeOut && enabled == false);
+                Logger.logMessage("                 WaitForElementEnabledOrTransformed " + window + "->" + elementName + "->" + transformName + " - End Sync");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                return enabled;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("                 WaitForElementEnabledOrTransformed " + window + "->" + elementName + "->" + transformName + " - Failed");
                 Logger.logMessage(e.Message);
                 Logger.logMessage("------------------------------------------------------------------------------");
 

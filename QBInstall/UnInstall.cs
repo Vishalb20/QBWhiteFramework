@@ -32,24 +32,11 @@ namespace QBInstall
             var timeStamp = DateTimeOperations.GetTimeStamp(DateTime.Now);
             Logger log = new Logger(testName + "_" + timeStamp);
 
-            FrameworkLibraries.Utils.OSOperations.CommandLineExecute("control appwiz.cpl");
-            Actions.WaitForWindow("Programs and Features", int.Parse(Sync_Timeout));
-
-            var controlPanelWindow = Actions.GetDesktopWindow("Programs and Features");
-
-            var uiaWindow = Actions.UIA_GetAppWindow("Programs and Features");
-            Actions.UIA_SetTextByName(uiaWindow, controlPanelWindow, "Search Box", "QuickBooks Pro 2015");
-            Actions.UIA_ClickItemByName(uiaWindow, controlPanelWindow, "QuickBooks Pro 2015");
-            Actions.UIA_ClickItemByName(uiaWindow, controlPanelWindow, "Uninstall/Change");
-            Actions.WaitForWindow("QuickBooks Installation", int.Parse(Sync_Timeout));
-            var qbInstallWindow = Actions.GetDesktopWindow("QuickBooks Installation");
-            Actions.WaitForElementEnabled(qbInstallWindow, "Next >", int.Parse(Sync_Timeout));
-
-            
+            QuickBooks.UnInstallQB("QuickBooks Pro 2015");
         }
 
         [Fact]
-        public void RunCreateCompanyTest()
+        public void RunQBUnInstallTest()
         {
             this.BDDfy();
         }
