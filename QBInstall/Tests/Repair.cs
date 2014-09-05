@@ -16,14 +16,14 @@ using System.Reflection;
 using System.Diagnostics;
 
 
-namespace QBInstall
+namespace QBInstall.Tests
 {
-    public class UnInstall
+    public class Repair
     {
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
         public static Property conf = Property.GetPropertyInstance();
-        public static string Sync_Timeout = conf.get("SyncTimeOut");
+        public static int Sync_Timeout = int.Parse(conf.get("SyncTimeOut"));
         public static string testName = "UnInstall";
 
         [Given]
@@ -32,11 +32,12 @@ namespace QBInstall
             var timeStamp = DateTimeOperations.GetTimeStamp(DateTime.Now);
             Logger log = new Logger(testName + "_" + timeStamp);
 
-            QuickBooks.UnInstallQB("QuickBooks Pro 2015");
+            //Repair
+            QuickBooks.RepairOrUnInstallQB("QuickBooks Pro 2015", true, false);
         }
 
         [Fact]
-        public void RunQBUnInstallTest()
+        public void RunQBRepairTest()
         {
             this.BDDfy();
         }

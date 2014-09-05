@@ -67,8 +67,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnInstall.cs" />
+    <Compile Include="Tests\Repair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\Install.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

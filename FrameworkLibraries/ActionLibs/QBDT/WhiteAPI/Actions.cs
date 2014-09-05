@@ -454,7 +454,8 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
             try
             {
-                exists = win.Get(SearchCriteria.ByAutomationId(automationID)).Visible;
+                try { exists = win.Get(SearchCriteria.ByAutomationId(automationID)).Visible; }
+                catch { }
                 Thread.Sleep(int.Parse(Execution_Speed));
                 Logger.logMessage("CheckElementExistsByAutomationID " + win + "->" + automationID + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
@@ -482,7 +483,8 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             try
             {
                 AutomationProperty p = AutomationElementIdentifiers.NameProperty;
-                exists = win.Get(SearchCriteria.ByNativeProperty(p, name)).Visible;
+                try { exists = win.Get(SearchCriteria.ByNativeProperty(p, name)).Visible; }
+                catch { }
                 Thread.Sleep(int.Parse(Execution_Speed));
                 Logger.logMessage("CheckElementExistsByName " + win + "->" + name + " - Successful");
                 Logger.logMessage("------------------------------------------------------------------------------");
@@ -1219,6 +1221,40 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
+        public static List<IUIItem> GetAllLabels(UIItemCollection collection)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            List<IUIItem> labels = new List<IUIItem>();
+
+            try
+            {
+                foreach (IUIItem element in collection)
+                {
+                    if (element.GetType().Name.Contains("Text") || element.GetType().Equals("Text"))
+                    {
+                        TestStack.White.UIItems.Label x = (TestStack.White.UIItems.Label)element;
+                        labels.Add(x);
+                    }
+                }
+                Logger.logMessage("GetAllLabels " + collection + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                return labels;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("GetAllLabels " + collection + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+        //**************************************************************************************************************************************************************
+
         public static List<IUIItem> GetAllPanels(UIItemCollection collection)
         {
             Logger.logMessage("Function call @ :" + DateTime.Now);
@@ -1242,6 +1278,41 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             catch (Exception e)
             {
                 Logger.logMessage("GetAllPanels " + collection + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+        //**************************************************************************************************************************************************************
+
+        public static TestStack.White.UIItems.Panel GetPanelElementByName(UIItemCollection collection, string elementName)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
+            TestStack.White.UIItems.Panel p = null;
+
+            try
+            {
+                foreach (IUIItem element in collection)
+                {
+                    if (element.GetType().Name.Contains("Pane") && element.Name.Equals(elementName))
+                    {
+                        p = (TestStack.White.UIItems.Panel)element;
+                        break;
+                    }
+                }
+                Logger.logMessage("GetPanelElementByName " + collection + "->" + elementName + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                return p;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("GetPanelElementByName " + collection + "->" + elementName + " - Failed");
                 Logger.logMessage(e.Message);
                 Logger.logMessage("------------------------------------------------------------------------------");
                 String sMessage = e.Message;
@@ -1421,6 +1492,78 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
         }
 
         //**************************************************************************************************************************************************************
+
+        public static void UIA_SelectCheckBoxByName(AutomationElement uiaWindow, Window window, string name, bool state)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            try
+            {
+                PropertyCondition checkBoxCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.CheckBox);
+                AutomationElementCollection checkBoxes = uiaWindow.FindAll(TreeScope.Descendants, checkBoxCondition);
+                foreach (AutomationElement e in checkBoxes)
+                {
+                    if (e.Current.Name.Equals(name))
+                    {
+                        TestStack.White.UIItems.CheckBox t = new TestStack.White.UIItems.CheckBox(e, window.ActionListener);
+                        if (state)
+                            t.Select();
+                        break;
+                    }
+                }
+                Thread.Sleep(int.Parse(Execution_Speed));
+                Logger.logMessage("UIA_SelectCheckBoxByName " + uiaWindow + "->" + window + "->" + name + "->" + "state" + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("UIA_SelectCheckBoxByName " + uiaWindow + "->" + window + "->" + name + "->" + "state" + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+        //**************************************************************************************************************************************************************
+
+
+        public static void UIA_ClickButtonByName(AutomationElement uiaWindow, Window window, string name)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            try
+            {
+                PropertyCondition textCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Button);
+                AutomationElementCollection buttons = uiaWindow.FindAll(TreeScope.Descendants, textCondition);
+                foreach (AutomationElement e in buttons)
+                {
+                    if (e.Current.Name.Equals(name))
+                    {
+                        TestStack.White.UIItems.Button t = new TestStack.White.UIItems.Button(e, window.ActionListener);
+                        t.Click();
+                    }
+                }
+                Thread.Sleep(int.Parse(Execution_Speed));
+                Logger.logMessage("UIA_ClickButtonByName " + uiaWindow + "->" + window + "->" + name + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("UIA_ClickButtonByName " + uiaWindow + "->" + window + "->" + name + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+        //**************************************************************************************************************************************************************
+
 
 
         public static void UIA_ClickTextByAutomationID(AutomationElement uiaWindow, Window window, string automationID)
@@ -1663,7 +1806,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             }
             catch (Exception e)
             {
-                Logger.logMessage("WaitForChildWindow " + mainWindow + "->" + childWindowName + " - Failed");
+                Logger.logMessage("WaitForChildWindow " + mainWindow + "->" + childWindowName + " - Terminated");
                 Logger.logMessage(e.Message);
                 Logger.logMessage("------------------------------------------------------------------------------");
                 String sMessage = e.Message;
@@ -1709,7 +1852,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             }
             catch (Exception e)
             {
-                Logger.logMessage("                 WaitForChildWindow " + windowName + " - Failed");
+                Logger.logMessage("                 WaitForChildWindow " + windowName + " - Terminated");
                 Logger.logMessage(e.Message);
                 Logger.logMessage("------------------------------------------------------------------------------");
                 String sMessage = e.Message;
@@ -1790,7 +1933,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             }
             catch (Exception e)
             {
-                Logger.logMessage("WaitForAnyChildWindow " + mainWindow + "->" + currentWindowName + " - Failed");
+                Logger.logMessage("WaitForAnyChildWindow " + mainWindow + "->" + currentWindowName + " - Terminated");
                 Logger.logMessage(e.Message);
                 Logger.logMessage("------------------------------------------------------------------------------");
 
@@ -1821,6 +1964,17 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
                     var elements = window.Items;
 
+                    try
+                    {
+                        Logger.logMessage("---------------Try-Catch Block------------------------");
+                        if (Actions.CheckElementExistsByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Files in Use"))
+                        {
+                            Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Do not close applications. (A reboot will be required.)");
+                            Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "OK");
+                        }
+                    }
+                    catch { }
+
                     foreach (var w in elements)
                     {
 
@@ -1844,7 +1998,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             }
             catch (Exception e)
             {
-                Logger.logMessage("                 WaitForElementEnabledOrTransformed " + window + "->" + elementName + "->" + transformName + " - Failed");
+                Logger.logMessage("                 WaitForElementEnabledOrTransformed " + window + "->" + elementName + "->" + transformName + " - Terminated");
                 Logger.logMessage(e.Message);
                 Logger.logMessage("------------------------------------------------------------------------------");
 
@@ -1894,7 +2048,57 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             }
             catch (Exception e)
             {
-                Logger.logMessage("WaitForElementEnabled " + window + "->" + elementName + " - Failed");
+                Logger.logMessage("WaitForElementEnabled " + window + "->" + elementName + " - Terminated");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+
+        }
+
+        //**************************************************************************************************************************************************************
+
+        public static bool WaitForElementVisible(Window window, string elementName, long timeOut)
+        {
+
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            Logger.logMessage("                 WaitForElementVisible " + window + "->" + elementName + " - Begin Sync");
+
+            bool visible = false;
+            long elapsedTime = 0;
+            var stopwatch = Stopwatch.StartNew();
+
+            try
+            {
+                do
+                {
+                    elapsedTime = stopwatch.ElapsedMilliseconds;
+
+                    var elements = window.Items;
+
+                    foreach (var w in elements)
+                    {
+
+                        if (w.Name.Equals(elementName))
+                        {
+                            visible = w.Visible;
+                            if (visible)
+                                break;
+                        }
+                    }
+                }
+                while (elapsedTime <= timeOut && visible == false);
+                Logger.logMessage("                 WaitForElementVisible " + window + "->" + elementName + " - End Sync");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                return visible;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("WaitForElementVisible " + window + "->" + elementName + " - Terminated");
                 Logger.logMessage(e.Message);
                 Logger.logMessage("------------------------------------------------------------------------------");
 
@@ -1956,7 +2160,7 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
             }
             catch (Exception e)
             {
-                Logger.logMessage("WaitForAppWindow " + appWindowName + "->" + " - Failed");
+                Logger.logMessage("WaitForAppWindow " + appWindowName + "->" + " - Terminated");
                 Logger.logMessage(e.Message);
                 Logger.logMessage("------------------------------------------------------------------------------");
                 String sMessage = e.Message;

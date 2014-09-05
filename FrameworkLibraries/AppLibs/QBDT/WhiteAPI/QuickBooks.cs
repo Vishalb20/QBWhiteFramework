@@ -165,18 +165,18 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
-        public static void UnInstallQB(string qbVersion)
+        public static void RepairOrUnInstallQB(string qbVersion, bool repair, bool remove)
         {
             Logger.logMessage("Function call @ :" + DateTime.Now);
-            
+            Logger.logMessage("Repair/UnInstallQB " + qbVersion + " - Started..");
+
             try
             {
-                Logger.logMessage("UnInstallQB " + qbVersion + " - Started..");
-
                 FrameworkLibraries.Utils.OSOperations.CommandLineExecute("control appwiz.cpl");
 
-                try {
-                    Logger.logMessage("---------------Try-Catch Block------------------------"); 
+                try
+                {
+                    Logger.logMessage("---------------Try-Catch Block------------------------");
                     Actions.WaitForWindow("Programs and Features", int.Parse(Sync_Timeout));
                 }
                 catch { }
@@ -204,67 +204,89 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
                 Actions.UIA_ClickItemByName(uiaWindow, Actions.GetDesktopWindow("Programs and Features"), "Uninstall/Change");
 
-                try {
-                    Logger.logMessage("---------------Try-Catch Block------------------------");
-                    Actions.WaitForWindow("QuickBooks Installation", int.Parse(Sync_Timeout)); }
-                catch { }
-
-                try {
-                    Logger.logMessage("---------------Try-Catch Block------------------------");
-                    Actions.WaitForElementEnabled(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >", int.Parse(Sync_Timeout)); }
-                catch { }
-
-                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >");
-                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Repair");
-                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >");
-                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Repair");
-
-                try {
-                    Logger.logMessage("---------------Try-Catch Block------------------------");
-                    if (Actions.CheckElementExistsByName(Actions.GetDesktopWindow("QuickBooks Installation"), "OK"))
-                        Actions.WaitForElementEnabled(Actions.GetDesktopWindow("QuickBooks Installation"), "OK", int.Parse(Sync_Timeout)); }
-                catch { }
-
                 try
                 {
                     Logger.logMessage("---------------Try-Catch Block------------------------");
-                    if (Actions.CheckElementExistsByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >"))
-                        Actions.WaitForElementEnabledOrTransformed(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >", "Finish", int.Parse(Sync_Timeout));
+                    Actions.WaitForWindow("QuickBooks Installation", int.Parse(Sync_Timeout));
                 }
                 catch { }
 
                 try
                 {
                     Logger.logMessage("---------------Try-Catch Block------------------------");
-                    if (Actions.CheckElementExistsByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Files in Use"))
+                    Actions.WaitForElementEnabled(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >", int.Parse(Sync_Timeout));
+                }
+                catch { }
+
+                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >");
+
+                
+                if(remove)
+                {
+                    Logger.logMessage("Remove " + qbVersion + " - Started..");
+
+                    Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Remove");
+                    Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >");
+                    Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Remove");
+                }
+                
+                
+                if (repair)
+                {
+                    Logger.logMessage("Repair " + qbVersion + " - Started..");
+
+                    Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Repair");
+                    Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >");
+                    Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Repair");
+                }
+
+                    try
                     {
-                        Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Do not close applications. (A reboot will be required.)");
-                        Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "OK");
+                        Logger.logMessage("---------------Try-Catch Block------------------------");
+                        if (Actions.CheckElementExistsByName(Actions.GetDesktopWindow("QuickBooks Installation"), "OK"))
+                            Actions.WaitForElementEnabled(Actions.GetDesktopWindow("QuickBooks Installation"), "OK", int.Parse(Sync_Timeout));
                     }
-                }
-                catch { }
+                    catch { }
 
-                try
-                {
-                    Logger.logMessage("---------------Try-Catch Block------------------------");
-                    if (Actions.CheckElementExistsByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >"))
-                        Actions.WaitForElementEnabledOrTransformed(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >", "Finish", int.Parse(Sync_Timeout));
-                }
-                catch { }
+                    try
+                    {
+                        Logger.logMessage("---------------Try-Catch Block------------------------");
+                        if (Actions.CheckElementExistsByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >"))
+                            Actions.WaitForElementEnabledOrTransformed(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >", "Finish", int.Parse(Sync_Timeout));
+                    }
+                    catch { }
 
-                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Finish");
+                    try
+                    {
+                        Logger.logMessage("---------------Try-Catch Block------------------------");
+                        if (Actions.CheckElementExistsByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Files in Use"))
+                        {
+                            Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Do not close applications. (A reboot will be required.)");
+                            Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "OK");
+                        }
+                    }
+                    catch { }
+
+                    try
+                    {
+                        Logger.logMessage("---------------Try-Catch Block------------------------");
+                        if (Actions.CheckElementExistsByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >"))
+                            Actions.WaitForElementEnabledOrTransformed(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >", "Finish", int.Parse(Sync_Timeout));
+                    }
+                    catch { }
+
+                    Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Finish");
 
 
-                if (Actions.CheckDesktopWindowExists("QuickBooks Installation Information"))
-                    Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation Information"), "No");
+                    if (Actions.CheckDesktopWindowExists("QuickBooks Installation Information"))
+                        Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation Information"), "No");
 
-                Logger.logMessage("UnInstallQB " + qbVersion + " - Successful");
-                Logger.logMessage("------------------------------------------------------------------------------");
-
+                    Logger.logMessage("Repair " + qbVersion + " - Successful");
+                    Logger.logMessage("------------------------------------------------------------------------------");
             }
             catch (Exception e)
             {
-                Logger.logMessage("UnInstallQB " + qbVersion + " - Failed");
+                Logger.logMessage("Repair/UnInstallQB " + qbVersion + " - Failed");
                 Logger.logMessage(e.Message);
                 Logger.logMessage("------------------------------------------------------------------------------");
 
@@ -276,6 +298,66 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
 
 
         //**************************************************************************************************************************************************************
+
+        public static void InstallQB(string installDir, string exeName, string licenseNumber, string productNumber)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            Logger.logMessage("InstallQB " + installDir + " - Started..");
+            Logger.logMessage("License Number: " + licenseNumber);
+            Logger.logMessage("Product Number " + productNumber);
+
+            try
+            {
+                OSOperations.InvokeInstaller(installDir, exeName);
+                try { Actions.WaitForWindow("QuickBooks Installation", int.Parse(Sync_Timeout)); }
+                catch { }
+                try { Actions.WaitForElementEnabled(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >", int.Parse(Sync_Timeout)); }
+                catch { }
+                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >");
+                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "I accept the terms of the license agreement");
+                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >");
+                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Express (recommended)");
+                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >");
+
+                var license = StringFunctions.SplitString(licenseNumber);
+                var product = StringFunctions.SplitString(productNumber);
+
+                Actions.SetTextByAutomationID(Actions.GetDesktopWindow("QuickBooks Installation"), "1054", license[0]);
+                Actions.SetTextByAutomationID(Actions.GetDesktopWindow("QuickBooks Installation"), "1055", license[1]);
+                Actions.SetTextByAutomationID(Actions.GetDesktopWindow("QuickBooks Installation"), "1056", license[2]);
+                Actions.SetTextByAutomationID(Actions.GetDesktopWindow("QuickBooks Installation"), "1057", license[3]);
+                Actions.SetTextByAutomationID(Actions.GetDesktopWindow("QuickBooks Installation"), "1059", product[0]);
+                Actions.SetTextByAutomationID(Actions.GetDesktopWindow("QuickBooks Installation"), "1060", product[1]);
+                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Next >");
+                Actions.ClickElementByAutomationID(Actions.GetDesktopWindow("QuickBooks Installation"), "1");
+                try { Actions.WaitForElementVisible(Actions.GetDesktopWindow("QuickBooks Installation"), "Finish", int.Parse(Sync_Timeout)); }
+                catch { }
+                Actions.ClickElementByName(Actions.GetDesktopWindow("QuickBooks Installation"), "Finish");
+
+                try
+                {
+                    if (Actions.DesktopInstance_CheckElementExistsByAutomationID("1"))
+                        Actions.DesktopInstance_ClickElementByAutomationID("1");
+                }
+                catch { }
+
+                Logger.logMessage("InstallQB " + installDir + " - Successful");
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("InstallQB " + installDir + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+
+        //**************************************************************************************************************************************************************
+
 
         public static bool CreateInvoice(TestStack.White.Application qbApp, Window qbWindow, String customer, String cls, String account, String template, int invoiceNumber, int poNumber, String terms, String via, String fob, String quatity, String item, String itemDesc, bool markPending)
         {
@@ -1039,6 +1121,30 @@ namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
                                     break;
                                 }
 
+                                 //Enter memorize report window handler
+                                else if (item.Name.Contains("Memorize Report"))
+                                {
+                                    try
+                                    {
+                                        Logger.logMessage("---------------Try-Catch Block------------------------");
+                                        Actions.ClickElementByName(item, "No");
+                                        Thread.Sleep(int.Parse(Execution_Speed));
+                                    }
+                                    catch { }
+                                }
+
+                                //Handle Save commented report popup
+                                else if (item.Name.Contains("Save Your Commented Report?"))
+                                {
+                                    try
+                                    {
+                                        Logger.logMessage("---------------Try-Catch Block------------------------");
+                                        Actions.ClickElementByName(item, "No");
+                                        Thread.Sleep(int.Parse(Execution_Speed));
+                                    }
+                                    catch { }
+                                }
+ 
                                 try
                                 {
                                     Logger.logMessage("---------------Try-Catch Block------------------------");

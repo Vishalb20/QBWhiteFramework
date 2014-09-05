@@ -36,6 +36,12 @@ namespace FrameworkLibraries.Utils
             }
 
             return builder.ToString();
-        } 
+        }
+ 
+        public static List<string> SplitString(string licenseNumber)
+        {
+            var splitString = licenseNumber.Split('-');
+            return splitString.ToList();
+        }
     }
 }
