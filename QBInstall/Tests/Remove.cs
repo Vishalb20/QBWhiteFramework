@@ -24,7 +24,7 @@ namespace QBInstall.Tests
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
         public static Property conf = Property.GetPropertyInstance();
         public static int Sync_Timeout = int.Parse(conf.get("SyncTimeOut"));
-        public static string testName = "UnInstall";
+        public static string testName = "Remove";
 
         [Given]
         public void Setup()

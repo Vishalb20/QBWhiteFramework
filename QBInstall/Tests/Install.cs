@@ -18,13 +18,13 @@ using System.Diagnostics;
 
 namespace QBInstall.Tests
 {
-    public class Repair
+    public class Install
     {
         public TestStack.White.Application qbApp = null;
         public TestStack.White.UIItems.WindowItems.Window qbWindow = null;
         public static Property conf = Property.GetPropertyInstance();
         public static int Sync_Timeout = int.Parse(conf.get("SyncTimeOut"));
-        public static string testName = "Repair";
+        public static string testName = "Install";
 
         [Given]
         public void Setup()
@@ -32,12 +32,12 @@ namespace QBInstall.Tests
             var timeStamp = DateTimeOperations.GetTimeStamp(DateTime.Now);
             Logger log = new Logger(testName + "_" + timeStamp);
 
-            //Repair
-            QuickBooks.RepairOrUnInstallQB("QuickBooks Pro 2015", true, false);
+            //Install
+            QuickBooks.InstallQB(@"\\banfsalab01\Builds\QuickBooks\MangoR1_US\US_R1_45.1.db\CD_SPRO\QBooks\", "setup.exe", "9840-6473-1929-402", "169-744");
         }
 
         [Fact]
-        public void RunQBRepairTest()
+        public void RunQBInstallTest()
         {
             this.BDDfy();
         }
