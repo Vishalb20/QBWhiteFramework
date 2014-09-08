@@ -2081,7 +2081,6 @@ namespace FrameworkLibraries.ActionLibs.QBDT.WhiteAPI
 
                     foreach (var w in elements)
                     {
-
                         if (w.Name.Equals(elementName))
                         {
                             visible = w.Visible;
