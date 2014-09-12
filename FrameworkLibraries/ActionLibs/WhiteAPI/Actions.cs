@@ -16,7 +16,7 @@ using TestStack.White.UIItems.MenuItems;
 using TestStack.White;
 using System.Diagnostics;
 using Xunit;
-using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
+using FrameworkLibraries.AppLibs.QBDT;
 
 namespace FrameworkLibraries.ActionLibs.WhiteAPI
 {

@@ -18,7 +18,7 @@ using FrameworkLibraries.ActionLibs.WhiteAPI;
 using System.IO;
 using System.Reflection;
 
-namespace FrameworkLibraries.AppLibs.QBDT.WhiteAPI
+namespace FrameworkLibraries.AppLibs.QBDT
 {
     public class QuickBooks
     {

@@ -13,7 +13,7 @@ using TestStack.White.UIItems;
 using Xunit;
 using Xunit.Extensions;
 using TestStack.BDDfy;
-using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
+using FrameworkLibraries.AppLibs.QBDT;
 using BATS.DATA;
 using System.IO;
 
@@ -45,8 +45,8 @@ namespace BATS.Tests
         [AndGiven(StepTitle = "Given - QuickBooks App and Window instances are available")]
         public void Setup()
         {
-            qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
-            qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp);
+            qbApp = FrameworkLibraries.AppLibs.QBDT.QuickBooks.Initialize(exe);
+            qbWindow = FrameworkLibraries.AppLibs.QBDT.QuickBooks.PrepareBaseState(qbApp);
             QuickBooks.ResetQBWindows(qbApp, qbWindow, false);
         }
 

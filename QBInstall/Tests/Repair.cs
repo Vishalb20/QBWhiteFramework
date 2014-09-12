@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using TestStack.White.UIItems;
 using Xunit;
 using TestStack.BDDfy;
-using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
+using FrameworkLibraries.AppLibs.QBDT;
 using System.IO;
 using System.Reflection;
 using System.Diagnostics;

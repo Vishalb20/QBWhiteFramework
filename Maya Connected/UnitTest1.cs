@@ -13,7 +13,7 @@ namespace Maya_Connected
         {
             Logger log = new Logger("Maya");
 
-            var mayaApp = FrameworkLibraries.AppLibs.MayaConnected.WhiteAPI.Maya.GetApp("WPF.MDI Example");
+            var mayaApp = FrameworkLibraries.AppLibs.MayaConnected.Maya.GetApp("WPF.MDI Example");
             var mayaWindow = Actions.GetDesktopWindow("WPF.MDI Example");
 
             Actions.SelectMenu(mayaApp, mayaWindow, "Windows", "Add Window");

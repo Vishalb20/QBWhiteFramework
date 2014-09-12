@@ -92,8 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionLibs\WhiteAPI\Actions.cs" />
-    <Compile Include="AppLibs\MayaConnected\WhiteAPI\Maya.cs" />
-    <Compile Include="AppLibs\QBDT\WhiteAPI\QuickBooks.cs" />
+    <Compile Include="AppLibs\MayaConnected\Maya.cs" />
+    <Compile Include="AppLibs\Payments\Payments.cs" />
+    <Compile Include="AppLibs\QBDT\QuickBooks.cs" />
     <Compile Include="EntityFramework\BankFeedsTestData.cs">
       <DependentUpon>SQLCompactDBModel.tt</DependentUpon>
     </Compile>

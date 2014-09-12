@@ -18,7 +18,7 @@ using FrameworkLibraries.ActionLibs.WhiteAPI;
 using System.IO;
 using System.Reflection;
 
-namespace FrameworkLibraries.AppLibs.MayaConnected.WhiteAPI
+namespace FrameworkLibraries.AppLibs.MayaConnected
 {
     public class Maya
     {

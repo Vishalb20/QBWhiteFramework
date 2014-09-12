@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FrameworkLibraries.Utils;
-using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
+using FrameworkLibraries.AppLibs.QBDT;
 using FrameworkLibraries.ActionLibs.WhiteAPI;
 
 namespace WhiteTraining

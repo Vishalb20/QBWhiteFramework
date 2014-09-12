@@ -11,7 +11,6 @@ using FrameworkLibraries.ActionLibs.WhiteAPI;
 using FrameworkLibraries.EntityFramework;
 using Xunit;
 using TestStack.BDDfy;
-using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
 using QBBATS.Data;
 using System.Windows.Forms;
 using System.IO;
@@ -39,8 +38,8 @@ namespace BATS.Tests
         {
             var timeStamp = DateTimeOperations.GetTimeStamp(DateTime.Now);
             Logger log = new Logger(testName + "_" + timeStamp);
-            qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
-            qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp);
+            qbApp = FrameworkLibraries.AppLibs.QBDT.QuickBooks.Initialize(exe);
+            qbWindow = FrameworkLibraries.AppLibs.QBDT.QuickBooks.PrepareBaseState(qbApp);
             QuickBooks.ResetQBWindows(qbApp, qbWindow, true);
             invoiceNumber = rand.Next(12345, 99999);
             poNumber = rand.Next(12345, 99999);
@@ -70,7 +69,7 @@ namespace BATS.Tests
             var quantity = Invoice.Default.Quantity;
             var itemDescription = "QuickBooks BATS";
 
-            FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.CreateInvoice(qbApp, qbWindow, customer, clss, account, template, invoiceNumber,
+            FrameworkLibraries.AppLibs.QBDT.QuickBooks.CreateInvoice(qbApp, qbWindow, customer, clss, account, template, invoiceNumber,
                 poNumber, rep, via, fob, quantity, item, itemDescription, false);
         }
 

@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using TestStack.White.UIItems;
 using Xunit;
 using TestStack.BDDfy;
-using FrameworkLibraries.AppLibs.QBDT.WhiteAPI;
+using FrameworkLibraries.AppLibs.QBDT;
 using System.IO;
 using System.Reflection;
 
@@ -33,8 +33,8 @@ namespace BATS.Tests
         {
             var timeStamp = DateTimeOperations.GetTimeStamp(DateTime.Now);
             Logger log = new Logger(testName+"_"+timeStamp);
-            qbApp = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.Initialize(exe);
-            qbWindow = FrameworkLibraries.AppLibs.QBDT.WhiteAPI.QuickBooks.PrepareBaseState(qbApp);
+            qbApp = FrameworkLibraries.AppLibs.QBDT.QuickBooks.Initialize(exe);
+            qbWindow = FrameworkLibraries.AppLibs.QBDT.QuickBooks.PrepareBaseState(qbApp);
             QuickBooks.ResetQBWindows(qbApp, qbWindow, false);
         }
 
