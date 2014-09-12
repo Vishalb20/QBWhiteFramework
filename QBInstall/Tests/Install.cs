@@ -1,10 +1,10 @@
 ﻿using System;
 using FrameworkLibraries.Utils;
-using FrameworkLibraries.ActionLibs.QBDT;
+using FrameworkLibraries.ActionLibs;
 using TestStack.White.UIItems.WindowItems;
 using System.Threading;
 using TestStack.White.UIItems.Finders;
-using FrameworkLibraries.ActionLibs.QBDT.WhiteAPI;
+using FrameworkLibraries.ActionLibs.WhiteAPI;
 using FrameworkLibraries;
 using System.Collections.Generic;
 using TestStack.White.UIItems;

@@ -1,13 +1,13 @@
 ﻿using System;
 using FrameworkLibraries.AppLibs.QBDT;
 using FrameworkLibraries.Utils;
-using FrameworkLibraries.ActionLibs.QBDT;
+using FrameworkLibraries.ActionLibs;
 using TestStack.White.UIItems.WindowItems;
 using TestStack.White.UIItems;
 using TestStack.White.UIItems.Finders;
 using TestStack.White;
 using System.Threading;
-using FrameworkLibraries.ActionLibs.QBDT.WhiteAPI;
+using FrameworkLibraries.ActionLibs.WhiteAPI;
 using FrameworkLibraries.EntityFramework;
 using Xunit;
 using TestStack.BDDfy;

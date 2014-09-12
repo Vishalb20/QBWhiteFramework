@@ -91,9 +91,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionLibs\QBDT\Silk4NetAPI\Actions.cs" />
-    <Compile Include="ActionLibs\QBDT\WhiteAPI\Actions.cs" />
-    <Compile Include="AppLibs\QBDT\Silk4NetAPI\QuickBooks.cs" />
+    <Compile Include="ActionLibs\WhiteAPI\Actions.cs" />
+    <Compile Include="AppLibs\MayaConnected\WhiteAPI\Maya.cs" />
     <Compile Include="AppLibs\QBDT\WhiteAPI\QuickBooks.cs" />
     <Compile Include="EntityFramework\BankFeedsTestData.cs">
       <DependentUpon>SQLCompactDBModel.tt</DependentUpon>

@@ -8,13 +8,13 @@ using System.Threading;
 using FrameworkLibraries.Utils;
 using TestStack.White.UIItems.WindowItems;
 using TestStack.White;
-using FrameworkLibraries.ActionLibs.QBDT;
+using FrameworkLibraries.ActionLibs;
 using TestStack.White.UIItems;
 using System.Windows.Forms;
 using System.Windows.Automation;
 using TestStack.White.UIItems.Finders;
 using FrameworkLibraries.ObjMaps.QBDT;
-using FrameworkLibraries.ActionLibs.QBDT.WhiteAPI;
+using FrameworkLibraries.ActionLibs.WhiteAPI;
 using System.IO;
 using System.Reflection;
 
