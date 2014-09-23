@@ -3287,6 +3287,262 @@ namespace FrameworkLibraries.ActionLibs.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
+        public static void ClickTextInsidePanel(Window window, TestStack.White.UIItems.Panel pane, string text)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
+            try
+            {
+                Logger.logMessage("ClickTextInsidePanel " + window + "->" + pane + "->" + text);
+                PropertyCondition textCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Text);
+                AutomationElementCollection textElements = pane.AutomationElement.FindAll(TreeScope.Descendants, textCondition);
+
+                foreach (AutomationElement item in textElements)
+                {
+                    if (item.Current.Name.Equals(text))
+                    {
+                        var t = new TestStack.White.UIItems.Label(item, window.ActionListener);
+                        t.Focus();
+                        t.Click();
+                        Logger.logMessage("ClickTextInsidePanel " + window + "->" + pane + "->" + text + " - Successful");
+                        Logger.logMessage("------------------------------------------------------------------------------");
+                        break;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("ClickTextInsidePanel " + window + "->" + pane + "->" + text + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+        //**************************************************************************************************************************************************************
+
+        public static TestStack.White.UIItems.TableItems.Table GetTableInsideAPaneByIndex(Window window, TestStack.White.UIItems.Panel pane, int index)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+
+            try
+            {
+                Logger.logMessage("GetTableInsideAPaneByIndex " + window + "->" + pane + "->" + index);
+
+                PropertyCondition tableCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Table);
+                AutomationElementCollection tableElements = pane.AutomationElement.FindAll(TreeScope.Descendants, tableCondition);
+                TestStack.White.UIItems.TableItems.Table table = new TestStack.White.UIItems.TableItems.Table(tableElements[index], window.ActionListener);
+
+                Logger.logMessage("GetTableInsideAPaneByIndex " + window + "->" + pane + "->" + index + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+                
+                return table;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("GetTableInsideAPaneByIndex " + window + "->" + pane + "->" + index + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+        //**************************************************************************************************************************************************************
+
+        public static List<TestStack.White.UIItems.Label> GetAllTableTextElements(TestStack.White.UIItems.TableItems.Table table, Window window)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            List<TestStack.White.UIItems.Label> elements = null;
+
+            try
+            {
+                Logger.logMessage("GetAllTableTextElements " + table + "->" + window);
+
+                PropertyCondition tableElementsCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Text);
+                AutomationElementCollection allTableElements = table.AutomationElement.FindAll(TreeScope.Descendants, tableElementsCondition);
+
+                foreach(AutomationElement item in allTableElements)
+                {
+                    TestStack.White.UIItems.Label l = new TestStack.White.UIItems.Label(item, window.ActionListener);
+                    elements.Add(l);
+                }
+
+                Logger.logMessage("GetAllTableTextElements " + table + "->" + window + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                return elements;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("GetAllTableTextElements " + table + "->" + window + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+        //**************************************************************************************************************************************************************
+
+        public static List<TestStack.White.UIItems.TextBox> GetAllTableEditBoxElements(TestStack.White.UIItems.TableItems.Table table, Window window)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            List<TestStack.White.UIItems.TextBox> elements = null;
+
+            try
+            {
+                Logger.logMessage("GetAllTableEditBoxElements " + table + "->" + window);
+
+                PropertyCondition tableElementsCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Edit);
+                AutomationElementCollection allTableElements = table.AutomationElement.FindAll(TreeScope.Descendants, tableElementsCondition);
+
+                foreach (AutomationElement item in allTableElements)
+                {
+                    TestStack.White.UIItems.TextBox l = new TestStack.White.UIItems.TextBox(item, window.ActionListener);
+                    elements.Add(l);
+                }
+
+                Logger.logMessage("GetAllTableEditBoxElements " + table + "->" + window + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                return elements;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("GetAllTableEditBoxElements " + table + "->" + window + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+        //**************************************************************************************************************************************************************
+
+        public static List<TestStack.White.UIItems.Button> GetAllTableButtonElements(TestStack.White.UIItems.TableItems.Table table, Window window)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            List<TestStack.White.UIItems.Button> elements = null;
+
+            try
+            {
+                Logger.logMessage("GetAllTableButtonElements " + table + "->" + window);
+
+                PropertyCondition tableElementsCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Button);
+                AutomationElementCollection allTableElements = table.AutomationElement.FindAll(TreeScope.Descendants, tableElementsCondition);
+
+                foreach (AutomationElement item in allTableElements)
+                {
+                    TestStack.White.UIItems.Button l = new TestStack.White.UIItems.Button(item, window.ActionListener);
+                    elements.Add(l);
+                }
+
+                Logger.logMessage("GetAllTableButtonElements " + table + "->" + window + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                return elements;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("GetAllTableButtonElements " + table + "->" + window + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+        //**************************************************************************************************************************************************************
+
+        public static List<TestStack.White.UIItems.CheckBox> GetAllTableCheckBoxElements(TestStack.White.UIItems.TableItems.Table table, Window window)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            List<TestStack.White.UIItems.CheckBox> elements = null;
+
+            try
+            {
+                Logger.logMessage("GetAllTableCheckBoxElements " + table + "->" + window);
+
+                PropertyCondition tableElementsCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.CheckBox);
+                AutomationElementCollection allTableElements = table.AutomationElement.FindAll(TreeScope.Descendants, tableElementsCondition);
+
+                foreach (AutomationElement item in allTableElements)
+                {
+                    TestStack.White.UIItems.CheckBox l = new TestStack.White.UIItems.CheckBox(item, window.ActionListener);
+                    elements.Add(l);
+                }
+
+                Logger.logMessage("GetAllTableCheckBoxElements " + table + "->" + window + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                return elements;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("GetAllTableCheckBoxElements " + table + "->" + window + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+        //**************************************************************************************************************************************************************
+
+
+        public static int GetTableRowNumberByMatchingText(TestStack.White.UIItems.TableItems.Table table, int columnCount, string text)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            
+            int count = 0;
+            int rowNumber = 0;
+
+            try
+            {
+                Logger.logMessage("GetTableRowNumberByMatchingText " + table + "->" + text);
+
+                PropertyCondition tableElementsCondition = new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Text);
+                AutomationElementCollection allTableElements = table.AutomationElement.FindAll(TreeScope.Descendants, tableElementsCondition);
+
+                foreach (AutomationElement item in allTableElements)
+                {
+                    count = count + 1;
+                    if (item.Current.Name.Equals(text))
+                    {
+                        rowNumber = (count / columnCount) + 1;
+                        Logger.logMessage("GetTableRowNumberByMatchingText " + table + "->" + text + " - Successful");
+                        Logger.logMessage("------------------------------------------------------------------------------");
+                        break;
+                    }
+                }
+
+                return rowNumber;
+                
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("GetTableRowNumberByMatchingText " + table + "->" + text + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+        //**************************************************************************************************************************************************************
+
+
+
+
 
 
     }
