@@ -3540,6 +3540,90 @@ namespace FrameworkLibraries.ActionLibs.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
+        public static void SendALT_KeyToWindow(Window window, string key)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            try
+            {
+                TestStack.White.InputDevices.AttachedKeyboard kb = window.Keyboard;
+                kb.HoldKey(TestStack.White.WindowsAPI.KeyboardInput.SpecialKeys.ALT);
+                kb.Enter(key);
+                kb.LeaveKey(TestStack.White.WindowsAPI.KeyboardInput.SpecialKeys.ALT);
+                Thread.Sleep(200);
+                Logger.logMessage("SendALT_KeyToWindow " + window + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("SendALT_KeyToWindow " + window + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+
+        //**************************************************************************************************************************************************************
+
+        public static void SendCTRL_KeyToWindow(Window window, string key)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            try
+            {
+                TestStack.White.InputDevices.AttachedKeyboard kb = window.Keyboard;
+                kb.HoldKey(TestStack.White.WindowsAPI.KeyboardInput.SpecialKeys.CONTROL);
+                kb.Enter(key);
+                kb.LeaveKey(TestStack.White.WindowsAPI.KeyboardInput.SpecialKeys.CONTROL);
+                Thread.Sleep(200);
+                Logger.logMessage("SendCTRL_KeyToWindow " + window + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("SendCTRL_KeyToWindow " + window + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+
+        //**************************************************************************************************************************************************************
+
+
+        public static void SendSPACEToWindow(Window window)
+        {
+            Logger.logMessage("Function call @ :" + DateTime.Now);
+            try
+            {
+                TestStack.White.InputDevices.AttachedKeyboard kb = window.Keyboard;
+                kb.PressSpecialKey(TestStack.White.WindowsAPI.KeyboardInput.SpecialKeys.SPACE);
+                Thread.Sleep(int.Parse(Execution_Speed));
+                Logger.logMessage("SendSPACEToWindow " + window + " - Successful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("SendSPACEToWindow " + window + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+
+        //**************************************************************************************************************************************************************
+
 
 
 
