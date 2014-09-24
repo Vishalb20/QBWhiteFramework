@@ -1121,30 +1121,6 @@ namespace FrameworkLibraries.AppLibs.QBDT
                                     break;
                                 }
 
-                                 //Enter memorize report window handler
-                                else if (item.Name.Contains("Memorize Report"))
-                                {
-                                    try
-                                    {
-                                        Logger.logMessage("---------------Try-Catch Block------------------------");
-                                        Actions.ClickElementByName(item, "No");
-                                        Thread.Sleep(int.Parse(Execution_Speed));
-                                    }
-                                    catch { }
-                                }
-
-                                //Handle Save commented report popup
-                                else if (item.Name.Contains("Save Your Commented Report?"))
-                                {
-                                    try
-                                    {
-                                        Logger.logMessage("---------------Try-Catch Block------------------------");
-                                        Actions.ClickElementByName(item, "No");
-                                        Thread.Sleep(int.Parse(Execution_Speed));
-                                    }
-                                    catch { }
-                                }
- 
                                 try
                                 {
                                     Logger.logMessage("---------------Try-Catch Block------------------------");
@@ -1157,6 +1133,32 @@ namespace FrameworkLibraries.AppLibs.QBDT
                                 catch (Exception)
                                 { }
 
+                                 //Enter memorize report window handler
+                                if (item.Name.Contains("Memorize Report"))
+                                {
+                                    try
+                                    {
+                                        Logger.logMessage("---------------Try-Catch Block------------------------");
+                                        Actions.ClickElementByName(item, "No");
+                                        Thread.Sleep(int.Parse(Execution_Speed));
+                                        break;
+                                    }
+                                    catch { }
+                                }
+
+                                //Handle Save commented report popup
+                                if (item.Name.Contains("Save Your Commented Report?"))
+                                {
+                                    try
+                                    {
+                                        Logger.logMessage("---------------Try-Catch Block------------------------");
+                                        Actions.ClickElementByName(item, "No");
+                                        Thread.Sleep(int.Parse(Execution_Speed));
+                                        break;
+                                    }
+                                    catch { }
+                                }
+ 
                                 //Register QB window handler
                                 if (item.Name.Contains("Register QuickBooks"))
                                 {
@@ -1165,7 +1167,9 @@ namespace FrameworkLibraries.AppLibs.QBDT
 
                                         Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(item, "Remind Me Later");
+                                        //Actions.WaitForAnyChildWindow(qbWin, item.Name, int.Parse(Sync_Timeout));
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        break;
                                     }
                                     catch { }
                                 }
@@ -1178,12 +1182,13 @@ namespace FrameworkLibraries.AppLibs.QBDT
                                         Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(item, "Continue");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        break;
                                     }
                                     catch { }
                                 }
 
                                 //No company window handler
-                                else if (item.Name.Contains("No") && openFileOnNoCompany.Equals(true))
+                                if (item.Name.Contains("No") && openFileOnNoCompany.Equals(true))
                                 {
                                     try
                                     {
@@ -1194,25 +1199,27 @@ namespace FrameworkLibraries.AppLibs.QBDT
                                 }
 
                                 //Update quickbooks window handler
-                                else if (item.Name.Contains("Update QuickBooks"))
+                                if (item.Name.Contains("Update QuickBooks"))
                                 {
                                     try
                                     {
                                         Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(item, "Close");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        break;
                                     }
                                     catch { }
                                 }
 
                                 //Payroll update window handler
-                                else if (item.Name.Equals("Payroll Update"))
+                                if (item.Name.Equals("Payroll Update"))
                                 {
                                     try
                                     {
                                         Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(item, "Cancel");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        break;
                                     }
                                     catch { }
 
@@ -1221,61 +1228,66 @@ namespace FrameworkLibraries.AppLibs.QBDT
                                         Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(item, "OK");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        break;
                                     }
                                     catch { }
 
                                 }
 
                                 //Intuit payroll services window hadler
-                                else if (item.Name.Contains("Intuit Payroll Services"))
+                                if (item.Name.Contains("Intuit Payroll Services"))
                                 {
                                     try
                                     {
                                         Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(item, "OK");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        break;
                                     }
                                     catch { }
                                 }
 
                                 //Employer services window handler
-                                else if (item.Name.Contains("Employer Services"))
+                                if (item.Name.Contains("Employer Services"))
                                 {
                                     try
                                     {
                                         Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(item, "Cancel");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        break;
                                     }
                                     catch { }
                                 }
 
                                 //Insights works on the accrual basis window handler
-                                else if (item.Name.Equals("Insights works on the accrual basis only"))
+                                if (item.Name.Equals("Insights Works on Accrual Basis Only"))
                                 {
                                     try
                                     {
                                         Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(item, "OK");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        break;
                                     }
                                     catch { }
                                 }
 
                                 //Insights works on the accrual basis window handler
-                                else if (item.Name.Contains("Insights"))
+                                if (item.Name.Contains("Insights"))
                                 {
                                     try
                                     {
                                         Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(item, "OK");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        break;
                                     }
                                     catch { }
                                 }
 
                                 //Enter memorized transactions window handler
-                                else if (item.Name.Contains("Enter Memorized Transactions"))
+                                if (item.Name.Contains("Enter Memorized Transactions"))
                                 {
                                     try
                                     {
@@ -1290,25 +1302,27 @@ namespace FrameworkLibraries.AppLibs.QBDT
                                         Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(Actions.GetChildWindow(qbWin, "Enter Memorized Transactions"), "OK");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        break;
                                     }
                                     catch { }
                                 }
 
                                 //Recording transaction window handler
-                                else if (item.Name.Contains("Recording Transaction"))
+                                if (item.Name.Contains("Recording Transaction"))
                                 {
                                     try
                                     {
                                         Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(item, "No");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        break;
                                     }
                                     catch { }
                                 }
 
 
                                 //Login window handler
-                                else if (item.Name.Equals("QuickBooks Login"))
+                                if (item.Name.Equals("QuickBooks Login"))
                                 {
                                     Actions.SetFocusOnWindow(item);
                                     Actions.SendBCKSPACEToWindow(item);
@@ -1318,18 +1332,20 @@ namespace FrameworkLibraries.AppLibs.QBDT
                                     Actions.ClickElementByAutomationID(item, "51");
                                     Actions.WaitForAnyChildWindow(qbWin, "QuickBooks Login", int.Parse(Sync_Timeout));
                                     Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                    break;
                                 }
 
                                 //Error window handler
-                                else if (item.Name.Contains("Error"))
+                                if (item.Name.Contains("Error"))
                                 {
                                     Actions.ClickElementByName(item, "Don't Send");
                                     Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                    break;
                                 }
 
 
                                 //QB Setup window handler
-                                else if (item.Name.Contains("Setup"))
+                                if (item.Name.Contains("Setup"))
                                 {
                                     try
                                     {
@@ -1346,6 +1362,7 @@ namespace FrameworkLibraries.AppLibs.QBDT
                                         Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(item, "Yes");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        break;
                                     }
                                     catch (Exception)
                                     { }
@@ -1353,7 +1370,7 @@ namespace FrameworkLibraries.AppLibs.QBDT
                                 }
 
                                 //Warning window handler
-                                else if (item.Name.Contains("Warning"))
+                                if (item.Name.Contains("Warning"))
                                 {
                                     try
                                     {
@@ -1369,6 +1386,7 @@ namespace FrameworkLibraries.AppLibs.QBDT
                                         Logger.logMessage("---------------Try-Catch Block------------------------");
                                         Actions.ClickElementByName(item, "Cancel");
                                         Thread.Sleep(int.Parse(ResetWindow_Timeout));
+                                        break;
                                     }
                                     catch (Exception)
                                     { }
