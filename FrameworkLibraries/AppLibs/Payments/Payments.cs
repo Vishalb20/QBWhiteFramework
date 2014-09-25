@@ -66,5 +66,27 @@ namespace FrameworkLibraries.AppLibs.Payments
             }
 
         }
+
+        public static TestStack.White.UIItems.ListViewCells GetFiddlerStackTrace(Window fiddlerWindow)
+        {
+            try
+            {
+                Logger.logMessage("---------------------------------------------------------------------------------");
+                Logger.logMessage("GetFiddlerStackTrace");
+
+                var allFiddlerWindowElements = fiddlerWindow.Items;
+                var sessionPanel = Actions.GetPaneByAutomationID(fiddlerWindow, "pnlSessions");
+                var allPanelElements = sessionPanel.Items;
+                var list = Actions.GetAllListItems(sessionPanel.Items);
+                TestStack.White.UIItems.ListViewRow x = new TestStack.White.UIItems.ListViewRow(list[0].AutomationElement, fiddlerWindow.ActionListener);
+                return x.Cells;
+            }
+            catch (Exception e)
+            {
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
     }
 }

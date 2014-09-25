@@ -24,6 +24,7 @@ namespace FrameworkLibraries.ActionLibs.WhiteAPI
     {
         public static Property conf = Property.GetPropertyInstance();
         public static string Execution_Speed = conf.get("ExecutionSpeed");
+        public static string Sync_Timeout = conf.get("SyncTimeOut");
 
         //**************************************************************************************************************************************************************
 
@@ -3624,8 +3625,70 @@ namespace FrameworkLibraries.ActionLibs.WhiteAPI
 
         //**************************************************************************************************************************************************************
 
+        public static TestStack.White.Application LaunchApp(string exePath, string appName)
+        {
+            Logger.logMessage("Initialize " + exePath);
 
+            int processID = 0;
+            TestStack.White.Application app = null;
 
+            try
+            {
+                List<Window> allWin = Desktop.Instance.Windows();
+                foreach (Window item in allWin)
+                {
+                    if (item.Name.Contains(appName))
+                    {
+                        foreach (Process p in Process.GetProcesses("."))
+                        {
+                            if (p.ProcessName.Contains(appName) || p.ProcessName.Contains(appName.ToUpper()) || p.ProcessName.Contains(appName.ToLower()))
+                            {
+                                processID = p.Id;
+                                app = TestStack.White.Application.Attach(processID);
+                                app.WaitWhileBusy();
+                                Actions.WaitForAppWindow(appName, int.Parse(Sync_Timeout));
+                                Logger.logMessage("Existing App instance found..!!");
+                                return app;
+                            }
+                        }
+                    }
+                }
+
+                Logger.logMessage("No existing App instance, so launching - " + exePath);
+                Process proc = new Process();
+                proc.StartInfo.FileName = exePath;
+                proc.Start();
+                Thread.Sleep(7500);
+
+                foreach (Process p in Process.GetProcesses("."))
+                {
+                    if (p.ProcessName.Contains(appName) || p.ProcessName.Contains(appName.ToUpper()) || p.ProcessName.Contains(appName.ToLower()))
+                    {
+                        processID = p.Id;
+                    }
+                }
+                app = TestStack.White.Application.Attach(processID);
+                app.WaitWhileBusy();
+                Thread.Sleep(int.Parse(Execution_Speed));
+
+                Logger.logMessage("Initialize " + exePath + " - Sucessful");
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                return app;
+            }
+            catch (Exception e)
+            {
+                Logger.logMessage("Initialize " + exePath + " - Failed");
+                Logger.logMessage(e.Message);
+                Logger.logMessage("------------------------------------------------------------------------------");
+
+                String sMessage = e.Message;
+                LastException.SetLastError(sMessage);
+                throw new Exception(sMessage);
+            }
+        }
+
+        //**************************************************************************************************************************************************************
 
 
 
